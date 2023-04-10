@@ -6,16 +6,24 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
 import './index.css';
-
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import theme from './theme';
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+      <DndProvider backend={HTML5Backend}>
+
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+      </DndProvider>
+        </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

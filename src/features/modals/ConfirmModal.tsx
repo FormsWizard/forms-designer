@@ -6,14 +6,29 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import { FormattedMessage } from "react-intl";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
+
+import { FormattedMessage } from "react-intl";
+import { TransitionProps } from "@mui/material/transitions";
+
+interface ConfirmModalProps {
+  onConfirm?: () => void;
+  onReject?: () => void;
+  confirmButtonTextID?: string;
+  cancelButtonTextID?: string;
+  modalBodyTextID?: string;
+  modalHeaderTextID?: string;
+}
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & { children: React.ReactElement<any, any> },
+  ref: React.Ref<unknown>,
+) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const ConfirmModal = NiceModal.create(
+const ConfirmModal = NiceModal.create<ConfirmModalProps>(
   ({
     onConfirm = () => null,
     onReject = () => null,
@@ -65,7 +80,7 @@ const ConfirmModal = NiceModal.create(
               id={cancelButtonTextID}
             ></FormattedMessage>
           </Button>
-          <Button onClick={handleAgree} color="danger" variant="contained">
+          <Button onClick={handleAgree} color="warning" variant="contained">
             <FormattedMessage
               description="confirm modal header"
               defaultMessage="continue"
@@ -87,7 +102,7 @@ export function ConfirmButton({
   modalHeaderTextID = "confirmModal_headerText",
   children,
   ...props
-}) {
+} : ConfirmModalProps & { children: React.ReactNode }) {
   return (
     <Button
       onClick={() =>
@@ -114,7 +129,7 @@ export function confirmHandler({
   cancelButtonTextID = "confirmModal_cancelButton",
   modalBodyTextID = "confirmModal_bodyText",
   modalHeaderTextID = "confirmModal_headerText",
-}) {
+} : ConfirmModalProps) {
   NiceModal.show(ConfirmModal, {
     onConfirm,
     onReject,
