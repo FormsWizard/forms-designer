@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import jsonFormsEditReducer from "../features/counter/jsonFormsEditSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    jsonFormsEdit: jsonFormsEditReducer
   },
 });
 
