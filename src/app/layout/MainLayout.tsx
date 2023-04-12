@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import React from "react";
 import {Outlet} from "react-router-dom";
 import { Link as RouterLink } from 'react-router-dom';
-import {useTranslation} from "react-i18next";
+import {useIntl} from "react-intl";
 
 
 
@@ -28,7 +28,6 @@ type Props = {
 
 const MainLayout = ({title, children, toolbarChildren}: Props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { t } = useTranslation();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -57,7 +56,7 @@ const MainLayout = ({title, children, toolbarChildren}: Props) => {
           <Toolbar>
             <IconButton
                 color="inherit"
-                aria-label={t('open drawer') || ''}
+                aria-label={'open drawer'}
                 edge="start"
                 onClick={handleDrawerToggle}
                 sx={{mr: 2, display: {sm: 'none'}}}
@@ -65,7 +64,7 @@ const MainLayout = ({title, children, toolbarChildren}: Props) => {
               <MenuIcon/>
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              {t(`title.${title || 'default'}`)}
+              {`title`}
             </Typography>
             {toolbarChildren || null}
           </Toolbar>
