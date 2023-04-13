@@ -1,5 +1,6 @@
-import {isLayout, Scopable, UISchemaElement} from "@jsonforms/core";
+import {isLayout, UISchemaElement} from "@jsonforms/core";
 import isEmpty from "lodash/isEmpty";
+import {ScopableUISchemaElement} from "../types";
 
 /**
  * recursivly apply a function to a UISchemaElement and its children in case of a layout
@@ -22,7 +23,6 @@ export const recursivelyMapSchema = (
   }
   return toApply(uischema);
 };
-type ScopableUISchemaElement = UISchemaElement & Scopable
 export const insertUISchemaAfterScope = (scope: string, newSchema: UISchemaElement, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {
     if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
@@ -36,4 +36,42 @@ export const insertUISchemaAfterScope = (scope: string, newSchema: UISchemaEleme
     }
     return uischema
   })
+}
+export const removeUISchemaElement = (scope: string,  uiSchema: UISchemaElement) => {
+  return recursivelyMapSchema(uiSchema, (uischema) => {
+    if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
+      // insert newElement after the element with scope
+      const newElements = uischema.elements.filter((el: ScopableUISchemaElement) => el.scope !== scope)
+      return {
+        ...uischema,
+        elements: newElements
+      } as UISchemaElement
+    }
+    return uischema
+  })
+}
+
+export const updateScopeOfUISchemaElement = (scope: string, newScope: string,  uiSchema: UISchemaElement) => {
+  return recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
+    if (uischema.scope === scope) {
+      return {
+        ...uischema,
+        scope: newScope
+      } as UISchemaElement
+    }
+    return uischema
+  })
+}
+
+export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,  uiSchema: UISchemaElement) => {
+  return recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
+    if (uischema.scope === scope) {
+      return newSchema
+    }
+    return uischema
+  })
+}
+
+export const pathToScope = (path: string[]) => {
+  return `#/properties/${path.join('/properties/')}`
 }
