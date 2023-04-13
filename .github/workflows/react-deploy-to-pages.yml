@@ -39,7 +39,8 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build with cra
-        run: yarn build
+        # we currently don't want to treat warnings as errors, maybe later...
+        run: CI=false yarn build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
