@@ -181,6 +181,7 @@ export const jsonFormsEditSlice = createSlice({
       state.selectedElementKey = action.payload === state.selectedElementKey ? undefined : action.payload
     },
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
+      //TODO: handle removing key-value pair from data produced by the form in the current session
       const {path} = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegments)
@@ -190,6 +191,7 @@ export const jsonFormsEditSlice = createSlice({
       }
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string, newFieldName: string }>) => {
+      //TODO: handle renaming key within data produced by the form in the current session
       const {path, newFieldName} = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
