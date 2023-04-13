@@ -3,10 +3,9 @@ import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import App from './App'
-import reportWebVitals from './reportWebVitals'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import './index.css'
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material/styles'
 import theme from './theme'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
@@ -23,9 +22,9 @@ root.render(
                     <IntlProvider messages={{}} locale="de" defaultLocale="en">
                     <NiceModal.Provider>
 
-                        <BrowserRouter>
+                        <HashRouter>
                             <App />
-                        </BrowserRouter>
+                        </HashRouter>
                     </NiceModal.Provider>
                     </IntlProvider>
                 </DndProvider>
