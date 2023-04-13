@@ -13,6 +13,7 @@ import
 } from "../../renderer/VerticalLayoutWithDropZoneRenderer";
 import {horizontalLayoutTester} from "../../renderer/HorizontalLayoutWithDropZoneRenderer";
 import HorizontalLayoutWithDropZoneRenderer from "../../renderer/HorizontalLayoutWithDropZoneRenderer";
+import LeftDrawer from "../home/LeftDrawer";
 
 
 const renderers = [
@@ -45,6 +46,7 @@ function Wizard() {
             schema={jsonSchema}
             uischema={uiSchema}
         />
+        <LeftDrawer></LeftDrawer>
       </Box>
   )
 }

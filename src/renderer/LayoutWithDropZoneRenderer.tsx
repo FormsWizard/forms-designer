@@ -10,13 +10,19 @@ import {
   OwnPropsOfRenderer, Resolve
 } from '@jsonforms/core'
 import {JsonFormsDispatch, useJsonForms} from '@jsonforms/react'
-import {Box, Grid} from '@mui/material'
+import {Box, Grid, Paper} from '@mui/material'
 import Ajv from 'ajv'
 import isEmpty from 'lodash/isEmpty'
-import React, {ComponentType, useCallback, useEffect, useState} from 'react'
+import React, {ComponentType, useCallback, useEffect, useMemo, useState} from 'react'
 import {useDrop} from "react-dnd";
 import {useAppDispatch} from "../app/hooks/reduxHooks";
-import {DraggableComponent, insertControl} from "../features/counter/jsonFormsEditSlice";
+import {
+  DraggableComponent,
+  insertControl,
+  selectElement,
+  selectSelectedElementKey
+} from "../features/counter/jsonFormsEditSlice";
+import {useSelector} from "react-redux";
 
 type LayoutElementProps = {
   index: number,
@@ -43,6 +49,7 @@ const LayoutElement = ({
   const rootSchema = getSchema(state)
   const rootData = getData(state)
   const dispatch = useAppDispatch();
+  const selectedKey = useSelector(selectSelectedElementKey)
   const [childPath, setChildPath] = useState<string| undefined>();
   const [resolvedSchema, setResolvedSchema] = useState<JsonSchema | undefined>();
 
@@ -62,6 +69,7 @@ const LayoutElement = ({
     // @ts-ignore
     dispatch(insertControl({draggableMeta: componentMeta, child, path: childPath, index, schema}))
   }, [dispatch, index, path, schema, child, childPath, resolvedSchema])
+  const key = useMemo<string>( () => !childPath ? `layout-${index}` : childPath, [childPath, index])
 
   //@ts-ignore
   const [{isOver}, dropRef] = useDrop(() => ({
@@ -72,13 +80,30 @@ const LayoutElement = ({
     },
     collect: (monitor) => ({isOver: !!monitor.isOver()}),
   }), [handleDrop])
+  const handleSelect = useCallback(
+      (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.stopPropagation()
+        // @ts-ignore
+        dispatch(selectElement(key))
+      }, [dispatch, key]
+  )
   return (
       <>
-
-        <Grid item key={`${path}-${index}`} xs
+        <Grid
+            item
+            key={key}
+            xs
+            onClick={handleSelect}
         >
           <Grid container direction={'column'}>
             <Grid item xs>
+              <Paper elevation={selectedKey === key ? 4 : 0}
+                     sx={{
+                       backgroundColor: theme => selectedKey === key ? theme.palette.grey[200] : 'none',
+                     }}
+
+              >
+
               <JsonFormsDispatch
                   uischema={child}
                   schema={schema}
@@ -87,6 +112,7 @@ const LayoutElement = ({
                   renderers={renderers}
                   cells={cells}
               />
+              </Paper>
             </Grid>
           </Grid>
         </Grid>
