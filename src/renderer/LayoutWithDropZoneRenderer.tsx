@@ -39,7 +39,6 @@ const LayoutElement = ({
                          cells,
                          renderers
                        }: LayoutElementProps) => {
-  let i18nDescription
   const translator = getTranslator()(state)
   const rootSchema = getSchema(state)
   const rootData = getData(state)
@@ -57,12 +56,9 @@ const LayoutElement = ({
      ))
      setChildPath( composeWithUi(controlElement, path))
    }
-   const visible: boolean = hasShowRule(child)
-       ? isVisible(child, rootData, path, getAjv(state)) : true
  }, [child, path, schema, rootData, rootSchema, state])
 
   const handleDrop = useCallback((componentMeta: DraggableComponent) => {
-    console.log({childPath, resolvedSchema, componentMeta})
     // @ts-ignore
     dispatch(insertControl({draggableMeta: componentMeta, child, path: childPath, index, schema}))
   }, [dispatch, index, path, schema, child, childPath, resolvedSchema])
