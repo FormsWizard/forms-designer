@@ -184,6 +184,7 @@ export const jsonFormsEditSlice = createSlice({
 
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       //TODO: handle removing key-value pair from data produced by the form in the current session
+      // does work for me in the current version of the app
       const { path } = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegments)
@@ -257,7 +258,7 @@ export const jsonFormsEditSlice = createSlice({
   },
 })
 
-export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope, deleteElement } =
+export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope } =
   jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer

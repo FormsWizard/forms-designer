@@ -27,7 +27,7 @@ import {
   removeField,
   selectElement,
   selectSelectedElementKey,
-} from '../features/counter/jsonFormsEditSlice'
+} from '../features/wizard/WizardSlice'
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 

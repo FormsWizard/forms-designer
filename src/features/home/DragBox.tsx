@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useDrag } from 'react-dnd'
 import { Button, Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material'
-import { DraggableComponent } from '../counter/jsonFormsEditSlice'
+import { DraggableComponent } from '../wizard/WizardSlice'
 
 type DragBoxProps = {
   name: string

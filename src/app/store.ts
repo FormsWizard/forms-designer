@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import counterReducer from '../features/counter/counterSlice'
-import jsonFormsEditReducer from '../features/counter/jsonFormsEditSlice'
+import jsonFormsEditReducer from '../features/wizard/WizardSlice'
 
 export const store = configureStore({
   reducer: {
