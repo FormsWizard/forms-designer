@@ -1,32 +1,32 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Slide from "@mui/material/Slide";
+import React from 'react'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import Slide from '@mui/material/Slide'
 
-import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import NiceModal, { useModal } from '@ebay/nice-modal-react'
 
-import { FormattedMessage } from "react-intl";
-import { TransitionProps } from "@mui/material/transitions";
+import { FormattedMessage } from 'react-intl'
+import { TransitionProps } from '@mui/material/transitions'
 
 interface ConfirmModalProps {
-  onConfirm?: () => void;
-  onReject?: () => void;
-  confirmButtonTextID?: string;
-  cancelButtonTextID?: string;
-  modalBodyTextID?: string;
-  modalHeaderTextID?: string;
+  onConfirm?: () => void
+  onReject?: () => void
+  confirmButtonTextID?: string
+  cancelButtonTextID?: string
+  modalBodyTextID?: string
+  modalHeaderTextID?: string
 }
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+  return <Slide direction="up" ref={ref} {...props} />
+})
 
 const ConfirmModal = NiceModal.create<ConfirmModalProps>(
   ({
@@ -37,16 +37,16 @@ const ConfirmModal = NiceModal.create<ConfirmModalProps>(
     modalBodyTextID,
     modalHeaderTextID,
   }) => {
-    const modal = useModal();
+    const modal = useModal()
 
     const handleAgree = () => {
-      modal.hide();
-      onConfirm();
-    };
+      modal.hide()
+      onConfirm()
+    }
     const handleDisagree = () => {
-      modal.hide();
-      onReject();
-    };
+      modal.hide()
+      onReject()
+    }
     return (
       <Dialog
         TransitionComponent={Transition}
@@ -89,20 +89,20 @@ const ConfirmModal = NiceModal.create<ConfirmModalProps>(
           </Button>
         </DialogActions>
       </Dialog>
-    );
+    )
   }
-);
+)
 
 export function ConfirmButton({
   onConfirm = () => null,
   onReject = () => null,
-  confirmButtonTextID = "confirmModal_confirmButton",
-  cancelButtonTextID = "confirmModal_cancelButton",
-  modalBodyTextID = "confirmModal_bodyText",
-  modalHeaderTextID = "confirmModal_headerText",
+  confirmButtonTextID = 'confirmModal_confirmButton',
+  cancelButtonTextID = 'confirmModal_cancelButton',
+  modalBodyTextID = 'confirmModal_bodyText',
+  modalHeaderTextID = 'confirmModal_headerText',
   children,
   ...props
-} : ConfirmModalProps & { children: React.ReactNode }) {
+}: ConfirmModalProps & { children: React.ReactNode }) {
   return (
     <Button
       onClick={() =>
@@ -119,17 +119,17 @@ export function ConfirmButton({
     >
       {children}
     </Button>
-  );
+  )
 }
 
 export function confirmHandler({
   onConfirm,
   onReject,
-  confirmButtonTextID = "confirmModal_confirmButton",
-  cancelButtonTextID = "confirmModal_cancelButton",
-  modalBodyTextID = "confirmModal_bodyText",
-  modalHeaderTextID = "confirmModal_headerText",
-} : ConfirmModalProps) {
+  confirmButtonTextID = 'confirmModal_confirmButton',
+  cancelButtonTextID = 'confirmModal_cancelButton',
+  modalBodyTextID = 'confirmModal_bodyText',
+  modalHeaderTextID = 'confirmModal_headerText',
+}: ConfirmModalProps) {
   NiceModal.show(ConfirmModal, {
     onConfirm,
     onReject,
@@ -137,5 +137,5 @@ export function confirmHandler({
     cancelButtonTextID,
     modalBodyTextID,
     modalHeaderTextID,
-  });
+  })
 }

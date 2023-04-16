@@ -15,22 +15,21 @@ const container = document.getElementById('root')!
 const root = createRoot(container)
 
 root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <ThemeProvider theme={theme}>
-                <DndProvider backend={HTML5Backend}>
-                    <IntlProvider messages={{}} locale="de" defaultLocale="en">
-                    <NiceModal.Provider>
-
-                        <HashRouter>
-                            <App />
-                        </HashRouter>
-                    </NiceModal.Provider>
-                    </IntlProvider>
-                </DndProvider>
-            </ThemeProvider>
-        </Provider>
-    </React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <DndProvider backend={HTML5Backend}>
+          <IntlProvider messages={{}} locale="de" defaultLocale="en">
+            <NiceModal.Provider>
+              <HashRouter>
+                <App />
+              </HashRouter>
+            </NiceModal.Provider>
+          </IntlProvider>
+        </DndProvider>
+      </ThemeProvider>
+    </Provider>
+  </React.StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

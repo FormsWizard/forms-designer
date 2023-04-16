@@ -1,6 +1,6 @@
-import {isLayout, UISchemaElement} from "@jsonforms/core";
-import isEmpty from "lodash/isEmpty";
-import {ScopableUISchemaElement} from "../types";
+import { isLayout, UISchemaElement } from '@jsonforms/core'
+import isEmpty from 'lodash/isEmpty'
+import { ScopableUISchemaElement } from '../types'
 
 /**
  * recursivly apply a function to a UISchemaElement and its children in case of a layout
@@ -9,61 +9,63 @@ import {ScopableUISchemaElement} from "../types";
  * @param toApply
  */
 export const recursivelyMapSchema = (
-    uischema: UISchemaElement,
-    toApply: (uischema: UISchemaElement) => (UISchemaElement | undefined)
+  uischema: UISchemaElement,
+  toApply: (uischema: UISchemaElement) => UISchemaElement | undefined
 ): UISchemaElement | undefined => {
   if (isEmpty(uischema)) {
-    return undefined;
+    return undefined
   }
   if (isLayout(uischema)) {
     return toApply({
       ...uischema,
-      elements: uischema.elements.map(child => recursivelyMapSchema(child, toApply))
+      elements: uischema.elements.map((child) => recursivelyMapSchema(child, toApply)),
     } as UISchemaElement)
   }
-  return toApply(uischema);
-};
+  return toApply(uischema)
+}
 export const insertUISchemaAfterScope = (scope: string, newSchema: UISchemaElement, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {
     if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
       // insert newElement after the element with scope
       const newElements = uischema.elements.reduce<ScopableUISchemaElement[]>(
-          (acc, el: ScopableUISchemaElement) => (el.scope === scope) ? [...acc, el, newSchema] : [...acc, el], [])
+        (acc, el: ScopableUISchemaElement) => (el.scope === scope ? [...acc, el, newSchema] : [...acc, el]),
+        []
+      )
       return {
         ...uischema,
-        elements: newElements
+        elements: newElements,
       } as UISchemaElement
     }
     return uischema
   })
 }
-export const removeUISchemaElement = (scope: string,  uiSchema: UISchemaElement) => {
+export const removeUISchemaElement = (scope: string, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {
     if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
       // insert newElement after the element with scope
       const newElements = uischema.elements.filter((el: ScopableUISchemaElement) => el.scope !== scope)
       return {
         ...uischema,
-        elements: newElements
+        elements: newElements,
       } as UISchemaElement
     }
     return uischema
   })
 }
 
-export const updateScopeOfUISchemaElement = (scope: string, newScope: string,  uiSchema: UISchemaElement) => {
+export const updateScopeOfUISchemaElement = (scope: string, newScope: string, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
     if (uischema.scope === scope) {
       return {
         ...uischema,
-        scope: newScope
+        scope: newScope,
       } as UISchemaElement
     }
     return uischema
   })
 }
 
-export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,  uiSchema: UISchemaElement) => {
+export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
     if (uischema.scope === scope) {
       return newSchema

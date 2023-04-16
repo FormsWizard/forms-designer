@@ -1,141 +1,142 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {JsonSchema, UISchemaElement} from "@jsonforms/core";
-import {RootState} from "../../app/store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { JsonSchema, UISchemaElement } from '@jsonforms/core'
+import { RootState } from '../../app/store'
 import {
-  insertUISchemaAfterScope, pathToScope, recursivelyMapSchema,
+  insertUISchemaAfterScope,
+  pathToScope,
+  recursivelyMapSchema,
   removeUISchemaElement,
-  updateScopeOfUISchemaElement, updateUISchemaElement
-} from "../../utils/uiSchemaHelpers";
+  updateScopeOfUISchemaElement,
+  updateUISchemaElement,
+} from '../../utils/uiSchemaHelpers'
 import {
   deeplyRemoveNestedProperty,
   deeplyRenameNestedProperty,
-  deeplySetNestedProperty
-} from "../../utils/jsonSchemaHelpers";
-import {ScopableUISchemaElement} from "../../types";
+  deeplySetNestedProperty,
+} from '../../utils/jsonSchemaHelpers'
+import { ScopableUISchemaElement } from '../../types'
 
 export type JsonFormsEditState = {
-  jsonSchema: JsonSchema,
+  jsonSchema: JsonSchema
   uiSchema?: any
   selectedElementKey?: string
 }
 
 const initialState: JsonFormsEditState = {
   jsonSchema: {
-    "type": "object",
-    "properties": {
-      "name": {
-        "type": "string"
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
       },
-      "description": {
-        "type": "string"
+      description: {
+        type: 'string',
       },
-      "done": {
-        "type": "boolean"
+      done: {
+        type: 'boolean',
       },
-      "rating": {
-        "type": "integer"
+      rating: {
+        type: 'integer',
       },
-      "customerSatisfaction": {
-        "type": "integer"
+      customerSatisfaction: {
+        type: 'integer',
       },
-      "category": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
+      category: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
           },
-          "description": {
-            "type": "string"
-          }
-        }
+          description: {
+            type: 'string',
+          },
+        },
       },
-      "meta": {
-        "type": "object",
-        "properties": {
-          "created": {
-            "type": "string",
-            "format": "date-time"
+      meta: {
+        type: 'object',
+        properties: {
+          created: {
+            type: 'string',
+            format: 'date-time',
           },
-          "lastModified": {
-            "type": "string",
-            "format": "date-time"
+          lastModified: {
+            type: 'string',
+            format: 'date-time',
           },
-          "version": {
-            "type": "integer"
-          }
-        }
-      }
+          version: {
+            type: 'integer',
+          },
+        },
+      },
     },
-    "required": [
-      "name"
-    ]
+    required: ['name'],
   },
-  uiSchema:
+  uiSchema: {
+    type: 'VerticalLayout',
+    elements: [
       {
-        "type": "VerticalLayout",
-        "elements": [
+        type: 'Control',
+        scope: '#/properties/name',
+      },
+      {
+        type: 'HorizontalLayout',
+        elements: [
           {
-            "type": "Control",
-            "scope": "#/properties/name"
+            type: 'Control',
+            scope: '#/properties/rating',
           },
           {
-            "type": "HorizontalLayout",
-            "elements": [
+            type: 'Control',
+            scope: '#/properties/customerSatisfaction',
+          },
+        ],
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/category/properties/name',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/category/properties/description',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/description',
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/done',
+      },
+      {
+        type: 'Group',
+        label: 'Metadata',
+        elements: [
+          {
+            type: 'VerticalLayout',
+            elements: [
               {
-                "type": "Control",
-                "scope": "#/properties/rating"
+                type: 'Control',
+                scope: '#/properties/meta/properties/created',
               },
               {
-                "type": "Control",
-                "scope": "#/properties/customerSatisfaction"
-              }
-            ]
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/category/properties/name"
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/category/properties/description"
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/description"
-          }, {
-            "type": "Control",
-            "scope": "#/properties/done"
-          },
-          {
-            "type": "Group",
-            "label": "Metadata",
-            "elements": [
+                type: 'Control',
+                scope: '#/properties/meta/properties/lastModified',
+              },
               {
-                "type": "VerticalLayout",
-                "elements": [
-                  {
-                    "type": "Control",
-                    "scope": "#/properties/meta/properties/created"
-                  },
-                  {
-                    "type": "Control",
-                    "scope": "#/properties/meta/properties/lastModified"
-                  },
-                  {
-                    "type": "Control",
-                    "scope": "#/properties/meta/properties/version"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                type: 'Control',
+                scope: '#/properties/meta/properties/version',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 }
 
 export type DraggableComponent = {
-  name: string,
-  jsonSchemaElement: JsonSchema,
+  name: string
+  jsonSchemaElement: JsonSchema
   uiSchema?: UISchemaElement
 }
 export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSchema
@@ -165,9 +166,9 @@ export const selectUIElementByPath = (state: RootState, path: string) => {
   return selectUIElementByScope(state, scope)
 }
 
-export  const selectUIElementFromSelection = (state: RootState) => {
+export const selectUIElementFromSelection = (state: RootState) => {
   const selectedElementKey = selectSelectedElementKey(state)
-  if(!selectedElementKey || selectedElementKey.startsWith('layout')) {
+  if (!selectedElementKey || selectedElementKey.startsWith('layout')) {
     return undefined
   }
   return selectUIElementByPath(state, selectedElementKey)
@@ -180,19 +181,20 @@ export const jsonFormsEditSlice = createSlice({
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedElementKey = action.payload === state.selectedElementKey ? undefined : action.payload
     },
+
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       //TODO: handle removing key-value pair from data produced by the form in the current session
-      const {path} = action.payload
+      const { path } = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegments)
       if (state.uiSchema?.elements) {
-        const scope = pathToScope( pathSegments)
+        const scope = pathToScope(pathSegments)
         state.uiSchema = removeUISchemaElement(scope, state.uiSchema)
       }
     },
-    renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string, newFieldName: string }>) => {
+    renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
-      const {path, newFieldName} = action.payload
+      const { path, newFieldName } = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
       if (state.uiSchema?.elements) {
@@ -203,13 +205,25 @@ export const jsonFormsEditSlice = createSlice({
       }
       //state.uiSchema = updateScopeOfUISchemaElement()
     },
-    updateUISchemaByScope: (state: JsonFormsEditState, action: PayloadAction<{ scope: string, uiSchema: UISchemaElement }>) => {
-      const {scope, uiSchema} = action.payload
+    updateUISchemaByScope: (
+      state: JsonFormsEditState,
+      action: PayloadAction<{ scope: string; uiSchema: UISchemaElement }>
+    ) => {
+      const { scope, uiSchema } = action.payload
       state.uiSchema = updateUISchemaElement(scope, uiSchema, state.uiSchema)
     },
-    insertControl: (state: JsonFormsEditState, action: PayloadAction<{ index: number, schema: JsonSchema, child: UISchemaElement, path?: string, draggableMeta: DraggableComponent }>) => {
-      const {index, path, draggableMeta} = action.payload
-      const {name, jsonSchemaElement, uiSchema} = draggableMeta
+    insertControl: (
+      state: JsonFormsEditState,
+      action: PayloadAction<{
+        index: number
+        schema: JsonSchema
+        child: UISchemaElement
+        path?: string
+        draggableMeta: DraggableComponent
+      }>
+    ) => {
+      const { index, path, draggableMeta } = action.payload
+      const { name, jsonSchemaElement, uiSchema } = draggableMeta
       const newIndex = index + 1
 
       let newKey = `${name}_${newIndex}`
@@ -232,18 +246,18 @@ export const jsonFormsEditSlice = createSlice({
       if (state.uiSchema?.elements) {
         const newSchema = {
           ...(uiSchema || {}),
-          type: "Control",
-          scope: pathToScope([...strippedPath, newKey])
+          type: 'Control',
+          scope: pathToScope([...strippedPath, newKey]),
         }
         const scope = pathToScope(pathSegments)
         const newUISchema = insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
         state.uiSchema = newUISchema
       }
-    }
-
-  }
+    },
+  },
 })
 
-export const {insertControl, selectElement, renameField, removeField, updateUISchemaByScope} = jsonFormsEditSlice.actions
+export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope, deleteElement } =
+  jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer
