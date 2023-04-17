@@ -1,0 +1,9 @@
+.dragbox-preview {
+  opacity: 0.75;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 20px;
+  padding: 1em;
+}
