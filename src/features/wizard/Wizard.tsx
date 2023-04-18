@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react'
 import { JsonFormsCore } from '@jsonforms/core'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { useAppSelector } from '../../app/hooks/reduxHooks'
-import { selectJsonSchema, selectUiSchema } from './WizardSlice'
+import {selectEditMode, selectJsonSchema, selectUiSchema} from './WizardSlice'
 import { Box } from '@mui/system'
 import MainAppBar from '../home/AppBar'
 import { JsonForms } from '@jsonforms/react'
@@ -36,6 +36,7 @@ function Wizard() {
   )
   const jsonSchema = useAppSelector(selectJsonSchema)
   const uiSchema = useAppSelector(selectUiSchema)
+  const editMode = useAppSelector(selectEditMode)
   return (
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
       <MainAppBar></MainAppBar>
@@ -47,6 +48,7 @@ function Wizard() {
         onChange={handleFormChange}
         schema={jsonSchema}
         uischema={uiSchema}
+        readonly={editMode}
       />
       <RightDrawer></RightDrawer>
     </Box>

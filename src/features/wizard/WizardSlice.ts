@@ -20,9 +20,11 @@ export type JsonFormsEditState = {
   jsonSchema: JsonSchema
   uiSchema?: any
   selectedElementKey?: string
+  editMode: boolean
 }
 
 const initialState: JsonFormsEditState = {
+  editMode: false,
   jsonSchema: {
     type: 'object',
     properties: {
@@ -174,6 +176,8 @@ export const selectUIElementFromSelection = (state: RootState) => {
   return selectUIElementByPath(state, selectedElementKey)
 }
 
+export const selectEditMode = (state: RootState) => state.jsonFormsEdit.editMode
+
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
   initialState,
@@ -255,10 +259,13 @@ export const jsonFormsEditSlice = createSlice({
         state.uiSchema = newUISchema
       }
     },
+    toggleEditMode: (state: JsonFormsEditState) => {
+      state.editMode = !state.editMode
+    }
   },
 })
 
-export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope } =
+export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope, toggleEditMode } =
   jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer

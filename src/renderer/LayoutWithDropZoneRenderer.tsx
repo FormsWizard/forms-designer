@@ -21,7 +21,7 @@ import {useAppDispatch} from '../app/hooks/reduxHooks'
 import {
   DraggableComponent,
   insertControl,
-  removeField,
+  removeField, selectEditMode,
   selectElement,
   selectSelectedElementKey,
 } from '../features/wizard/WizardSlice'
@@ -70,6 +70,7 @@ const LayoutElement = ({
   const rootSchema = getSchema(state)
   const rootData = getData(state)
   const dispatch = useAppDispatch()
+  const editMode = useSelector(selectEditMode)
   const selectedKey = useSelector(selectSelectedElementKey)
   const [childPath, setChildPath] = useState<string | undefined>()
   const [resolvedSchema, setResolvedSchema] = useState<JsonSchema | undefined>()
@@ -160,7 +161,7 @@ const LayoutElement = ({
               }}
           >
             {!isGroup && (
-                <RemoveWrapper handleRemove={handleRemove} editMode={false}>
+                <RemoveWrapper handleRemove={handleRemove} editMode={editMode}>
                   <JsonFormsDispatch
                       uischema={child}
                       schema={schema}
