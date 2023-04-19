@@ -9,18 +9,18 @@ import {
   removeField,
   renameField,
   selectElement,
+  selectJsonSchema,
   selectSelectedElementKey,
-  selectUIElementByPath,
-  selectUIElementByScope,
   selectUIElementFromSelection,
   updateUISchemaByScope,
 } from '../wizard/WizardSlice'
-import { Breadcrumbs, Grid, IconButton, TextField, Typography } from '@mui/material'
+import { Breadcrumbs, Divider, Grid, IconButton, TextField, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Delete, Edit, EditOff, NavigateNext, Save } from '@mui/icons-material'
+import { Delete, Edit, NavigateNext, Save } from '@mui/icons-material'
 import { useAppDispatch } from '../../app/hooks/reduxHooks'
-import { RootState } from '../../app/store'
 import { pathToScope } from '../../utils/uiSchemaHelpers'
+import RecursiveTreeView, { RenderTree } from '../wizard/JSONSchemaTreeView'
+import { JsonSchema7 } from '@jsonforms/core'
 
 const drawerWidth = 240
 
@@ -102,9 +102,24 @@ export const FieldNameEditor: React.FC<{ path: string }> = ({ path }) => {
   )
 }
 
+const jsonSchema2RenderTreeView: (key: string, jsonSchema: JsonSchema7) => RenderTree = (key, jsonSchema) => {
+  return {
+    id: key,
+    name: key,
+    children: Object.keys(jsonSchema.properties || {}).map((key) =>
+      jsonSchema2RenderTreeView(key, jsonSchema.properties[key] as JsonSchema7)
+    ),
+  }
+}
+
 export default function RightDrawer() {
   const selectedKey = useSelector(selectSelectedElementKey)
   const uiSchema = useSelector(selectUIElementFromSelection)
+  const jsonSchema = useSelector(selectJsonSchema)
+  const jsonSchemaTree = useMemo<RenderTree>(
+    () => jsonSchema2RenderTreeView('Schema', jsonSchema as JsonSchema7),
+    [jsonSchema]
+  )
   const dispatch = useAppDispatch()
   const handleLabelChange = useCallback(
     (e) => {
@@ -144,6 +159,10 @@ export default function RightDrawer() {
           <FieldNameEditor path={selectedKey} />
         )}
         <TextField label={'Label'} onChange={handleLabelChange} value={uiSchema?.label || ''} />
+      </Box>
+      <Divider />
+      <Box sx={{ overflow: 'auto', p: 0 }}>
+        <RecursiveTreeView key={jsonSchemaTree.id} data={jsonSchemaTree} checkboxes={false} omitString={'Schema.'} />
       </Box>
     </Drawer>
   )
