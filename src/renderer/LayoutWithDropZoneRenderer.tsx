@@ -1,4 +1,4 @@
-import type {JsonFormsState, UISchemaElement} from '@jsonforms/core'
+import type { JsonFormsState, UISchemaElement } from '@jsonforms/core'
 import {
   composeWithUi,
   ControlElement,
@@ -11,37 +11,53 @@ import {
   OwnPropsOfRenderer,
   Resolve,
 } from '@jsonforms/core'
-import {JsonFormsDispatch, useJsonForms} from '@jsonforms/react'
-import {Box, Grid, IconButton, Paper} from '@mui/material'
+import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
+import { Box, Grid, IconButton, Paper } from '@mui/material'
 import Ajv from 'ajv'
 import isEmpty from 'lodash/isEmpty'
-import React, {ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo, useState} from 'react'
-import {useDrop} from 'react-dnd'
-import {useAppDispatch} from '../app/hooks/reduxHooks'
+import React, {
+  ComponentType,
+  FC,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { useDrop } from 'react-dnd'
+import { useAppDispatch } from '../app/hooks/reduxHooks'
 import {
   DraggableComponent,
   insertControl,
-  removeField, selectEditMode,
+  removeField,
+  selectEditMode,
   selectElement,
   selectSelectedElementKey,
 } from '../features/wizard/WizardSlice'
-import {useSelector} from 'react-redux'
-import {Delete} from '@mui/icons-material'
-import DropTargetFormsPreview from "../features/dragAndDrop/DropTargetFormsPreview";
+import { useSelector } from 'react-redux'
+import { Delete } from '@mui/icons-material'
+import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
 
-const  RemoveWrapper: FC<RemoveWrapperProps> = ({editMode, handleRemove, children} ) => {
-  return <>{editMode ? (
-      <Grid container>
-        <Grid item xs={11}>
-          {children}
+const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
+  return (
+    <>
+      {editMode ? (
+        <Grid container>
+          <Grid item xs={11}>
+            {children}
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton onClick={handleRemove}>
+              <Delete></Delete>
+            </IconButton>
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <IconButton onClick={handleRemove}>
-            <Delete></Delete>
-          </IconButton>
-        </Grid>
-      </Grid>
-  ) : children}</>
+      ) : (
+        children
+      )}
+    </>
+  )
 }
 
 type LayoutElementProps = {
@@ -57,16 +73,16 @@ type LayoutElementProps = {
   cells?: JsonFormsCellRendererRegistryEntry[]
 }
 const LayoutElement = ({
-                         index,
-                         direction,
-                         state,
-                         schema,
-                         path,
-                         enabled,
-                         element: child,
-                         cells,
-                         renderers,
-                       }: LayoutElementProps) => {
+  index,
+  direction,
+  state,
+  schema,
+  path,
+  enabled,
+  element: child,
+  cells,
+  renderers,
+}: LayoutElementProps) => {
   const rootSchema = getSchema(state)
   const rootData = getData(state)
   const dispatch = useAppDispatch()
@@ -74,7 +90,7 @@ const LayoutElement = ({
   const selectedKey = useSelector(selectSelectedElementKey)
   const [childPath, setChildPath] = useState<string | undefined>()
   const [resolvedSchema, setResolvedSchema] = useState<JsonSchema | undefined>()
-  const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>();
+  const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>()
 
   useEffect(() => {
     if (child.type === 'Control') {
@@ -85,116 +101,110 @@ const LayoutElement = ({
   }, [child, path, schema, rootData, rootSchema, state])
 
   const handleDrop = useCallback(
-      (componentMeta: DraggableComponent) => {
-        // @ts-ignore
-        dispatch(
-            insertControl({
-              draggableMeta: componentMeta,
-              child,
-              path: childPath,
-              index,
-              schema,
-            })
-        )
-      },
-      [dispatch, index, path, schema, child, childPath, resolvedSchema]
+    (componentMeta: DraggableComponent) => {
+      // @ts-ignore
+      dispatch(
+        insertControl({
+          draggableMeta: componentMeta,
+          child,
+          path: childPath,
+          index,
+          schema,
+        })
+      )
+    },
+    [dispatch, index, path, schema, child, childPath, resolvedSchema]
   )
   const key = useMemo<string>(() => (!childPath ? `layout-${index}` : childPath), [childPath, index])
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
 
-  const handleAllDrop  = useCallback(
-      () => ({
-        accept: ['DRAGBOX'],
-        //@ts-ignore
-        drop: ({componentMeta}, monitor) => {
-          if (monitor.didDrop())
-            return
-          handleDrop(componentMeta)
-        },
-        hover: ({componentMeta}) => {
-          setDraggedMeta(componentMeta)
-        },
-        collect: (monitor) => ({
-          isOver: monitor.isOver(), isOverCurrent:
-              monitor.isOver({shallow: true})
-        })
+  const handleAllDrop = useCallback(
+    () => ({
+      accept: ['DRAGBOX'],
+      //@ts-ignore
+      drop: ({ componentMeta }, monitor) => {
+        if (monitor.didDrop()) return
+        handleDrop(componentMeta)
+      },
+      hover: ({ componentMeta }) => {
+        setDraggedMeta(componentMeta)
+      },
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+        isOverCurrent: monitor.isOver({ shallow: true }),
       }),
-      [handleDrop, setDraggedMeta]
-  );
+    }),
+    [handleDrop, setDraggedMeta]
+  )
 
   //@ts-ignore
-  const [{isOver: isOver1, isOverCurrent: isOverCurrent1}, dropRef] = useDrop(
-      handleAllDrop, [handleAllDrop])
+  const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   //@ts-ignore
-  const [{isOver: isOver2, isOverCurrent: isOverCurrent2}, dropRef2] = useDrop(
-      handleAllDrop, [handleAllDrop])
+  const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
   const isOver = isOver1 || isOver2
   const isOverCurrent = isOverCurrent1 || isOverCurrent2
   const handleSelect = useCallback(
-      (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        event.stopPropagation()
-        // @ts-ignore
-        dispatch(selectElement(key))
-      },
-      [dispatch, key]
+    (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      event.stopPropagation()
+      // @ts-ignore
+      dispatch(selectElement(key))
+    },
+    [dispatch, key]
   )
 
   const handleRemove = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.stopPropagation()
-        dispatch(removeField({path: key}))
-      },
-      [dispatch, key]
+    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      event.stopPropagation()
+      dispatch(removeField({ path: key }))
+    },
+    [dispatch, key]
   )
 
-  return (<>
-      <Grid key={key}
-            item
-            ref={dropRef}
-            xs
-            onClick={handleSelect}>
-          <Paper
-              elevation={selectedKey === key ? 4 : 0}
-              sx={{
-                flexGrow: 1,
-                backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
-              }}
-          >
-            {!isGroup && (
-                <RemoveWrapper handleRemove={handleRemove} editMode={editMode}>
-                  <JsonFormsDispatch
-                      uischema={child}
-                      schema={schema}
-                      path={path}
-                      enabled={enabled}
-                      renderers={renderers}
-                      cells={cells}
-                  />
-                </RemoveWrapper>
-            )}
-            {isGroup && (
-                <JsonFormsDispatch
-                    uischema={child}
-                    schema={schema}
-                    path={path}
-                    enabled={enabled}
-                    renderers={renderers}
-                    cells={cells}
-                />
-            )}
-          </Paper>
-      </Grid>
-        <Box
-            sx={{
-              border: '1px dashed grey',
-              opacity: isOver ? '1.0' : '0.1',
-              bgcolor: (theme) => (isOver ? theme.palette.grey[100] : 'none'),
-            }}
-            ref={dropRef2}
+  return (
+    <>
+      <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
+        <Paper
+          elevation={selectedKey === key ? 4 : 0}
+          sx={{
+            flexGrow: 1,
+            backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
+          }}
         >
-          {isOver && isOverCurrent && draggedMeta ? <DropTargetFormsPreview metadata={draggedMeta}/> : null}
-        </Box>
-      </>
+          {!isGroup && (
+            <RemoveWrapper handleRemove={handleRemove} editMode={editMode}>
+              <JsonFormsDispatch
+                uischema={child}
+                schema={schema}
+                path={path}
+                enabled={enabled}
+                renderers={renderers}
+                cells={cells}
+              />
+            </RemoveWrapper>
+          )}
+          {isGroup && (
+            <JsonFormsDispatch
+              uischema={child}
+              schema={schema}
+              path={path}
+              enabled={enabled}
+              renderers={renderers}
+              cells={cells}
+            />
+          )}
+        </Paper>
+      </Grid>
+      <Box
+        sx={{
+          border: '1px dashed grey',
+          opacity: isOver ? '1.0' : '0.1',
+          bgcolor: (theme) => (isOver ? theme.palette.grey[100] : 'none'),
+        }}
+        ref={dropRef2}
+      >
+        {isOver && isOverCurrent && draggedMeta ? <DropTargetFormsPreview metadata={draggedMeta} /> : null}
+      </Box>
+    </>
   )
 }
 
@@ -204,36 +214,36 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 }
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
-  const {visible, elements, schema, path, enabled, direction, renderers, cells} = props
+  const { visible, elements, schema, path, enabled, direction, renderers, cells } = props
   const ctx = useJsonForms()
-  const state = {jsonforms: ctx}
+  const state = { jsonforms: ctx }
   if (isEmpty(elements)) {
     return null
   } else {
     return (
-        <Box sx={{display: visible ? 'block' : 'none'}}>
-          <Grid container direction={direction} spacing={direction === 'row' ? 2 : 0}>
-            {elements.map((element, index) => (
-                <LayoutElement
-                    direction={direction}
-                    key={(path || '') + index}
-                    index={index}
-                    state={state}
-                    // @ts-ignore
-                    schema={schema}
-                    // @ts-ignore
-                    visible={visible}
-                    // @ts-ignore
-                    path={path}
-                    // @ts-ignore
-                    enabled={enabled}
-                    element={element}
-                    cells={cells}
-                    renderers={renderers}
-                />
-            ))}
-          </Grid>
-        </Box>
+      <Box sx={{ display: visible ? 'block' : 'none' }}>
+        <Grid container direction={direction} spacing={direction === 'row' ? 2 : 0}>
+          {elements.map((element, index) => (
+            <LayoutElement
+              direction={direction}
+              key={(path || '') + index}
+              index={index}
+              state={state}
+              // @ts-ignore
+              schema={schema}
+              // @ts-ignore
+              visible={visible}
+              // @ts-ignore
+              path={path}
+              // @ts-ignore
+              enabled={enabled}
+              element={element}
+              cells={cells}
+              renderers={renderers}
+            />
+          ))}
+        </Grid>
+      </Box>
     )
   }
 }
@@ -244,13 +254,13 @@ export interface AjvProps {
 }
 
 export const withAjvProps =
-    <P extends {}>(Component: ComponentType<AjvProps & P>) =>
-        (props: P) => {
-          const ctx = useJsonForms()
-          const ajv = getAjv({jsonforms: {...ctx}})
+  <P extends {}>(Component: ComponentType<AjvProps & P>) =>
+  (props: P) => {
+    const ctx = useJsonForms()
+    const ajv = getAjv({ jsonforms: { ...ctx } })
 
-          // @ts-ignore
-          return <Component {...props} ajv={ajv}/>
-        }
+    // @ts-ignore
+    return <Component {...props} ajv={ajv} />
+  }
 
-        type RemoveWrapperProps = {editMode: boolean, handleRemove: MouseEventHandler , children: ReactNode}
+type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }

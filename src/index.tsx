@@ -12,6 +12,7 @@ import { DndProvider } from 'react-dnd'
 import NiceModal from '@ebay/nice-modal-react'
 import { IntlProvider } from 'react-intl'
 import { TouchBackend } from 'react-dnd-touch-backend'
+import reportWebVitals from './reportWebVitals'
 const container = document.getElementById('root')!
 const root = createRoot(container)
 console.log('APP running in touch mode: ' + isTouchDevice())
@@ -42,3 +43,4 @@ function isTouchDevice() {
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 // reportWebVitals();
+reportWebVitals(console.log)

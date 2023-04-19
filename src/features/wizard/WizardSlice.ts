@@ -261,7 +261,7 @@ export const jsonFormsEditSlice = createSlice({
     },
     toggleEditMode: (state: JsonFormsEditState) => {
       state.editMode = !state.editMode
-    }
+    },
   },
 })
 
