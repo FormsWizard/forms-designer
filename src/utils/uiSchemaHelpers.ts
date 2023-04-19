@@ -55,10 +55,10 @@ export const removeUISchemaElement = (scope: string, uiSchema: UISchemaElement) 
 
 export const updateScopeOfUISchemaElement = (scope: string, newScope: string, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
-    if (uischema.scope === scope) {
+    if (uischema.scope?.startsWith(scope)) {
       return {
         ...uischema,
-        scope: newScope,
+        scope: newScope + uischema.scope.slice(scope.length),
       } as UISchemaElement
     }
     return uischema
