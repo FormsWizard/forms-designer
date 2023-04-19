@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { JsonSchema, UISchemaElement } from '@jsonforms/core'
-import { RootState } from '../../app/store'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {JsonSchema, UISchemaElement} from '@jsonforms/core'
+import {RootState} from '../../app/store'
 import {
   insertUISchemaAfterScope,
   pathToScope,
@@ -14,7 +14,7 @@ import {
   deeplyRenameNestedProperty,
   deeplySetNestedProperty,
 } from '../../utils/jsonSchemaHelpers'
-import { ScopableUISchemaElement } from '../../types'
+import {ScopableUISchemaElement} from '../../types'
 
 export type JsonFormsEditState = {
   jsonSchema: JsonSchema
@@ -183,7 +183,7 @@ export const jsonFormsEditSlice = createSlice({
   initialState,
   reducers: {
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
-      state.selectedElementKey = action.payload === state.selectedElementKey ? undefined : action.payload
+      state.selectedElementKey = action.payload
     },
 
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
@@ -255,8 +255,7 @@ export const jsonFormsEditSlice = createSlice({
           scope: pathToScope([...strippedPath, newKey]),
         }
         const scope = pathToScope(pathSegments)
-        const newUISchema = insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
-        state.uiSchema = newUISchema
+        state.uiSchema = insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
       }
     },
     toggleEditMode: (state: JsonFormsEditState) => {
