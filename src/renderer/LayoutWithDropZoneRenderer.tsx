@@ -25,7 +25,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { useDrop } from 'react-dnd'
+import { useDrag, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import {
   DraggableComponent,
@@ -100,6 +100,28 @@ const LayoutElement = ({
     }
   }, [child, path, schema, rootData, rootSchema, state])
 
+  const handleMove = useCallback(
+    (componentMeta: DraggableComponent) => {
+      dispatch(removeField({ path: componentMeta.name }))
+      const lastPathElement = componentMeta.name.split('.').pop()
+      const draggableMeta = {
+        ...componentMeta,
+        name: lastPathElement,
+        uiSchema: componentMeta?.uiSchema ? { ...componentMeta.uiSchema } : undefined,
+      }
+      console.log('draggableMeta', draggableMeta)
+      dispatch(
+        insertControl({
+          draggableMeta: draggableMeta,
+          child,
+          path: childPath,
+          index,
+          schema,
+        })
+      )
+    },
+    [dispatch, index, path, schema, child, childPath, resolvedSchema]
+  )
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent) => {
       // @ts-ignore
@@ -117,16 +139,55 @@ const LayoutElement = ({
   )
   const key = useMemo<string>(() => (!childPath ? `layout-${index}` : childPath), [childPath, index])
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
+  const myComponentMeta = useMemo<DraggableComponent | undefined>(
+    () => ({
+      name: childPath,
+      jsonSchemaElement: resolvedSchema,
+      uiSchema: child,
+    }),
+    [childPath, child, resolvedSchema]
+  )
 
+  const [, dragRef] = useDrag(
+    () => ({
+      type: 'MOVEBOX',
+      item: { componentMeta: myComponentMeta },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.5 : 1,
+      }),
+      end: (item, monitor) => {
+        const didDrop = monitor.didDrop()
+        if (didDrop) {
+        }
+      },
+    }),
+    [myComponentMeta]
+  )
   const handleAllDrop = useCallback(
     () => ({
-      accept: ['DRAGBOX'],
+      accept: ['DRAGBOX', 'MOVEBOX'],
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
         if (monitor.didDrop()) return
-        handleDrop(componentMeta)
+        console.log('drop', monitor.getItemType(), componentMeta)
+        if (monitor.getItemType() === 'MOVEBOX') {
+          handleMove(componentMeta)
+        } else {
+          handleDrop(componentMeta)
+        }
       },
-      hover: ({ componentMeta }) => {
+      hover: ({ componentMeta }, monitor) => {
+        if (monitor.getItemType() === 'MOVEBOX') {
+          const { type, scope, ...rest } = componentMeta?.uiSchema || {}
+          const draggableMeta = {
+            ...componentMeta,
+            name: componentMeta.name.split('.').pop(),
+            uiSchema: rest,
+          }
+          console.log('draggableMeta', draggableMeta)
+          setDraggedMeta(draggableMeta)
+          return
+        }
         setDraggedMeta(componentMeta)
       },
       collect: (monitor) => ({
@@ -169,6 +230,7 @@ const LayoutElement = ({
             flexGrow: 1,
             backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
           }}
+          ref={dragRef}
         >
           {!isGroup && (
             <RemoveWrapper handleRemove={handleRemove} editMode={editMode}>

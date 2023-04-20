@@ -23,6 +23,13 @@ const CustomDragAndDropPreview = () => {
         Insert {item?.componentMeta?.name}
       </Card>
     )
+  } else if (itemType === 'MOVEBOX') {
+    return (
+      <Card className="dragbox-preview" style={style}>
+        {/* @ts-ignore */}
+        Move {item?.componentMeta?.name?.split('.')?.pop()}
+      </Card>
+    )
   } else {
     //@ts-ignore
     return <div style={style}>{itemType}</div>

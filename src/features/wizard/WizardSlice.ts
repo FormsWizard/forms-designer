@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {JsonSchema, UISchemaElement} from '@jsonforms/core'
-import {RootState} from '../../app/store'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { JsonSchema, UISchemaElement } from '@jsonforms/core'
+import { RootState } from '../../app/store'
 import {
   insertUISchemaAfterScope,
   pathToScope,
@@ -14,7 +14,7 @@ import {
   deeplyRenameNestedProperty,
   deeplySetNestedProperty,
 } from '../../utils/jsonSchemaHelpers'
-import {ScopableUISchemaElement} from '../../types'
+import { ScopableUISchemaElement } from '../../types'
 
 export type JsonFormsEditState = {
   jsonSchema: JsonSchema
@@ -231,7 +231,7 @@ export const jsonFormsEditSlice = createSlice({
       const { name, jsonSchemaElement, uiSchema } = draggableMeta
       const newIndex = index + 1
 
-      let newKey = `${name}_${newIndex}`
+      let newKey = name
       const pathSegments = path?.split('.') || []
       if (pathSegments.length === 0) {
         //TODO: detect if next to/above layout, where path is undefined => where to insert???
