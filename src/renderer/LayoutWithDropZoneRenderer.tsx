@@ -108,7 +108,7 @@ const LayoutElement = ({
   const handleMove = useCallback(
     (componentMeta: DraggableComponent) => {
       dispatch(removeField({ path: componentMeta.name }))
-      const lastPathElement = componentMeta.name.split('.').pop()
+      const lastPathElement = componentMeta.name ? componentMeta.name.split('.').pop() : undefined
       const draggableMeta = {
         ...componentMeta,
         name: lastPathElement,
@@ -186,7 +186,7 @@ const LayoutElement = ({
           const { type, scope, ...rest } = componentMeta?.uiSchema || {}
           const draggableMeta = {
             ...componentMeta,
-            name: componentMeta.name.split('.').pop(),
+            name: componentMeta.name ? componentMeta.name.split('.').pop() : 'layout',
             uiSchema: rest,
           }
           setDraggedMeta(draggableMeta)

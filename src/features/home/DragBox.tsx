@@ -34,11 +34,6 @@ const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta }: DragBoxProps
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          ans Ende anfügen
-        </Button>
-      </CardActions>
     </Card>
   )
 }

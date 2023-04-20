@@ -217,6 +217,9 @@ export const jsonFormsEditSlice = createSlice({
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
       const { path, newFieldName } = action.payload
+      if (newFieldName.includes('.')) {
+        throw new Error('Field name cannot contain a dot')
+      }
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
       if (state.uiSchema?.elements) {
@@ -277,11 +280,17 @@ export const jsonFormsEditSlice = createSlice({
       state.jsonSchema = deeplySetNestedProperty(state.jsonSchema, strippedPath, newKey, jsonSchemaElement)
 
       if (state.uiSchema?.elements) {
-        const newSchema = {
-          ...(uiSchema || {}),
-          type: 'Control',
-          scope: pathToScope([...strippedPath, newKey]),
-        }
+        const newPath = [...strippedPath, newKey]
+        console.log(newPath)
+        const newSchema =
+          uiSchema?.type !== 'Control'
+            ? updateScopeOfUISchemaElement('#', pathToScope(newPath), uiSchema)
+            : {
+                ...(uiSchema || {}),
+                type: 'Control',
+                scope: pathToScope([...strippedPath, newKey]),
+              }
+        console.log(newSchema)
         const scope = pathToScope(pathSegments)
         state.uiSchema = isLayout
           ? insertUISchemaAfterScope(scope, newSchema, state.uiSchema, index + _offset)
