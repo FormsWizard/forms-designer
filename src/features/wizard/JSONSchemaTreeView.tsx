@@ -69,6 +69,7 @@ export default function RecursiveTreeView({ data, checkboxes, omitString }: Prop
     const dispatch = useAppDispatch()
     const handleSelect = useCallback(() => {
       const strippedKey = key.substring(omitString?.length ?? 0, key.length)
+      if(strippedKey.length === 0) return
       dispatch(selectElement(strippedKey))
     }, [key, dispatch, omitString])
     return (
