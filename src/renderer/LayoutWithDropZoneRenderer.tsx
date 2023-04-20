@@ -71,6 +71,7 @@ type LayoutElementProps = {
   element: UISchemaElement
   renderers?: JsonFormsRendererRegistryEntry[]
   cells?: JsonFormsCellRendererRegistryEntry[]
+  parent: UISchemaElement[]
 }
 const LayoutElement = ({
   index,
@@ -80,7 +81,7 @@ const LayoutElement = ({
   path,
   enabled,
   element: child,
-  cells,
+  cells, parent,
   renderers,
 }: LayoutElementProps) => {
   const rootSchema = getSchema(state)
@@ -97,6 +98,9 @@ const LayoutElement = ({
       const controlElement = child as ControlElement
       setResolvedSchema(Resolve.schema(schema || rootSchema, controlElement.scope, rootSchema))
       setChildPath(composeWithUi(controlElement, path))
+    } else {
+      setResolvedSchema(undefined)
+      setChildPath(undefined)
     }
   }, [child, path, schema, rootData, rootSchema, state])
 
@@ -109,18 +113,18 @@ const LayoutElement = ({
         name: lastPathElement,
         uiSchema: componentMeta?.uiSchema ? { ...componentMeta.uiSchema } : undefined,
       }
-      console.log('draggableMeta', draggableMeta)
       dispatch(
         insertControl({
           draggableMeta: draggableMeta,
           child,
+          parent,
           path: childPath,
           index,
           schema,
         })
       )
     },
-    [dispatch, index, path, schema, child, childPath, resolvedSchema]
+    [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
   )
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent) => {
@@ -129,13 +133,14 @@ const LayoutElement = ({
         insertControl({
           draggableMeta: componentMeta,
           child,
+          parent,
           path: childPath,
           index,
           schema,
         })
       )
     },
-    [dispatch, index, path, schema, child, childPath, resolvedSchema]
+    [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
   )
   const key = useMemo<string>(() => (!childPath ? `layout-${index}` : childPath), [childPath, index])
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
@@ -169,7 +174,6 @@ const LayoutElement = ({
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
         if (monitor.didDrop()) return
-        console.log('drop', monitor.getItemType(), componentMeta)
         if (monitor.getItemType() === 'MOVEBOX') {
           handleMove(componentMeta)
         } else {
@@ -184,7 +188,6 @@ const LayoutElement = ({
             name: componentMeta.name.split('.').pop(),
             uiSchema: rest,
           }
-          console.log('draggableMeta', draggableMeta)
           setDraggedMeta(draggableMeta)
           return
         }
@@ -276,7 +279,7 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 }
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
-  const { visible, elements, schema, path, enabled, direction, renderers, cells } = props
+  const { visible, elements , schema, path, enabled, direction, renderers, cells,uischema } = props
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
   if (isEmpty(elements)) {
@@ -300,6 +303,7 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
               // @ts-ignore
               enabled={enabled}
               element={element}
+              parent={elements}
               cells={cells}
               renderers={renderers}
             />

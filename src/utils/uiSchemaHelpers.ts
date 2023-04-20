@@ -1,7 +1,17 @@
-import { isLayout, UISchemaElement } from '@jsonforms/core'
+import {isLayout, UISchemaElement} from '@jsonforms/core'
 import isEmpty from 'lodash/isEmpty'
-import { ScopableUISchemaElement } from '../types'
+import {ScopableUISchemaElement} from '../types'
 
+const insertIntoArray = <T,>(arr: T[], index: number, element: T) => {
+  return [
+    ...arr.slice(0, index),
+    element,
+    ...arr.slice(index)
+  ]
+}
+const insertAtPosOrEnd = <T,>(arr: T[], index: number, element: T) => {
+  return arr.length <= index ? [...arr, element] : insertIntoArray(arr, index, element)
+}
 /**
  * recursivly apply a function to a UISchemaElement and its children in case of a layout
  *
@@ -23,14 +33,14 @@ export const recursivelyMapSchema = (
   }
   return toApply(uischema)
 }
-export const insertUISchemaAfterScope = (scope: string, newSchema: UISchemaElement, uiSchema: UISchemaElement) => {
+export const insertUISchemaAfterScope = (scope: string, newSchema: UISchemaElement, uiSchema: UISchemaElement, position?: number) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {
     if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
       // insert newElement after the element with scope
-      const newElements = uischema.elements.reduce<ScopableUISchemaElement[]>(
+      const newElements = position === undefined ? uischema.elements.reduce<ScopableUISchemaElement[]>(
         (acc, el: ScopableUISchemaElement) => (el.scope === scope ? [...acc, el, newSchema] : [...acc, el]),
         []
-      )
+      ) : insertAtPosOrEnd(uischema.elements, position, newSchema)
       return {
         ...uischema,
         elements: newElements,
@@ -76,4 +86,9 @@ export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,
 
 export const pathToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
+}
+export const scopeToPath = (scope: string) => {
+  if (!scope.startsWith('#/')) return []
+  const [, ...rest] = scope.split('/properties/')
+  return rest
 }

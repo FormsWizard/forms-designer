@@ -1,11 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { JsonSchema, UISchemaElement } from '@jsonforms/core'
-import { RootState } from '../../app/store'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {JsonSchema, Scopable, UISchemaElement} from '@jsonforms/core'
+import {RootState} from '../../app/store'
 import {
   insertUISchemaAfterScope,
   pathToScope,
   recursivelyMapSchema,
   removeUISchemaElement,
+  scopeToPath,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
 } from '../../utils/uiSchemaHelpers'
@@ -14,7 +15,7 @@ import {
   deeplyRenameNestedProperty,
   deeplySetNestedProperty,
 } from '../../utils/jsonSchemaHelpers'
-import { ScopableUISchemaElement } from '../../types'
+import {ScopableUISchemaElement} from '../../types'
 
 export type JsonFormsEditState = {
   jsonSchema: JsonSchema
@@ -178,6 +179,20 @@ export const selectUIElementFromSelection = (state: RootState) => {
 
 export const selectEditMode = (state: RootState) => state.jsonFormsEdit.editMode
 
+export const findPreviousScope: (index: number, elements: ScopableUISchemaElement[]) => { scope: string, offset: number } | undefined
+    = (index: number, elements: ScopableUISchemaElement[]) => {
+  for (let i = index; i >= 0; i--) {
+    if (elements[i]?.type === "Control") {
+      const scope = (elements[i] as Scopable).scope
+      if (scope) {
+        return {
+          scope,
+          offset: index - i
+        }
+      }
+    }
+  }
+}
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
   initialState,
@@ -189,7 +204,7 @@ export const jsonFormsEditSlice = createSlice({
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       //TODO: handle removing key-value pair from data produced by the form in the current session
       // does work for me in the current version of the app
-      const { path } = action.payload
+      const {path} = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegments)
       if (state.uiSchema?.elements) {
@@ -199,7 +214,7 @@ export const jsonFormsEditSlice = createSlice({
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
-      const { path, newFieldName } = action.payload
+      const {path, newFieldName} = action.payload
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
       if (state.uiSchema?.elements) {
@@ -211,31 +226,40 @@ export const jsonFormsEditSlice = createSlice({
       //state.uiSchema = updateScopeOfUISchemaElement()
     },
     updateUISchemaByScope: (
-      state: JsonFormsEditState,
-      action: PayloadAction<{ scope: string; uiSchema: UISchemaElement }>
+        state: JsonFormsEditState,
+        action: PayloadAction<{ scope: string; uiSchema: UISchemaElement }>
     ) => {
-      const { scope, uiSchema } = action.payload
+      const {scope, uiSchema} = action.payload
       state.uiSchema = updateUISchemaElement(scope, uiSchema, state.uiSchema)
     },
     insertControl: (
-      state: JsonFormsEditState,
-      action: PayloadAction<{
-        index: number
-        schema: JsonSchema
-        child: UISchemaElement
-        path?: string
-        draggableMeta: DraggableComponent
-      }>
+        state: JsonFormsEditState,
+        action: PayloadAction<{
+          index: number
+          schema: JsonSchema
+          child: UISchemaElement
+          parent: UISchemaElement[]
+          path?: string
+          draggableMeta: DraggableComponent
+        }>
     ) => {
-      const { index, path, draggableMeta } = action.payload
-      const { name, jsonSchemaElement, uiSchema } = draggableMeta
+      const {index, path, parent, draggableMeta} = action.payload
+      const {name, jsonSchemaElement, uiSchema} = draggableMeta
       const newIndex = index + 1
 
-      let newKey = name
-      const pathSegments = path?.split('.') || []
+      const isLayout = !path
+      console.log({isLayout, path})
+      let pathSegments = [], _offset = 0
+      if (isLayout) {
+        //FIXME: inserting to/above layout still buggy
+        const {scope, offset} = findPreviousScope(index, parent)
+        _offset = offset
+        if (scope) pathSegments = scopeToPath(scope)
+      } else {
+        pathSegments = path?.split('.') || []
+      }
       if (pathSegments.length === 0) {
-        //TODO: detect if next to/above layout, where path is undefined => where to insert???
-        console.warn('path is empty, cannot insert element')
+        console.warn('cannot insert into zero length path')
         return
       }
       const strippedPath = pathSegments.length > 0 ? pathSegments.slice(0, pathSegments.length - 1) : []
@@ -243,6 +267,7 @@ export const jsonFormsEditSlice = createSlice({
         return acc[pathSegment].properties
       }, state.jsonSchema.properties)
 
+      let newKey = name
       for (let i = 1; properties[newKey] !== undefined; i++) {
         newKey = `${name}_${newIndex + i}`
       }
@@ -255,7 +280,9 @@ export const jsonFormsEditSlice = createSlice({
           scope: pathToScope([...strippedPath, newKey]),
         }
         const scope = pathToScope(pathSegments)
-        state.uiSchema = insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
+        state.uiSchema = isLayout
+            ? insertUISchemaAfterScope(scope, newSchema, state.uiSchema, index + _offset)
+            : insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
       }
     },
     toggleEditMode: (state: JsonFormsEditState) => {
@@ -264,7 +291,7 @@ export const jsonFormsEditSlice = createSlice({
   },
 })
 
-export const { insertControl, selectElement, renameField, removeField, updateUISchemaByScope, toggleEditMode } =
-  jsonFormsEditSlice.actions
+export const {insertControl, selectElement, renameField, removeField, updateUISchemaByScope, toggleEditMode} =
+    jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer
