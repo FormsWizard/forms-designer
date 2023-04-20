@@ -9,6 +9,7 @@ import { DraggableComponent } from '../wizard/WizardSlice'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { useCallback } from 'react'
+import {updateScopeOfUISchemaElement} from "../../utils/uiSchemaHelpers";
 
 const drawerWidth = 240
 
@@ -48,7 +49,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
 
 export const advancedDraggableComponents: DraggableComponent[] = [
   {
-    name: 'Person Simple',
+    name: 'person',
     jsonSchemaElement: {
       type: 'object',
       properties: {
@@ -72,7 +73,7 @@ export const advancedDraggableComponents: DraggableComponent[] = [
         },
       },
     },
-    uiSchema: {
+    uiSchema: updateScopeOfUISchemaElement('#', '#/properties/person', {
       type: 'Group',
       //@ts-ignore
       label: 'Person',
@@ -108,7 +109,7 @@ export const advancedDraggableComponents: DraggableComponent[] = [
           ],
         },
       ],
-    },
+    }),
   },
 ]
 
