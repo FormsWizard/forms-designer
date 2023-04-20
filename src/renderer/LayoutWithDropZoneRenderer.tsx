@@ -81,7 +81,8 @@ const LayoutElement = ({
   path,
   enabled,
   element: child,
-  cells, parent,
+  cells,
+  parent,
   renderers,
 }: LayoutElementProps) => {
   const rootSchema = getSchema(state)
@@ -279,7 +280,7 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 }
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
-  const { visible, elements , schema, path, enabled, direction, renderers, cells,uischema } = props
+  const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
   if (isEmpty(elements)) {
