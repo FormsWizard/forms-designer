@@ -10,7 +10,9 @@ import Slide from '@mui/material/Slide'
 import NiceModal, { useModal } from '@ebay/nice-modal-react'
 
 import { FormattedMessage } from 'react-intl'
-import { TransitionProps } from '@mui/material/transitions'
+
+import DialogNiceModalWrapper from './modalUtils/DialogNiceModalWrapper'
+import { SlideTransition } from './modalUtils/ModalTransitions'
 
 interface ConfirmModalProps {
   onConfirm?: () => void
@@ -20,13 +22,6 @@ interface ConfirmModalProps {
   modalBodyTextID?: string
   modalHeaderTextID?: string
 }
-
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & { children: React.ReactElement<any, any> },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="up" ref={ref} {...props} />
-})
 
 const ConfirmModal = NiceModal.create<ConfirmModalProps>(
   ({
@@ -48,14 +43,8 @@ const ConfirmModal = NiceModal.create<ConfirmModalProps>(
       onReject()
     }
     return (
-      <Dialog
-        TransitionComponent={Transition}
-        open={modal.visible}
-        onClose={() => modal.hide()}
-        TransitionProps={{
-          onExited: () => modal.remove(),
-        }}
-      >
+      //@ts-ignore
+      <DialogNiceModalWrapper modal={modal} TransitionComponent={SlideTransition} onClose={() => modal.hide()}>
         <DialogTitle id="alert-dialog-slide-title">
           <FormattedMessage
             description="confirm modal header"
@@ -88,7 +77,7 @@ const ConfirmModal = NiceModal.create<ConfirmModalProps>(
             ></FormattedMessage>
           </Button>
         </DialogActions>
-      </Dialog>
+      </DialogNiceModalWrapper>
     )
   }
 )
