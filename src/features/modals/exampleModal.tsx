@@ -30,7 +30,7 @@ const ExampleModal = NiceModal.create(() => {
   )
 })
 
-export function ConfirmButton({ children, ...props }: { children: React.ReactNode }) {
+export function ExampeModalButton({ children, ...props }: { children: React.ReactNode }) {
   return (
     <Button onClick={() => NiceModal.show(ExampleModal)} {...props}>
       {children}
