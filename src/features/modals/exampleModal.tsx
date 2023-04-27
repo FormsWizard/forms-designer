@@ -38,4 +38,4 @@ export function ExampeModalButton({ children, ...props }: { children: React.Reac
   )
 }
 
-// weitere exportfunktionen möglich, wenn man nicht sogar das komplette NiceModal exportieren will
+// weitere exportfunktionen möglich, wie z.B.:  () => NiceModal.show(ExampleModal)
