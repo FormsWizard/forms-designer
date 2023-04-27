@@ -1,6 +1,12 @@
-import { JsonFormsEditState } from './WizardSlice'
+import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
+export type JsonFormsEditState = {
+  jsonSchema: JsonSchema
+  uiSchema?: any
+  selectedElementKey?: string
+  editMode: boolean
+}
 
-const initialState: JsonFormsEditState = {
+export const exampleInitialState1: JsonFormsEditState = {
   editMode: false,
   jsonSchema: {
     type: 'object',
@@ -108,6 +114,38 @@ const initialState: JsonFormsEditState = {
             ],
           },
         ],
+      },
+    ],
+  },
+}
+
+export const exampleInitialState2: JsonFormsEditState = {
+  editMode: false,
+  jsonSchema: {
+    type: 'object',
+    properties: {
+      Radio: {
+        type: 'object',
+        properties: {
+          exampleRadioEnum: {
+            type: 'string',
+            enum: ['One', 'Two', 'Three'],
+          },
+        },
+      },
+    },
+  },
+  uiSchema: {
+    type: 'VerticalLayout',
+    elements: [
+      {
+        type: 'Control',
+        scope: '#/properties/Radio',
+        label: 'Radio Buttons mit langem Label',
+        options: {
+          format: 'radio',
+          multi: true,
+        },
       },
     ],
   },
