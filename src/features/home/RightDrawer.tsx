@@ -18,7 +18,7 @@ import { Breadcrumbs, Divider, Grid, IconButton, TextField, Typography } from '@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Delete, Edit, NavigateNext, Save } from '@mui/icons-material'
 import { useAppDispatch } from '../../app/hooks/reduxHooks'
-import { pathToScope } from '../../utils/uiSchemaHelpers'
+import { pathSegmentsToScope } from '../../utils/uiSchemaHelpers'
 import RecursiveTreeView, { RenderTree } from '../wizard/JSONSchemaTreeView'
 import { JsonSchema7 } from '@jsonforms/core'
 
@@ -127,7 +127,7 @@ export default function RightDrawer() {
       // @ts-ignore
       dispatch(
         updateUISchemaByScope({
-          scope: pathToScope(path),
+          scope: pathSegmentsToScope(path),
           uiSchema: {
             ...uiSchema,
             label: e.target.value,

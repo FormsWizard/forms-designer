@@ -3,10 +3,12 @@ import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
   insertUISchemaAfterScope,
-  pathToScope,
+  pathSegmentsToPath,
+  pathSegmentsToScope,
+  pathToPathSegments,
   recursivelyMapSchema,
   removeUISchemaElement,
-  scopeToPath,
+  scopeToPathSegments,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
 } from '../../utils/uiSchemaHelpers'
@@ -46,7 +48,7 @@ export const selectUIElementByScope = (state: RootState, scope: string) => {
 }
 export const selectUIElementByPath = (state: RootState, path: string) => {
   const pathSegments = path?.split('.') || []
-  const scope = pathToScope(pathSegments)
+  const scope = pathSegmentsToScope(pathSegments)
   return selectUIElementByScope(state, scope)
 }
 
@@ -62,12 +64,13 @@ export const selectEditMode = (state: RootState) => state.jsonFormsEdit.editMode
 
 export const findPreviousScope: (
   index: number,
-  elements: ScopableUISchemaElement[]
-) => { scope: string; offset: number } | undefined = (index: number, elements: ScopableUISchemaElement[]) => {
+  elements: ScopableUISchemaElement[],
+  skipScope?: string
+) => { scope: string; offset: number } | undefined = (index, elements, skipScope) => {
   for (let i = index; i >= 0; i--) {
     if (elements[i]?.type === 'Control') {
       const scope = (elements[i] as Scopable).scope
-      if (scope) {
+      if (scope && scope !== skipScope) {
         return {
           scope,
           offset: index - i,
@@ -91,7 +94,7 @@ export const jsonFormsEditSlice = createSlice({
       const pathSegments = path?.split('.') || []
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegments)
       if (state.uiSchema?.elements) {
-        const scope = pathToScope(pathSegments)
+        const scope = pathSegmentsToScope(pathSegments)
         state.uiSchema = removeUISchemaElement(scope, state.uiSchema)
       }
     },
@@ -105,8 +108,8 @@ export const jsonFormsEditSlice = createSlice({
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
       if (state.uiSchema?.elements) {
         const strippedPath = pathSegments.length > 0 ? pathSegments.slice(0, pathSegments.length - 1) : []
-        const newScope = pathToScope([...strippedPath, newFieldName])
-        const scope = pathToScope(pathSegments)
+        const newScope = pathSegmentsToScope([...strippedPath, newFieldName])
+        const scope = pathSegmentsToScope(pathSegments)
         state.uiSchema = updateScopeOfUISchemaElement(scope, newScope, state.uiSchema)
       }
       //state.uiSchema = updateScopeOfUISchemaElement()
@@ -134,14 +137,15 @@ export const jsonFormsEditSlice = createSlice({
       const newIndex = index + 1
 
       const isLayout = !path
-      console.log({ isLayout, path })
+
       let pathSegments = [],
         _offset = 0
       if (isLayout) {
         //FIXME: inserting to/above layout still buggy
-        const { scope, offset } = findPreviousScope(index, parent)
+        const skipScope = pathSegmentsToScope(pathToPathSegments(draggableMeta.name))
+        const { scope, offset } = findPreviousScope(index, parent, skipScope) || {}
         _offset = offset
-        if (scope) pathSegments = scopeToPath(scope)
+        if (scope) pathSegments = scopeToPathSegments(scope)
       } else {
         pathSegments = path?.split('.') || []
       }
@@ -165,14 +169,14 @@ export const jsonFormsEditSlice = createSlice({
         console.log(newPath)
         const newSchema =
           uiSchema && uiSchema?.type !== 'Control'
-            ? updateScopeOfUISchemaElement(`#/properties/${newKey}`, pathToScope(newPath), uiSchema)
+            ? updateScopeOfUISchemaElement(`#/properties/${newKey}`, pathSegmentsToScope(newPath), uiSchema)
             : {
                 ...(uiSchema || {}),
                 type: 'Control',
-                scope: pathToScope([...strippedPath, newKey]),
+                scope: pathSegmentsToScope([...strippedPath, newKey]),
               }
         console.log(newSchema)
-        const scope = pathToScope(pathSegments)
+        const scope = pathSegmentsToScope(pathSegments)
         state.uiSchema = isLayout
           ? insertUISchemaAfterScope(scope, newSchema, state.uiSchema, index + _offset)
           : insertUISchemaAfterScope(scope, newSchema, state.uiSchema)
