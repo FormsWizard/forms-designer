@@ -1,4 +1,4 @@
-import {isLayout, Layout, UISchemaElement} from '@jsonforms/core'
+import { isLayout, Layout, UISchemaElement } from '@jsonforms/core'
 import isEmpty from 'lodash/isEmpty'
 import { ScopableUISchemaElement } from '../types'
 
@@ -122,13 +122,18 @@ type LayoutWithPath = Layout & { path: string }
 /**
  * recursively add a path, that uniquely identifies a schema element, to a UISchemaElement
  */
-export const uiSchemaWithPath = (uiSchema: UISchemaElement, pathSegments: string[] = []): UISchemaElementWithPath | LayoutWithPath => {
+export const uiSchemaWithPath = (
+  uiSchema: UISchemaElement,
+  pathSegments: string[] = []
+): UISchemaElementWithPath | LayoutWithPath => {
   if (isLayout(uiSchema)) {
     const layout = uiSchema as Layout
     return {
       ...layout,
-      elements: layout.elements.map((el, index) => uiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])),
-      path: pathSegmentsToPath(pathSegments)
+      elements: layout.elements.map((el, index) =>
+        uiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])
+      ),
+      path: pathSegmentsToPath(pathSegments),
     }
   }
   return {
