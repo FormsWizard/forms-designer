@@ -79,6 +79,27 @@ export const findPreviousScope: (
     }
   }
 }
+
+export const nextFreeKey: (
+  name: string,
+  pathSegments: string[],
+  jsonSchema: JsonSchema
+) => { path: string; key: string } = (name, pathSegments, jsonSchema) => {
+  const strippedPath = pathSegments.length > 0 ? pathSegments.slice(0, pathSegments.length - 1) : []
+  const properties = strippedPath.reduce((acc, pathSegment) => {
+    return acc[pathSegment].properties
+  }, jsonSchema.properties)
+
+  let key = name
+  for (let i = 1; properties[key] !== undefined; i++) {
+    key = `${name}_${i}`
+  }
+  return {
+    path: pathSegmentsToPath([...strippedPath, key]),
+    key,
+  }
+}
+
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
   initialState: exampleInitialState2,
