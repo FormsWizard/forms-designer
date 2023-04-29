@@ -35,13 +35,8 @@ export const basicDraggableComponents: DraggableComponent[] = [
   {
     name: 'Radio Buttons',
     jsonSchemaElement: {
-      type: 'object',
-      properties: {
-        exampleRadioEnum: {
-          type: 'string',
-          enum: ['One', 'Two', 'Three'],
-        },
-      },
+      type: 'string',
+      enum: ['One', 'Two', 'Three'],
     },
     uiSchema: {
       type: 'Control',
