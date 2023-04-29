@@ -13,6 +13,7 @@ import { horizontalLayoutTester } from '../../renderer/HorizontalLayoutWithDropZ
 import HorizontalLayoutWithDropZoneRenderer from '../../renderer/HorizontalLayoutWithDropZoneRenderer'
 import RightDrawer from '../home/RightDrawer'
 import LeftDrawer from '../home/LeftDrawer'
+import { uiSchemaWithPath } from '../../utils/uiSchemaHelpers'
 
 const renderers = [
   ...materialRenderers,
@@ -47,7 +48,7 @@ function Wizard() {
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
-        uischema={uiSchema}
+        uischema={uiSchemaWithPath(uiSchema)}
         readonly={editMode}
       />
       <RightDrawer></RightDrawer>
