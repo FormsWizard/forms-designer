@@ -1,4 +1,4 @@
-import { isLayout, UISchemaElement } from '@jsonforms/core'
+import {isLayout, Layout, UISchemaElement} from '@jsonforms/core'
 import isEmpty from 'lodash/isEmpty'
 import { ScopableUISchemaElement } from '../types'
 
@@ -88,11 +88,51 @@ export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,
   })
 }
 
-export const pathToScope = (path: string[]) => {
+export const pathToPathSegments: (path: string) => string[] = (path: string) => path.split('.')
+
+export const pathSegmentsToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
 }
-export const scopeToPath = (scope: string) => {
+
+/**
+ * converts an array of strings to a json pointer
+ * @throws  Error is segments contain a '.'
+ * @param pathSegments
+ */
+export const pathSegmentsToPath = (pathSegments: string[]) => {
+  pathSegments.forEach((segment) => {
+    if (segment.includes('.')) {
+      throw new Error('path segments must not contain dots')
+    }
+  })
+  return pathSegments.join('.')
+}
+
+export const pathToScope = (path: string) => pathSegmentsToScope(pathToPathSegments(path))
+
+export const scopeToPathSegments = (scope: string) => {
   if (!scope.startsWith('#/')) return []
   const [, ...rest] = scope.split('/properties/')
   return rest
+}
+
+type UISchemaElementWithPath = UISchemaElement & { path: string }
+type LayoutWithPath = Layout & { path: string }
+
+/**
+ * recursively add a path, that uniquely identifies a schema element, to a UISchemaElement
+ */
+export const uiSchemaWithPath = (uiSchema: UISchemaElement, pathSegments: string[] = []): UISchemaElementWithPath | LayoutWithPath => {
+  if (isLayout(uiSchema)) {
+    const layout = uiSchema as Layout
+    return {
+      ...layout,
+      elements: layout.elements.map((el, index) => uiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])),
+      path: pathSegmentsToPath(pathSegments)
+    }
+  }
+  return {
+    ...uiSchema,
+    path: pathSegmentsToPath(pathSegments),
+  }
 }
