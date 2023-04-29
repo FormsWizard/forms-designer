@@ -1,4 +1,4 @@
-import type { JsonFormsState, UISchemaElement } from '@jsonforms/core'
+import type { JsonFormsState, Scopable, UISchemaElement } from '@jsonforms/core'
 import {
   composeWithUi,
   ControlElement,
@@ -38,6 +38,7 @@ import {
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
+import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../utils/uiSchemaHelpers'
 
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
   return (
@@ -107,16 +108,25 @@ const LayoutElement = ({
 
   const handleMove = useCallback(
     (componentMeta: DraggableComponent) => {
-      dispatch(removeField({ path: componentMeta.name }))
-      const lastPathElement = componentMeta.name ? componentMeta.name.split('.').pop() : undefined
-      const draggableMeta = {
+      const pathSegments = componentMeta.name ? pathToPathSegments(componentMeta.name) : [],
+        childScope = (child as Scopable).scope
+
+      if (pathSegments.length === 0) return
+      if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
+        console.info('Dropped on my self, ignoring')
+        return
+      }
+
+      const draggableMeta: DraggableComponent = {
         ...componentMeta,
-        name: lastPathElement,
+        name: pathSegments.pop(),
         uiSchema: componentMeta?.uiSchema ? { ...componentMeta.uiSchema } : undefined,
       }
+
+      dispatch(removeField({ path: componentMeta.name }))
       dispatch(
         insertControl({
-          draggableMeta: draggableMeta,
+          draggableMeta,
           child,
           parent,
           path: childPath,
