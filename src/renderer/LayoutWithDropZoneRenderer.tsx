@@ -39,6 +39,8 @@ import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
 import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../utils/uiSchemaHelpers'
+import styled from '@emotion/styled'
+import EmptyHorizontalLayoutElement from './EmptyHorizontalLayoutElement'
 
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
   return (
@@ -292,8 +294,11 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
   const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
   const ctx = useJsonForms()
+
   const state = { jsonforms: ctx }
-  if (isEmpty(elements)) {
+  if (isEmpty(elements) && visible && direction === 'row') {
+    return <EmptyHorizontalLayoutElement path={path}></EmptyHorizontalLayoutElement>
+  } else if (isEmpty(elements)) {
     return null
   } else {
     return (

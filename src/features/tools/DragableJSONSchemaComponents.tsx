@@ -45,6 +45,13 @@ export const basicDraggableComponents: DraggableComponent[] = [
       },
     },
   },
+  {
+    name: 'horizontal layout',
+    jsonSchemaElement: {},
+    uiSchema: {
+      type: 'HorizontalLayout',
+    },
+  },
 ]
 
 export const advancedDraggableComponents: DraggableComponent[] = [

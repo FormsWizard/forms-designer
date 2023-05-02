@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material'
+import { orange } from '@mui/material/colors'
 
 const colors = {
   primary: '#00adb5',

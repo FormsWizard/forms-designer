@@ -1,6 +1,6 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { Provider } from 'react-redux'
+import { Provider as ReduxProvider } from 'react-redux'
 import { store } from './app/store'
 import App from './App'
 import { HashRouter } from 'react-router-dom'
@@ -13,13 +13,13 @@ import NiceModal from '@ebay/nice-modal-react'
 import { IntlProvider } from 'react-intl'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import reportWebVitals from './reportWebVitals'
-const container = document.getElementById('root')!
+const container = document.getElementById('root')
 const root = createRoot(container)
 console.log('APP running in touch mode: ' + isTouchDevice())
 const backend = isTouchDevice() ? TouchBackend : HTML5Backend
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <ReduxProvider store={store}>
       <ThemeProvider theme={theme}>
         <DndProvider backend={backend}>
           <IntlProvider messages={{}} locale="de" defaultLocale="en">
@@ -31,7 +31,7 @@ root.render(
           </IntlProvider>
         </DndProvider>
       </ThemeProvider>
-    </Provider>
+    </ReduxProvider>
   </React.StrictMode>
 )
 

@@ -125,13 +125,11 @@ export const exampleInitialState2: JsonFormsEditState = {
     type: 'object',
     properties: {
       Radio: {
+        type: 'string',
+        enum: ['One', 'Two', 'Three'],
+      },
+      HorizontalLayout: {
         type: 'object',
-        properties: {
-          exampleRadioEnum: {
-            type: 'string',
-            enum: ['One', 'Two', 'Three'],
-          },
-        },
       },
     },
   },
@@ -146,6 +144,11 @@ export const exampleInitialState2: JsonFormsEditState = {
           format: 'radio',
           multi: true,
         },
+      },
+      {
+        type: 'HorizontalLayout',
+        scope: '#/properties/HorizontalLayout',
+        elements: [],
       },
     ],
   },
