@@ -7,16 +7,22 @@ import './App.css'
 import Routes from './Routes'
 import { CssBaseline } from '@mui/material'
 import CustomDragAndDropPreview from './features/dragAndDrop/CustomDragAndDropPreview'
-
+import { IntlProvider } from 'react-intl'
+import messages from './locals'
+import { useSelector } from 'react-redux'
+import { getSelectedLanguage } from './features/AppBar/AppBarSlice'
 function App() {
+  const locale = useSelector(getSelectedLanguage)
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <CssBaseline></CssBaseline>
-        <Routes></Routes>
-        <CustomDragAndDropPreview></CustomDragAndDropPreview>
-      </div>
-    </ThemeProvider>
+    <IntlProvider messages={messages[locale]} locale="de" defaultLocale="de">
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <CssBaseline></CssBaseline>
+          <Routes></Routes>
+          <CustomDragAndDropPreview></CustomDragAndDropPreview>
+        </div>
+      </ThemeProvider>
+    </IntlProvider>
   )
 }
 

@@ -46,7 +46,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "prettier": "prettier --write ./src"
+    "prettier": "prettier --write ./src",
+    "translations:extract": "yarn run translations:extract:internal  \"src/**/*.ts*\" --ignore=\"**/*.d.ts\" --out-file \"lang/extracted.json\" --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+    "translations:extract:internal": "formatjs extract",
+    "compile": "formatjs compile"
   },
   "eslintConfig": {
     "extends": [
@@ -77,6 +80,7 @@
     ]
   },
   "devDependencies": {
+    "@formatjs/cli": "^6.1.1",
     "@storybook/addon-essentials": "7.0.5",
     "@storybook/addon-interactions": "7.0.5",
     "@storybook/addon-links": "7.0.5",

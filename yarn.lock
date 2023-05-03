@@ -1733,6 +1733,11 @@
   resolved "https://registry.yarnpkg.com/@fal-works/esbuild-plugin-global-externals/-/esbuild-plugin-global-externals-2.1.2.tgz#c05ed35ad82df8e6ac616c68b92c2282bd083ba4"
   integrity sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==
 
+"@formatjs/cli@^6.1.1":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@formatjs/cli/-/cli-6.1.1.tgz#089d6d25fe96490f8d1401a53705b3cdfefd7afb"
+  integrity sha512-prUblUQRJwFQqfmBtRWXZFKX+QmhXQkBKRl54hWTCwenskorK6+LTlm9TFbUDhfib2Xt3iDsjk7o9LpeU/AQCw==
+
 "@formatjs/ecma402-abstract@1.14.3":
   version "1.14.3"
   resolved "https://registry.yarnpkg.com/@formatjs/ecma402-abstract/-/ecma402-abstract-1.14.3.tgz#6428f243538a11126180d121ce8d4b2f17465738"

@@ -18,11 +18,15 @@ const ExampleModal = NiceModal.create(() => {
   return (
     <DialogNiceModalWrapper modal={modal} TransitionComponent={SlideTransition}>
       <DialogTitle id="alert-dialog-slide-title">
-        <FormattedMessage description="ModalHeader" defaultMessage="header" id=""></FormattedMessage>
+        <FormattedMessage description="ModalHeader" defaultMessage="header" id="confirmModal_header"></FormattedMessage>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
-          <FormattedMessage description="confirm modal header" defaultMessage="modal message" id=""></FormattedMessage>
+          <FormattedMessage
+            description="confirm modal message"
+            defaultMessage="modal message"
+            id="confirmModal_message"
+          ></FormattedMessage>
         </DialogContentText>
       </DialogContent>
       <DialogActions>{/* actions */}</DialogActions>

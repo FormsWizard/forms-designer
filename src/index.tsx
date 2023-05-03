@@ -10,25 +10,25 @@ import theme from './theme'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import NiceModal from '@ebay/nice-modal-react'
-import { IntlProvider } from 'react-intl'
+
 import { TouchBackend } from 'react-dnd-touch-backend'
 import reportWebVitals from './reportWebVitals'
+
 const container = document.getElementById('root')
 const root = createRoot(container)
 console.log('APP running in touch mode: ' + isTouchDevice())
 const backend = isTouchDevice() ? TouchBackend : HTML5Backend
+
 root.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
       <ThemeProvider theme={theme}>
         <DndProvider backend={backend}>
-          <IntlProvider messages={{}} locale="de" defaultLocale="en">
-            <NiceModal.Provider>
-              <HashRouter>
-                <App />
-              </HashRouter>
-            </NiceModal.Provider>
-          </IntlProvider>
+          <NiceModal.Provider>
+            <HashRouter>
+              <App />
+            </HashRouter>
+          </NiceModal.Provider>
         </DndProvider>
       </ThemeProvider>
     </ReduxProvider>

@@ -4,7 +4,7 @@ import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { useAppSelector } from '../../app/hooks/reduxHooks'
 import { selectEditMode, selectJsonSchema, selectUiSchema } from './WizardSlice'
 import { Box } from '@mui/system'
-import MainAppBar from '../home/AppBar'
+import MainAppBar from '../AppBar/AppBar'
 import { JsonForms } from '@jsonforms/react'
 import VerticalLayoutWithDropZoneRenderer, {
   verticalLayoutTester,

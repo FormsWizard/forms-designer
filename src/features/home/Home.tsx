@@ -1,7 +1,7 @@
 import React from 'react'
 
 import RightDrawer from './RightDrawer'
-import MainAppBar from './AppBar'
+import MainAppBar from '../AppBar/AppBar'
 import MainContent from './MainContent'
 import { Box } from '@mui/system'
 

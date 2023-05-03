@@ -52,6 +52,19 @@ export const basicDraggableComponents: DraggableComponent[] = [
       type: 'HorizontalLayout',
     },
   },
+  {
+    name: 'gruppe',
+    jsonSchemaElement: {
+      type: 'object',
+      properties: {},
+    },
+    uiSchema: updateScopeOfUISchemaElement('#', '#/properties/gruppe', {
+      type: 'Group',
+      //@ts-ignore
+      label: 'Gruppe',
+      elements: [],
+    }),
+  },
 ]
 
 export const advancedDraggableComponents: DraggableComponent[] = [
