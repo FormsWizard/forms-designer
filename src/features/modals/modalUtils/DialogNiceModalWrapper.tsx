@@ -1,18 +1,17 @@
 import React from 'react'
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 import { useModal } from '@ebay/nice-modal-react'
+import { type } from 'os'
 
-export default function DialogNiceModalWrapper({
-  children,
-  modal,
-  TransitionComponent,
-  ...props
-}: {
+type OwnProps = {
   children: React.ReactNode
   modal: ReturnType<typeof useModal>
   TransitionComponent: React.ComponentType<React.PropsWithChildren<unknown>>
-  props?: DialogProps
-}) {
+}
+
+type Props = OwnProps & Partial<DialogProps>
+
+export default function DialogNiceModalWrapper({ children, modal, TransitionComponent, ...props }: Props) {
   return (
     <Dialog
       TransitionComponent={TransitionComponent}

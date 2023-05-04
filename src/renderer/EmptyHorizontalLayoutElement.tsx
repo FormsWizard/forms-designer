@@ -3,6 +3,7 @@ import { rankWith, scopeEndsWith } from '@jsonforms/core'
 
 import { Box, Grid } from '@mui/material'
 import React, {
+  useRef,
   ComponentType,
   FC,
   MouseEventHandler,
@@ -50,6 +51,7 @@ const StyledPlaceholderElementBox = ({ children }) => {
 }
 
 function EmptyHorizontalLayoutElement({ path }: EmptyLayoutElementProps) {
+  // const first = useRef(null)
   const { draggedMeta, isOver, isOverCurrent } = useDropOverWizard({ path })
   return (
     <Box>
