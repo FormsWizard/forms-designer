@@ -9,7 +9,6 @@ function useDropOverWizard(props: { path: string }): {
   return {
     draggedMeta: null,
     isOver: false,
-
     isOverCurrent: false,
   }
 }

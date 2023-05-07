@@ -40,7 +40,7 @@ import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
 import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../utils/uiSchemaHelpers'
 import styled from '@emotion/styled'
-import EmptyHorizontalLayoutElement from './EmptyHorizontalLayoutElement'
+import HorizontalLayoutElementWithPlaceholder from './HorizontalLayoutElementWithPlaceholder'
 
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
   return (
@@ -294,10 +294,15 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
   const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
   const ctx = useJsonForms()
-
   const state = { jsonforms: ctx }
-  if (isEmpty(elements) && visible && direction === 'row') {
-    return <EmptyHorizontalLayoutElement path={path}></EmptyHorizontalLayoutElement>
+  if ((!elements || elements.length < 2) && visible && direction === 'row') {
+    return (
+      <HorizontalLayoutElementWithPlaceholder
+        path={path}
+        elements={elements}
+        layoutRendererProps={props}
+      ></HorizontalLayoutElementWithPlaceholder>
+    )
   } else if (isEmpty(elements)) {
     return null
   } else {

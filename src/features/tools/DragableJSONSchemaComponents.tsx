@@ -46,12 +46,31 @@ export const basicDraggableComponents: DraggableComponent[] = [
     },
   },
   {
-    name: 'horizontal layout',
+    name: 'Multiselect',
+    jsonSchemaElement: {
+      type: 'array',
+      uniqueItems: true,
+      items: {
+        type: 'string',
+
+        enum: ['foo', 'bar', 'foobar'],
+      },
+    },
+    uiSchema: {
+      type: 'Control',
+      options: {
+        format: 'combo',
+      },
+    },
+  },
+  {
+    name: 'leeres horizontales layout',
     jsonSchemaElement: {},
     uiSchema: {
       type: 'HorizontalLayout',
     },
   },
+
   {
     name: 'gruppe',
     jsonSchemaElement: {
@@ -128,6 +147,32 @@ export const advancedDraggableComponents: DraggableComponent[] = [
               scope: '#/properties/nationality',
             },
           ],
+        },
+      ],
+    }),
+  },
+
+  {
+    name: 'horizontalTest',
+    //@ts-ignore
+    label: 'horizontal layout mit einem Element',
+    jsonSchemaElement: {
+      type: 'object',
+
+      properties: {
+        title: {
+          type: 'string',
+          enum: ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof'],
+        },
+      },
+    },
+    uiSchema: updateScopeOfUISchemaElement('#', '#/properties/horizontalTest', {
+      type: 'HorizontalLayout',
+      //@ts-ignore
+      elements: [
+        {
+          type: 'Control',
+          scope: '#/properties/title',
         },
       ],
     }),
