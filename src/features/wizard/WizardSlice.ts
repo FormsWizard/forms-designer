@@ -102,7 +102,7 @@ export const nextFreeKey: (
 
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
-  initialState: exampleInitialState2,
+  initialState: exampleInitialState1,
   reducers: {
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedElementKey = action.payload
