@@ -194,7 +194,7 @@ const LayoutElement = ({
     [childPath, child, resolvedSchema]
   )
 
-  const [ {isDragging} , dragRef] = useDrag(
+  const [{ isDragging }, dragRef] = useDrag(
     () => ({
       type: 'MOVEBOX',
       item: { componentMeta: myComponentMeta },
