@@ -3786,6 +3786,11 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
+"@types/jsonpointer@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/jsonpointer/-/jsonpointer-4.0.0.tgz#84c3a6f81a822412c73942fd95a335171ffd9268"
+  integrity sha512-XNr3hsIJTSG5oZwgxemRXGFUfE8noYh2XXOTPP46PH9nrkh4KnZ/df3mXS/moC6CSAazxIkSFTbLNe6b49bz3Q==
+
 "@types/lodash@^4.14.167":
   version "4.14.194"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.194.tgz#b71eb6f7a0ff11bff59fc987134a093029258a76"
@@ -8719,7 +8724,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jsonpointer@^5.0.0:
+jsonpointer@^5.0.0, jsonpointer@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-5.0.1.tgz#2110e0af0900fd37467b5907ecd13a7884a1b559"
   integrity sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==

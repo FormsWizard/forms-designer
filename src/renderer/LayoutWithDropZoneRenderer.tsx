@@ -29,8 +29,13 @@ import { useDrag, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import {
   DraggableComponent,
+  DraggableUISchemaElement,
   insertControl,
+  isDraggableComponent,
+  isDraggableUISchemaElement,
   removeField,
+  removeFieldAndLayout,
+  removeLayout,
   selectEditMode,
   selectElement,
   selectSelectedElementKey,
@@ -109,33 +114,60 @@ const LayoutElement = ({
   }, [child, path, schema, rootData, rootSchema, state])
 
   const handleMove = useCallback(
-    (componentMeta: DraggableComponent) => {
-      const pathSegments = componentMeta.name ? pathToPathSegments(componentMeta.name) : [],
-        childScope = (child as Scopable).scope
+    (componentMeta: DraggableComponent | DraggableUISchemaElement) => {
+      const uiSchemaPath: string | undefined = (componentMeta.uiSchema as any)?.path
+      if (isDraggableComponent(componentMeta)) {
+        //TDOD very confusing using the name as path here, we should introduce a path property within DraggableComponent
+        const path = componentMeta.name
+        const pathSegments = pathToPathSegments(componentMeta.name),
+          childScope = (child as Scopable).scope,
+          name = pathSegments.pop()
 
-      if (pathSegments.length === 0) return
-      if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
-        console.info('Dropped on my self, ignoring')
-        return
+        if (pathSegments.length === 0) return
+        if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
+          console.info('Dropped on my self, ignoring')
+          return
+        }
+
+        const draggableMeta: DraggableComponent = {
+          ...componentMeta,
+          name,
+        }
+
+        //dispatch(removeField({ path }))
+        dispatch(
+          insertControl({
+            draggableMeta,
+            child,
+            path: childPath,
+            index,
+            schema,
+            remove: {
+              fieldPath: path,
+              layoutPath: uiSchemaPath,
+            },
+          })
+        )
+        //TODO: removing layout will not work here because uischema is already updated
+        //dispatch(removeLayout({ uiSchemaPath: (componentMeta.uiSchema as any).path }))
+      } else {
+        if (isDraggableUISchemaElement(componentMeta)) {
+          dispatch(
+            insertControl({
+              draggableMeta: componentMeta,
+              child,
+              path: childPath,
+              index,
+              schema,
+              remove: {
+                layoutPath: uiSchemaPath,
+              },
+            })
+          )
+
+          //dispatch(removeLayout({ uiSchemaPath: (componentMeta.uiSchema as any).path }))
+        }
       }
-
-      const draggableMeta: DraggableComponent = {
-        ...componentMeta,
-        name: pathSegments.pop(),
-        uiSchema: componentMeta?.uiSchema ? { ...componentMeta.uiSchema } : undefined,
-      }
-
-      dispatch(removeField({ path: componentMeta.name }))
-      dispatch(
-        insertControl({
-          draggableMeta,
-          child,
-          parent,
-          path: childPath,
-          index,
-          schema,
-        })
-      )
     },
     [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
   )
@@ -146,7 +178,6 @@ const LayoutElement = ({
         insertControl({
           draggableMeta: componentMeta,
           child,
-          parent,
           path: childPath,
           index,
           schema,
@@ -232,7 +263,7 @@ const LayoutElement = ({
   const handleRemove = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation()
-      dispatch(removeField({ path: key }))
+      dispatch(removeFieldAndLayout({ path: key }))
     },
     [dispatch, key]
   )

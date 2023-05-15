@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar'
 
 import { useSelector } from 'react-redux'
 import {
-  removeField,
+  removeFieldAndLayout,
   renameField,
   selectElement,
   selectJsonSchema,
@@ -38,7 +38,7 @@ export const FieldNameEditor: React.FC<{ path: string }> = ({ path }) => {
 
   const handleRemove = useCallback(() => {
     // @ts-ignore
-    dispatch(removeField({ path }))
+    dispatch(removeFieldAndLayout({ path }))
     // @ts-ignore
     dispatch(selectElement(undefined))
   }, [dispatch, path])
