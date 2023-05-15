@@ -97,7 +97,9 @@ export default function RecursiveTreeView({ data, checkboxes, omitString }: Prop
         }
       >
         {Array.isArray(nodes.children)
-          ? nodes.children.map((node) => <RenderTree nodes={node} path={newPath} omitString={omitString} />)
+          ? nodes.children.map((node) => (
+              <RenderTree key={node.id} nodes={node} path={newPath} omitString={omitString} />
+            ))
           : null}
       </TreeItem>
     )
