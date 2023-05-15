@@ -119,11 +119,14 @@ const LayoutElement = ({
       if (isDraggableComponent(componentMeta)) {
         //TDOD very confusing using the name as path here, we should introduce a path property within DraggableComponent
         const path = componentMeta.name
-        const pathSegments = pathToPathSegments(componentMeta.name),
-          childScope = (child as Scopable).scope,
+        let pathSegments = path.includes('.') ? pathToPathSegments(path) : [path]
+        const childScope = (child as Scopable).scope,
           name = pathSegments.pop()
 
-        if (pathSegments.length === 0) return
+        //FIXME: the following should not be necessary, but somehow the path is not set correctly, when root path
+        if (pathSegments.length === 0) {
+          pathSegments = [path]
+        }
         if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
           console.info('Dropped on my self, ignoring')
           return
@@ -133,8 +136,6 @@ const LayoutElement = ({
           ...componentMeta,
           name,
         }
-
-        //dispatch(removeField({ path }))
         dispatch(
           insertControl({
             draggableMeta,
@@ -148,8 +149,6 @@ const LayoutElement = ({
             },
           })
         )
-        //TODO: removing layout will not work here because uischema is already updated
-        //dispatch(removeLayout({ uiSchemaPath: (componentMeta.uiSchema as any).path }))
       } else {
         if (isDraggableUISchemaElement(componentMeta)) {
           dispatch(
@@ -164,12 +163,10 @@ const LayoutElement = ({
               },
             })
           )
-
-          //dispatch(removeLayout({ uiSchemaPath: (componentMeta.uiSchema as any).path }))
         }
       }
     },
-    [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
+    [dispatch, index, path, schema, child, childPath, resolvedSchema]
   )
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent) => {
