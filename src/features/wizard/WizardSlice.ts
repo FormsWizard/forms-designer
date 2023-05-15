@@ -260,6 +260,10 @@ export const jsonFormsEditSlice = createSlice({
         ]
         jsonpointer.set(state.uiSchema, elementsPointer, newUISchemaElements)
       } else if (isDraggableComponent(draggableMeta)) {
+        /**
+         * we need to find the new scope, by looking at the path of the uiSchemaElement
+         * and then find the corresponding scope in the jsonSchema
+         */
         let scope: string | undefined = '#/properties' //root scope
         if (pathSegments.length >= 2) {
           scope = findScopeWithinUISchemaElement(path, state.uiSchema, false)?.scope
@@ -293,13 +297,16 @@ export const jsonFormsEditSlice = createSlice({
         const newPath = [...parentScopePathSegments, newKey]
         //FIXME the following looks incorrect in some cases please review or rewrite (needs unit tests)
         const newSchema: UISchemaElement & Scopable =
-          uiSchema && uiSchema?.type !== 'Control'
-            ? updateScopeOfUISchemaElement(`#/properties/${newKey}`, pathSegmentsToScope(newPath), uiSchema)
-            : {
-                ...(uiSchema || {}),
-                type: 'Control',
-                scope: pathSegmentsToScope([...parentScopePathSegments, newKey]),
-              }
+            uiSchema && uiSchema?.type !== 'Control'
+                ? updateScopeOfUISchemaElement(
+                    `#/properties/${name}`, //this does only apply to newly created elements
+                    pathSegmentsToScope(newPath),
+                    uiSchema)
+                : {
+                  ...(uiSchema || {}),
+                  type: 'Control',
+                  scope: pathSegmentsToScope([...parentScopePathSegments, newKey]),
+                }
         const newUISchemaElements = [
           ...oldUISchemaElements.slice(0, elIndex + 1),
           newSchema,
@@ -339,12 +346,12 @@ export const jsonFormsEditSlice = createSlice({
               ...pathToRemoveSegments.slice(segmentsLength + 1),
             ])
           }
-          try {
-            const { pointer, elements } = prepareRemoveLayoutFromUISchema(state.uiSchema, layoutPathMarkedForRemoval)
-            jsonpointer.set(state.uiSchema, pointer, elements)
-          } catch (e) {
-            console.error('error removing layout element from ui schema', e)
-          }
+        }
+        try {
+          const {pointer, elements} = prepareRemoveLayoutFromUISchema(state.uiSchema, layoutPathMarkedForRemoval)
+          jsonpointer.set(state.uiSchema, pointer, elements)
+        } catch (e) {
+          console.error('error removing layout element from ui schema', e)
         }
       }
     },
