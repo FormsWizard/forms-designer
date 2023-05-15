@@ -194,12 +194,13 @@ const LayoutElement = ({
     [childPath, child, resolvedSchema]
   )
 
-  const [, dragRef] = useDrag(
+  const [ {isDragging} , dragRef] = useDrag(
     () => ({
       type: 'MOVEBOX',
       item: { componentMeta: myComponentMeta },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
+        isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
         const didDrop = monitor.didDrop()
@@ -272,6 +273,7 @@ const LayoutElement = ({
           elevation={selectedKey === key ? 4 : 0}
           sx={{
             flexGrow: 1,
+            display: isDragging ? 'none' : 'flex',
             backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
           }}
           ref={dragRef}
