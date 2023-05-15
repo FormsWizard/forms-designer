@@ -271,6 +271,9 @@ export const jsonFormsEditSlice = createSlice({
           // we need to remove the field from the json schema, otherwise the field will be added twice
           state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, remove.fieldPath)
         }
+        //TODO: we need to find the new scope, by looking at the path of the uiSchemaElement
+        // and then find the corresponding scope in the jsonSchema
+
         const scopePathSegments = scopeToPathSegments(scope),
           parentScopePathSegments =
             scopePathSegments.length > 0 ? scopePathSegments.slice(0, scopePathSegments.length - 1) : [],
@@ -316,7 +319,7 @@ export const jsonFormsEditSlice = createSlice({
         const removePathSegments = pathToPathSegments(layoutPathMarkedForRemoval)
         // if the path to remove is a parent of the path we are inserting the new element into
         // we have to correct the path to remove
-        if (layoutPathMarkedForRemoval.startsWith(pathSegmentsToPath(elementsPathSegment))) {
+        if (layoutPathMarkedForRemoval && layoutPathMarkedForRemoval.startsWith(pathSegmentsToPath(elementsPathSegment))) {
           const removePathIndex = parseInt(removePathSegments[removePathSegments.length - 1])
           if (isNaN(removePathIndex)) {
             console.error(
