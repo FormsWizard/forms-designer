@@ -34,7 +34,6 @@ const Root = styled('div')(({ theme }) => ({
 function LanguageSelector() {
   const locale = useSelector(getSelectedLanguage)
   const dispatch = useDispatch()
-  console.log(locale)
   return (
     <Root className={classes.languageWrapper}>
       <Select
