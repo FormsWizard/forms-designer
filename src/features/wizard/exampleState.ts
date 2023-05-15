@@ -128,9 +128,6 @@ export const exampleInitialState2: JsonFormsEditState = {
         type: 'string',
         enum: ['One', 'Two', 'Three'],
       },
-      HorizontalLayout: {
-        type: 'object',
-      },
     },
   },
   uiSchema: {
@@ -144,11 +141,6 @@ export const exampleInitialState2: JsonFormsEditState = {
           format: 'radio',
           multi: true,
         },
-      },
-      {
-        type: 'HorizontalLayout',
-        scope: '#/properties/HorizontalLayout',
-        elements: [],
       },
     ],
   },
