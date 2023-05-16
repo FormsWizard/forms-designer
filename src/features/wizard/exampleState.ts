@@ -37,19 +37,26 @@ export const exampleInitialState1: JsonFormsEditState = {
           },
         },
       },
-      meta: {
+      address: {
         type: 'object',
         properties: {
           created: {
             type: 'string',
             format: 'date-time',
           },
-          lastModified: {
+          street: {
             type: 'string',
-            format: 'date-time',
           },
-          version: {
-            type: 'integer',
+          city: {
+            type: 'string',
+          },
+          zip: {
+            type: 'string',
+            pattern: '[0-9]{5}',
+          },
+          country: {
+            type: 'string',
+            enum: ['Germany', 'France', 'UK', 'USA', 'Italy', 'Spain'],
           },
         },
       },
@@ -94,22 +101,30 @@ export const exampleInitialState1: JsonFormsEditState = {
       },
       {
         type: 'Group',
-        label: 'Metadata',
+        label: 'Address',
         elements: [
           {
             type: 'VerticalLayout',
             elements: [
               {
                 type: 'Control',
-                scope: '#/properties/meta/properties/created',
+                scope: '#/properties/address/properties/created',
               },
               {
                 type: 'Control',
-                scope: '#/properties/meta/properties/lastModified',
+                scope: '#/properties/address/properties/street',
               },
               {
                 type: 'Control',
-                scope: '#/properties/meta/properties/version',
+                scope: '#/properties/address/properties/city',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/zip',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/country',
               },
             ],
           },
@@ -128,9 +143,6 @@ export const exampleInitialState2: JsonFormsEditState = {
         type: 'string',
         enum: ['One', 'Two', 'Three'],
       },
-      HorizontalLayout: {
-        type: 'object',
-      },
     },
   },
   uiSchema: {
@@ -144,11 +156,6 @@ export const exampleInitialState2: JsonFormsEditState = {
           format: 'radio',
           multi: true,
         },
-      },
-      {
-        type: 'HorizontalLayout',
-        scope: '#/properties/HorizontalLayout',
-        elements: [],
       },
     ],
   },

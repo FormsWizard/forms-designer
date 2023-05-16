@@ -94,6 +94,15 @@ export const pathSegmentsToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
 }
 
+export const pathSegmentsToJSONPointer = (pathSegments: string[]) => {
+  pathSegments.forEach((segment) => {
+    if (segment.includes('/')) {
+      throw new Error('path segments must not contain slashes')
+    }
+  })
+  return `/${pathSegments.join('/')}`
+}
+
 /**
  * converts an array of strings to a json pointer
  * @throws  Error is segments contain a '.'

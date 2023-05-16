@@ -1,4 +1,5 @@
 import { JsonSchema } from '@jsonforms/core'
+import { pathSegmentsToPath, pathToPathSegments } from './uiSchemaHelpers'
 
 /**
  * insert or update a property into a nested schema by following the given path
@@ -35,30 +36,31 @@ export const deeplySetNestedProperty: (
     },
   } as JsonSchema
 }
-export const deeplyRemoveNestedProperty: (schema: JsonSchema, path: string[]) => JsonSchema = (schema, path) => {
+export const deeplyRemoveNestedProperty: (schema: JsonSchema, path: string) => JsonSchema = (schema, path) => {
   if (!schema.properties) throw new Error(`Schema has no properties`)
-  if (path.length === 0) {
+  const pathSegments = pathToPathSegments(path)
+  if (pathSegments.length === 0) {
     return schema
   }
-  if (path.length === 1) {
+  if (pathSegments.length === 1) {
     return {
       ...schema,
       properties: Object.fromEntries(
         Object.entries(schema.properties).filter(
           // @ts-ignore
-          ([key]) => key !== path[0]
+          ([key]) => key !== pathSegments[0]
         )
       ) as JsonSchema['properties'],
     } as JsonSchema
   }
-  const [first, ...rest] = path
+  const [first, ...rest] = pathSegments
   const nestedSchema = schema.properties[first]
   if (!nestedSchema) throw new Error(`Could not find nested schema for ${first}`)
   return {
     ...schema,
     properties: {
       ...schema.properties,
-      [first]: deeplyRemoveNestedProperty(nestedSchema, rest),
+      [first]: deeplyRemoveNestedProperty(nestedSchema, pathSegmentsToPath(rest)),
     },
   } as JsonSchema
 }

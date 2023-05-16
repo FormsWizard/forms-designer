@@ -29,8 +29,13 @@ import { useDrag, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import {
   DraggableComponent,
+  DraggableUISchemaElement,
   insertControl,
+  isDraggableComponent,
+  isDraggableUISchemaElement,
   removeField,
+  removeFieldAndLayout,
+  removeLayout,
   selectEditMode,
   selectElement,
   selectSelectedElementKey,
@@ -109,35 +114,59 @@ const LayoutElement = ({
   }, [child, path, schema, rootData, rootSchema, state])
 
   const handleMove = useCallback(
-    (componentMeta: DraggableComponent) => {
-      const pathSegments = componentMeta.name ? pathToPathSegments(componentMeta.name) : [],
-        childScope = (child as Scopable).scope
+    (componentMeta: DraggableComponent | DraggableUISchemaElement) => {
+      const uiSchemaPath: string | undefined = (componentMeta.uiSchema as any)?.path
+      if (isDraggableComponent(componentMeta)) {
+        //TDOD very confusing using the name as path here, we should introduce a path property within DraggableComponent
+        const path = componentMeta.name
+        let pathSegments = path.includes('.') ? pathToPathSegments(path) : [path]
+        const childScope = (child as Scopable).scope,
+          name = pathSegments.pop()
 
-      if (pathSegments.length === 0) return
-      if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
-        console.info('Dropped on my self, ignoring')
-        return
+        //FIXME: the following should not be necessary, but somehow the path is not set correctly, when root path
+        if (pathSegments.length === 0) {
+          pathSegments = [path]
+        }
+        if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
+          console.info('Dropped on my self, ignoring')
+          return
+        }
+
+        const draggableMeta: DraggableComponent = {
+          ...componentMeta,
+          name,
+        }
+        dispatch(
+          insertControl({
+            draggableMeta,
+            child,
+            path: childPath,
+            index,
+            schema,
+            remove: {
+              fieldPath: path,
+              layoutPath: uiSchemaPath,
+            },
+          })
+        )
+      } else {
+        if (isDraggableUISchemaElement(componentMeta)) {
+          dispatch(
+            insertControl({
+              draggableMeta: componentMeta,
+              child,
+              path: childPath,
+              index,
+              schema,
+              remove: {
+                layoutPath: uiSchemaPath,
+              },
+            })
+          )
+        }
       }
-
-      const draggableMeta: DraggableComponent = {
-        ...componentMeta,
-        name: pathSegments.pop(),
-        uiSchema: componentMeta?.uiSchema ? { ...componentMeta.uiSchema } : undefined,
-      }
-
-      dispatch(removeField({ path: componentMeta.name }))
-      dispatch(
-        insertControl({
-          draggableMeta,
-          child,
-          parent,
-          path: childPath,
-          index,
-          schema,
-        })
-      )
     },
-    [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
+    [dispatch, index, path, schema, child, childPath, resolvedSchema]
   )
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent) => {
@@ -146,7 +175,6 @@ const LayoutElement = ({
         insertControl({
           draggableMeta: componentMeta,
           child,
-          parent,
           path: childPath,
           index,
           schema,
@@ -166,12 +194,13 @@ const LayoutElement = ({
     [childPath, child, resolvedSchema]
   )
 
-  const [, dragRef] = useDrag(
+  const [{ isDragging }, dragRef] = useDrag(
     () => ({
       type: 'MOVEBOX',
       item: { componentMeta: myComponentMeta },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
+        isDragging: monitor.isDragging(),
       }),
       end: (item, monitor) => {
         const didDrop = monitor.didDrop()
@@ -232,7 +261,7 @@ const LayoutElement = ({
   const handleRemove = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation()
-      dispatch(removeField({ path: key }))
+      dispatch(removeFieldAndLayout({ path: key }))
     },
     [dispatch, key]
   )
@@ -244,6 +273,7 @@ const LayoutElement = ({
           elevation={selectedKey === key ? 4 : 0}
           sx={{
             flexGrow: 1,
+            display: isDragging ? 'none' : 'flex',
             backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
           }}
           ref={dragRef}
