@@ -356,7 +356,7 @@ export const jsonFormsEditSlice = createSlice({
             }
           }
           if(newIndex === undefined)  newIndex = parseInt(newElementPathSegments[segmentsLength - 1])
-          if (removePathIndex >= newIndex) {
+          if (tempIndex >= newIndex) {
             layoutPathMarkedForRemoval = pathSegmentsToPath([
               ...pathToRemoveSegments.slice(0, segmentsLength - 1 ),
               (tempIndex + 1).toString(),
