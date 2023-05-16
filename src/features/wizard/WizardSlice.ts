@@ -336,15 +336,31 @@ export const jsonFormsEditSlice = createSlice({
             )
             return
           }
-          if (removePathIndex >= elIndex) {
-            const pathToRemoveSegments = pathToPathSegments(layoutPathMarkedForRemoval),
-                segmentsLength = elementsPathSegment.length,
-                tempIndex = parseInt(pathToRemoveSegments[segmentsLength])
+          // go through the path segments of the newly inserted element and check if the path to remove is affected
+          // by the insert operation
 
+          const newElementPathSegments = [...elementsPathSegment, elIndex.toString()]
+          let
+              mostCommonPathSegements = [],
+              newIndex: number | undefined = undefined
+          const pathToRemoveSegments = pathToPathSegments(layoutPathMarkedForRemoval),
+              segmentsLength = newElementPathSegments.length
+          let tempIndex = parseInt(pathToRemoveSegments[segmentsLength - 1])
+          for (let i = 0 ;i < segmentsLength; i++) {
+            if (pathToRemoveSegments[i] === newElementPathSegments[i]) {
+              mostCommonPathSegements.push(pathToRemoveSegments[i])
+            } else {
+              newIndex = parseInt(newElementPathSegments[i])
+              tempIndex = parseInt(pathToRemoveSegments[i])
+              break
+            }
+          }
+          if(newIndex === undefined)  newIndex = parseInt(newElementPathSegments[segmentsLength - 1])
+          if (removePathIndex >= newIndex) {
             layoutPathMarkedForRemoval = pathSegmentsToPath([
-              ...pathToRemoveSegments.slice(0, segmentsLength),
+              ...pathToRemoveSegments.slice(0, segmentsLength - 1 ),
               (tempIndex + 1).toString(),
-              ...pathToRemoveSegments.slice(segmentsLength + 1),
+              ...pathToRemoveSegments.slice(segmentsLength),
             ])
           }
         }
