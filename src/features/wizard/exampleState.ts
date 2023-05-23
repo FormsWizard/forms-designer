@@ -143,6 +143,16 @@ export const exampleInitialState2: JsonFormsEditState = {
         type: 'string',
         enum: ['One', 'Two', 'Three'],
       },
+
+      multiEnum: {
+        type: 'array',
+
+        uniqueItems: true,
+        items: {
+          type: 'string',
+          enum: ['foo', 'bar', 'foobar'],
+        },
+      },
     },
   },
   uiSchema: {
@@ -152,10 +162,11 @@ export const exampleInitialState2: JsonFormsEditState = {
         type: 'Control',
         scope: '#/properties/Radio',
         label: 'Radio Buttons mit langem Label',
-        options: {
-          format: 'radio',
-          multi: true,
-        },
+        options: { format: 'radio' },
+      },
+      {
+        type: 'Control',
+        scope: '#/properties/multiEnum',
       },
     ],
   },

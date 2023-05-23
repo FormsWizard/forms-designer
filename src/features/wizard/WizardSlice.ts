@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
@@ -16,6 +16,7 @@ import {
   deeplyRemoveNestedProperty,
   deeplyRenameNestedProperty,
   deeplySetNestedProperty,
+  deeplyUpdateNestedSchema,
 } from '../../utils/jsonSchemaHelpers'
 import { ScopableUISchemaElement } from '../../types'
 import { exampleInitialState1, exampleInitialState2, JsonFormsEditState } from './exampleState'
@@ -161,7 +162,7 @@ const prepareRemoveLayoutFromUISchema: (
 
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
-  initialState: exampleInitialState1,
+  initialState: exampleInitialState2,
   reducers: {
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedElementKey = action.payload
@@ -178,6 +179,18 @@ export const jsonFormsEditSlice = createSlice({
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       const { path } = action.payload
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, path)
+    },
+    updateJsonSchemaByPath: (
+      state: JsonFormsEditState,
+      action: PayloadAction<{ path: string; updatedSchema: any; updatedUIschema: any }>
+    ) => {
+      //TODO: handle removing key-value pair from data produced by the form in the current session
+      // does work for me in the current version of the app
+      const { path, updatedSchema, updatedUIschema } = action.payload
+      const pathSegments = pathToPathSegments(path)
+      const scope = pathSegmentsToScope(pathSegments)
+      state.jsonSchema = deeplyUpdateNestedSchema(state.jsonSchema, pathSegments, updatedSchema)
+      state.uiSchema = updateUISchemaElement(scope, updatedUIschema, state.uiSchema)
     },
     removeFieldAndLayout: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       //TODO: handle removing key-value pair from data produced by the form in the current session
@@ -387,6 +400,7 @@ export const {
   removeLayout,
   updateUISchemaByScope,
   toggleEditMode,
+  updateJsonSchemaByPath,
 } = jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer

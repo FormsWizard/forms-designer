@@ -21,6 +21,10 @@ import { useAppDispatch } from '../../app/hooks/reduxHooks'
 import { pathSegmentsToScope } from '../../utils/uiSchemaHelpers'
 import RecursiveTreeView, { RenderTree } from '../wizard/JSONSchemaTreeView'
 import { JsonSchema7 } from '@jsonforms/core'
+import { JsonForms } from '@jsonforms/react'
+import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
+import SelectToolSettings from '../ToolSettings/SelectToolSettings'
+import ToolSettings from '../ToolSettings/ToolSettingsView'
 
 const drawerWidth = 240
 
@@ -159,6 +163,7 @@ export default function RightDrawer() {
           <FieldNameEditor path={selectedKey} />
         )}
         <TextField label={'Label'} onChange={handleLabelChange} value={uiSchema?.label || ''} />
+        <ToolSettings></ToolSettings>
       </Box>
       <Divider />
       <Box sx={{ overflow: 'auto', p: 0 }}>

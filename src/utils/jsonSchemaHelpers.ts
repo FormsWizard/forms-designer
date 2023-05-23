@@ -1,4 +1,5 @@
 import { JsonSchema } from '@jsonforms/core'
+import { current } from '@reduxjs/toolkit'
 import { pathSegmentsToPath, pathToPathSegments } from './uiSchemaHelpers'
 
 /**
@@ -33,6 +34,30 @@ export const deeplySetNestedProperty: (
     properties: {
       ...schema.properties,
       [first]: deeplySetNestedProperty(nestedSchema, rest, newKey, newProperty),
+    },
+  } as JsonSchema
+}
+export const deeplyUpdateNestedSchema: (schema: JsonSchema, path: string[], newProperty: JsonSchema) => JsonSchema = (
+  schema,
+  path,
+  newProperty
+) => {
+  console.log(current(schema))
+  if (path.length === 0) {
+    return {
+      ...schema,
+      ...newProperty,
+    } as JsonSchema
+  }
+  const [first, ...rest] = path
+  const nestedSchema = schema.properties[first]
+  if (!nestedSchema) throw new Error(`Could not find nested schema for ${first}`)
+  if (!schema.properties) throw new Error(`Schema has no properties`)
+  return {
+    ...schema,
+    properties: {
+      ...schema.properties,
+      [first]: deeplyUpdateNestedSchema(nestedSchema, rest, newProperty),
     },
   } as JsonSchema
 }
