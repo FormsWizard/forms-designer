@@ -1,14 +1,36 @@
 import { DraggableComponent } from '../wizard/WizardSlice'
 import { updateScopeOfUISchemaElement } from '../../utils/uiSchemaHelpers'
+import {
+  Person,
+  TextFields,
+  DateRange,
+  CheckBox,
+  ShortText,
+  RadioButtonChecked,
+  Tab,
+  EditAttributes,
+  ArrowRightAlt,
+  Label,
+} from '@mui/icons-material'
 export const basicDraggableComponents: DraggableComponent[] = [
   {
+    name: 'Label',
+    ToolIcon: Label,
+    jsonSchemaElement: {},
+    uiSchema: {
+      type: 'Control',
+    },
+  },
+  {
     name: 'Textfeld',
+    ToolIcon: TextFields,
     jsonSchemaElement: {
       type: 'string',
     },
   },
   {
     name: 'Datumsfeld',
+    ToolIcon: DateRange,
     jsonSchemaElement: {
       type: 'string',
       format: 'date',
@@ -16,12 +38,14 @@ export const basicDraggableComponents: DraggableComponent[] = [
   },
   {
     name: 'Checkbox',
+    ToolIcon: CheckBox,
     jsonSchemaElement: {
       type: 'boolean',
     },
   },
   {
     name: 'Mehrzeiliges Textfeld',
+    ToolIcon: ShortText,
     jsonSchemaElement: {
       type: 'string',
     },
@@ -34,6 +58,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
   },
   {
     name: 'Radio Buttons',
+    ToolIcon: RadioButtonChecked,
     jsonSchemaElement: {
       type: 'string',
       enum: ['One', 'Two', 'Three'],
@@ -47,6 +72,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
   },
   {
     name: 'Multiselect',
+    ToolIcon: EditAttributes,
     jsonSchemaElement: {
       type: 'array',
       uniqueItems: true,
@@ -65,6 +91,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
   },
   {
     name: 'leeres horizontales layout',
+    ToolIcon: ArrowRightAlt,
     jsonSchemaElement: {},
     uiSchema: {
       type: 'HorizontalLayout',
@@ -73,6 +100,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
 
   {
     name: 'gruppe',
+    ToolIcon: Tab,
     jsonSchemaElement: {
       type: 'object',
       properties: {},
@@ -89,6 +117,7 @@ export const basicDraggableComponents: DraggableComponent[] = [
 export const advancedDraggableComponents: DraggableComponent[] = [
   {
     name: 'person',
+    ToolIcon: Person,
     jsonSchemaElement: {
       type: 'object',
       properties: {

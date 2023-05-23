@@ -21,11 +21,13 @@ import {
 import { ScopableUISchemaElement } from '../../types'
 import { exampleInitialState1, exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
+import { OverridableComponent } from '@mui/material/OverridableComponent'
 
 export type DraggableComponent = {
   name: string
   jsonSchemaElement: JsonSchema
   uiSchema?: UISchemaElement
+  ToolIcon?: OverridableComponent<any>
 }
 
 export type DraggableUISchemaElement = {
