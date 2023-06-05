@@ -141,8 +141,6 @@ const LayoutElement = ({
             draggableMeta,
             child,
             path: childPath,
-            index,
-            schema,
             remove: {
               fieldPath: path,
               layoutPath: uiSchemaPath,
@@ -156,8 +154,6 @@ const LayoutElement = ({
               draggableMeta: componentMeta,
               child,
               path: childPath,
-              index,
-              schema,
               remove: {
                 layoutPath: uiSchemaPath,
               },
@@ -166,7 +162,7 @@ const LayoutElement = ({
         }
       }
     },
-    [dispatch, index, path, schema, child, childPath, resolvedSchema]
+    [dispatch, path, child, childPath, resolvedSchema]
   )
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent) => {
@@ -175,9 +171,7 @@ const LayoutElement = ({
         insertControl({
           draggableMeta: componentMeta,
           child,
-          path: childPath,
-          index,
-          schema,
+          path: childPath
         })
       )
     },

@@ -42,7 +42,7 @@ export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSc
 export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
 export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
-
+//TODO: document further
 export const selectUIElementByScope = (state: RootState, scope: string) => {
   const uiSchema = selectUiSchema(state)
   if (uiSchema?.elements) {
@@ -254,8 +254,6 @@ export const jsonFormsEditSlice = createSlice({
     insertControl: (
       state: JsonFormsEditState,
       action: PayloadAction<{
-        index: number
-        schema: JsonSchema
         child: UISchemaElement
         path?: string
         draggableMeta: DraggableComponent | DraggableUISchemaElement

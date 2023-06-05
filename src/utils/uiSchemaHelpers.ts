@@ -131,7 +131,7 @@ type LayoutWithPath = Layout & { path: string }
 /**
  * recursively add a path, that uniquely identifies a schema element, to a UISchemaElement
  */
-export const uiSchemaWithPath = (
+export const extendUiSchemaWithPath = (
   uiSchema: UISchemaElement,
   pathSegments: string[] = []
 ): UISchemaElementWithPath | LayoutWithPath => {
@@ -140,7 +140,7 @@ export const uiSchemaWithPath = (
     return {
       ...layout,
       elements: layout.elements.map((el, index) =>
-        uiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])
+        extendUiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])
       ),
       path: pathSegmentsToPath(pathSegments),
     }

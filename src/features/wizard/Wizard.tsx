@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useMemo, useState } from 'react'
 import { JsonFormsCore } from '@jsonforms/core'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { useAppSelector } from '../../app/hooks/reduxHooks'
@@ -13,7 +13,7 @@ import { horizontalLayoutTester } from '../../renderer/HorizontalLayoutWithDropZ
 import HorizontalLayoutWithDropZoneRenderer from '../../renderer/HorizontalLayoutWithDropZoneRenderer'
 import RightDrawer from '../home/RightDrawer'
 import LeftDrawer from '../home/LeftDrawer'
-import { uiSchemaWithPath } from '../../utils/uiSchemaHelpers'
+import { extendUiSchemaWithPath } from '../../utils/uiSchemaHelpers'
 
 const renderers = [
   ...materialRenderers,
@@ -38,17 +38,18 @@ function Wizard() {
   const jsonSchema = useAppSelector(selectJsonSchema)
   const uiSchema = useAppSelector(selectUiSchema)
   const editMode = useAppSelector(selectEditMode)
+  const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
   return (
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
       <MainAppBar></MainAppBar>
       <LeftDrawer></LeftDrawer>
       <JsonForms
         data={data}
-        renderers={renderers}
+        renderers={renderers
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
-        uischema={uiSchemaWithPath(uiSchema)}
+        uischema={uiSchemaWithPath}
         readonly={editMode}
       />
       <RightDrawer></RightDrawer>
