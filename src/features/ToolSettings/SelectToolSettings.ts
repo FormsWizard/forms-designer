@@ -44,6 +44,7 @@ const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => 
   let newEnum = toolData.options
     .map((line) => (line === undefined ? '' : line))
     .filter((line, index, array) => !array.slice(index + 1).includes(line))
+
   if (newEnum.length === 0) {
     newEnum = ['']
   }

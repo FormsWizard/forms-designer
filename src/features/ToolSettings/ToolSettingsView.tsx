@@ -9,18 +9,13 @@ import useToolSettings from './useToolSettings'
 function ToolSettings() {
   const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
   const UIElementFromSelection = useSelector(selectUIElementFromSelection)
-  const { handleChange, toolSettings } = useToolSettings(selectedElementJsonSchema)
-
-  const toolData = useMemo(
-    () => toolSettings?.mapWizardSchemaToToolData(selectedElementJsonSchema, UIElementFromSelection),
-    [selectedElementJsonSchema, toolSettings, UIElementFromSelection]
-  )
+  const { handleChange, toolSettings, tooldataBuffer } = useToolSettings()
 
   return (
     <div>
-      {toolSettings && (
+      {!!toolSettings && !!tooldataBuffer && (
         <JsonForms
-          data={toolData}
+          data={tooldataBuffer}
           schema={toolSettings.JsonSchema}
           renderers={materialRenderers}
           cells={materialCells}
