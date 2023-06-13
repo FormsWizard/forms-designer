@@ -35,12 +35,10 @@ function LanguageSelector() {
   const locale = useSelector(getSelectedLanguage)
   const dispatch = useDispatch()
   return (
-    <Root className={classes.languageWrapper}>
+    <Root sx={{ color: 'white' }}>
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        id="language-select"
         value={locale}
-        className={classes.select}
         renderValue={(value) => (
           <div
             style={{

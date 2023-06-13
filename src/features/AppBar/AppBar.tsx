@@ -22,7 +22,7 @@ function MainAppBar() {
     dispatch(toggleEditMode())
   }
   return (
-    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: 'primary.light' }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <Typography variant="h6" noWrap component="div">
           <FormattedMessage id="editMode"></FormattedMessage>
@@ -52,7 +52,7 @@ function DarkModeSwitch() {
         alignItems: 'center',
         justifyContent: 'center',
         // bgcolor: 'background.default',
-        color: 'text.primary',
+        // color: 'text.primary',
         borderRadius: 1,
         p: 1,
       }}

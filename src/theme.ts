@@ -1,27 +1,11 @@
-import { createTheme, PaletteMode, PaletteOptions } from '@mui/material'
+import { Components, createTheme, PaletteMode, PaletteOptions, Theme, ThemeOptions } from '@mui/material'
 import { orange } from '@mui/material/colors'
-
-// declare module '@mui/material/styles' {
-//   interface Theme {
-//     status: {
-//       danger: string
-//     }
-//   }
-//   // allow configuration using `createTheme`
-//   interface ThemeOptions {
-//     status?: {
-//       danger?: string
-//     }
-//   }
-// }
-
-import { ThemeOptions } from '@mui/material/styles'
 
 export const lightThemeColorOptions: PaletteOptions = {
   primary: {
-    main: '#1C175C',
+    main: '#3542ad',
     light: '#c0a7e2',
-    dark: '#3542ad',
+    dark: '#1C175C',
   },
   secondary: {
     main: '#e0b60a',
@@ -91,15 +75,41 @@ export const darkThemeColorOptions: PaletteOptions = {
   },
 }
 
-const getTheme = (themeMode: PaletteMode) =>
+export const lgihtThemeOverwrites: Components<Omit<Theme, 'components'>> = {
+  MuiSelect: {
+    styleOverrides: {
+      // Name of the slot
+
+      select: {
+        color: 'white',
+      },
+    },
+  },
+}
+export const darkThemeOverwrites: Components<Omit<Theme, 'components'>> = {
+  MuiButton: {
+    styleOverrides: {
+      // Name of the slot
+      root: {
+        // Some CSS
+        fontSize: '1rem',
+      },
+    },
+  },
+}
+
+const getTheme = (themeMode: PaletteMode): Theme =>
   createTheme({
     ...getDesignTokens(themeMode),
   })
 
-const getDesignTokens = (mode: PaletteMode) => ({
+const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
   palette: {
     mode,
     ...(mode === 'light' ? lightThemeColorOptions : darkThemeColorOptions),
+  },
+  components: {
+    ...(mode === 'light' ? lgihtThemeOverwrites : darkThemeOverwrites),
   },
 })
 
