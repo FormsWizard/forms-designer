@@ -4,9 +4,10 @@ import { RootState } from '../../app/store'
 
 import { ScopableUISchemaElement } from '../../types'
 
-export type JsonFormsEditState = {
+export type AppBarState = {
   editMode: boolean
   selectedLanguage: string
+  themeMode: string
 }
 
 export const getEditMode = (state: RootState) => state.AppBar.editMode
@@ -14,17 +15,21 @@ export const getSelectedLanguage = (state: RootState) => state.AppBar.selectedLa
 
 export const AppBarSlice = createSlice({
   name: 'jsonFormEdit',
-  initialState: { editMode: false, selectedLanguage: 'de' },
+  initialState: { editMode: false, selectedLanguage: 'de', themeMode: 'dark' },
+
   reducers: {
-    toggleEditMode: (state: JsonFormsEditState) => {
+    toggleEditMode: (state: AppBarState) => {
       state.editMode = !state.editMode
     },
-    changeSelectedLanguage: (state: JsonFormsEditState, action: PayloadAction<string>) => {
+    changeSelectedLanguage: (state: AppBarState, action: PayloadAction<string>) => {
       state.selectedLanguage = action.payload
+    },
+    toggleColorMode: (state: AppBarState) => {
+      state.themeMode = state.themeMode === 'light' ? 'dark' : 'light'
     },
   },
 })
 
-export const { toggleEditMode, changeSelectedLanguage } = AppBarSlice.actions
+export const { toggleEditMode, changeSelectedLanguage, toggleColorMode } = AppBarSlice.actions
 
 export default AppBarSlice.reducer

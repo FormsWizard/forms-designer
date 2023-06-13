@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { ThemeProvider } from '@mui/styles'
-import theme from './app/theme'
+import { ThemeProvider } from '@mui/material/styles'
 
 import './App.css'
 import Routes from './Routes'
@@ -11,11 +10,15 @@ import { IntlProvider } from 'react-intl'
 import messages from './locals/index'
 import { useSelector } from 'react-redux'
 import { getSelectedLanguage } from './features/AppBar/AppBarSlice'
+
+import { darkTheme, lightTheme } from './theme'
+import { useAppSelector } from './app/hooks/reduxHooks'
 function App() {
-  const locale = useSelector(getSelectedLanguage)
+  const locale = useAppSelector(getSelectedLanguage)
+  const themeMode = useAppSelector((state) => state.AppBar.themeMode)
   return (
     <IntlProvider messages={messages[locale]} locale={locale} defaultLocale="de">
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
         <div className="App">
           <CssBaseline></CssBaseline>
           <Routes></Routes>

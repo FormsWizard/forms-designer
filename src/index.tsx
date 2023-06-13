@@ -5,8 +5,7 @@ import { store } from './app/store'
 import App from './App'
 import { HashRouter } from 'react-router-dom'
 import './index.css'
-import { ThemeProvider } from '@mui/material/styles'
-import theme from './theme'
+
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
 import NiceModal from '@ebay/nice-modal-react'
@@ -21,15 +20,13 @@ const backend = isTouchDevice() ? TouchBackend : HTML5Backend
 root.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <DndProvider backend={backend}>
-          <NiceModal.Provider>
-            <HashRouter>
-              <App />
-            </HashRouter>
-          </NiceModal.Provider>
-        </DndProvider>
-      </ThemeProvider>
+      <DndProvider backend={backend}>
+        <NiceModal.Provider>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </NiceModal.Provider>
+      </DndProvider>
     </ReduxProvider>
   </React.StrictMode>
 )
