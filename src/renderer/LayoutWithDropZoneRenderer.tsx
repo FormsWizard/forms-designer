@@ -276,6 +276,7 @@ const LayoutElement = ({
             display: isDragging ? 'none' : 'flex',
             backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
             padding: (theme) => theme.spacing(1, 2),
+            cursor: 'grab',
           }}
           ref={dragRef}
         >
@@ -303,16 +304,20 @@ const LayoutElement = ({
           )}
         </Paper>
       </Grid>
-      <Box
+      <Paper
         sx={{
           border: '1px dashed grey',
-          opacity: isOver ? '1.0' : '0.1',
-          bgcolor: (theme) => (isOver ? theme.palette.grey[100] : 'none'),
+          opacity: isOver ? '1.0' : '0.2',
+          // bgcolor: (theme) => (isOver ?  theme. : 'none'),
         }}
         ref={dropRef2}
       >
-        {isOver && isOverCurrent && draggedMeta ? <DropTargetFormsPreview metadata={draggedMeta} /> : null}
-      </Box>
+        {isOver && isOverCurrent && draggedMeta ? (
+          <Paper sx={{ padding: (theme) => theme.spacing(1, 2), bgcolor: (theme) => theme.palette.secondary.light }}>
+            <DropTargetFormsPreview metadata={draggedMeta} />
+          </Paper>
+        ) : null}
+      </Paper>
     </>
   )
 }
