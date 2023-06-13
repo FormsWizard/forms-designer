@@ -1,3 +1,4 @@
+import { PaletteMode } from '@mui/material'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from '../../app/store'
@@ -7,7 +8,7 @@ import { ScopableUISchemaElement } from '../../types'
 export type AppBarState = {
   editMode: boolean
   selectedLanguage: string
-  themeMode: string
+  themeMode: PaletteMode
 }
 
 export const getEditMode = (state: RootState) => state.AppBar.editMode
