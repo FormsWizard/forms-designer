@@ -14,6 +14,7 @@ import { getSelectedLanguage, toggleColorMode } from './features/AppBar/AppBarSl
 import getTheme from './theme'
 import { useAppDispatch, useAppSelector } from './app/hooks/reduxHooks'
 import { getThemeProps } from '@mui/system'
+import MainAppBar from './features/AppBar/AppBar'
 function App() {
   const locale = useAppSelector(getSelectedLanguage)
   const themeMode = useAppSelector((state) => state.AppBar.themeMode) as 'light' | 'dark'
@@ -21,8 +22,9 @@ function App() {
   return (
     <IntlProvider messages={messages[locale]} locale={locale} defaultLocale="de">
       <ThemeProvider theme={theme}>
+        <CssBaseline></CssBaseline>
         <div className="App">
-          <CssBaseline></CssBaseline>
+          <MainAppBar></MainAppBar>
           <Routes></Routes>
           <CustomDragAndDropPreview></CustomDragAndDropPreview>
         </div>
