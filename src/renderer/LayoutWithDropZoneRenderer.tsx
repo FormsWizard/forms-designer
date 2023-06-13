@@ -274,7 +274,8 @@ const LayoutElement = ({
           sx={{
             flexGrow: 1,
             display: isDragging ? 'none' : 'flex',
-            backgroundColor: (theme) => (selectedKey === key ? theme.palette.grey[200] : 'none'),
+            backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
+            padding: (theme) => theme.spacing(1, 2),
           }}
           ref={dragRef}
         >
