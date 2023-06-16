@@ -45,7 +45,7 @@ function Wizard() {
       <LeftDrawer></LeftDrawer>
       <JsonForms
         data={data}
-        renderers={renderers
+        renderers={renderers}
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
