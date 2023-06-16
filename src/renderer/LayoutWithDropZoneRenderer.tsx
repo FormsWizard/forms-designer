@@ -187,8 +187,10 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
   if ((!elements || elements.length < 2) && visible && direction === 'row') {
-    return (
-      <HorizontalLayoutElementWithPlaceholder
+    return(
+       <HorizontalLayoutElementWithPlaceholder
+        child={elements?.[0]}
+        childPath={path}
         path={path}
         elements={elements}
         layoutRendererProps={props}
