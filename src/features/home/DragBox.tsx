@@ -32,7 +32,17 @@ const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () 
     <Card ref={dragRef}>
       <CardActionArea>
         <CardContent>
-          <Stack direction="row" alignItems="center" gap={2}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={2}
+            sx={{
+              '& .MuiSvgIcon-root': {
+                // fontSize: '2rem',
+                color: 'secondary.dark',
+              },
+            }}
+          >
             <ToolIcon></ToolIcon>
             <Typography gutterBottom variant="subtitle1">
               {name}
