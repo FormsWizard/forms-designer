@@ -1,9 +1,8 @@
-import type { JsonFormsState, Scopable, UISchemaElement } from '@jsonforms/core'
+import type { JsonFormsState, UISchemaElement } from '@jsonforms/core'
 import {
   composeWithUi,
   ControlElement,
   getAjv,
-  getData,
   getSchema,
   JsonFormsCellRendererRegistryEntry,
   JsonFormsRendererRegistryEntry,
@@ -15,27 +14,11 @@ import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
 import { Box, Grid, IconButton, Paper } from '@mui/material'
 import Ajv from 'ajv'
 import isEmpty from 'lodash/isEmpty'
-import React, {
-  ComponentType,
-  FC,
-  MouseEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import { useDrag, useDrop } from 'react-dnd'
+import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useMemo } from 'react'
+import { useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import {
-  DraggableComponent,
-  DraggableUISchemaElement,
-  insertControl,
-  isDraggableComponent,
-  isDraggableUISchemaElement,
-  removeField,
   removeFieldAndLayout,
-  removeLayout,
   selectEditMode,
   selectElement,
   selectSelectedElementKey,
@@ -43,10 +26,10 @@ import {
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
-import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../utils/uiSchemaHelpers'
-import styled from '@emotion/styled'
 import HorizontalLayoutElementWithPlaceholder from './HorizontalLayoutElementWithPlaceholder'
+import { useDragTarget, useDropTarget } from '../app/hooks'
 
+export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
   return (
     <>
@@ -81,6 +64,7 @@ type LayoutElementProps = {
   cells?: JsonFormsCellRendererRegistryEntry[]
   parent: UISchemaElement[]
 }
+
 const LayoutElement = ({
   index,
   direction,
@@ -94,152 +78,29 @@ const LayoutElement = ({
   renderers,
 }: LayoutElementProps) => {
   const rootSchema = getSchema(state)
-  const rootData = getData(state)
+  //const rootData = getData(state)
   const dispatch = useAppDispatch()
   const editMode = useSelector(selectEditMode)
   const selectedKey = useSelector(selectSelectedElementKey)
-  const [childPath, setChildPath] = useState<string | undefined>()
-  const [resolvedSchema, setResolvedSchema] = useState<JsonSchema | undefined>()
-  const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>()
-
-  useEffect(() => {
-    if (child.type === 'Control') {
-      const controlElement = child as ControlElement
-      setResolvedSchema(Resolve.schema(schema || rootSchema, controlElement.scope, rootSchema))
-      setChildPath(composeWithUi(controlElement, path))
-    } else {
-      setResolvedSchema(undefined)
-      setChildPath(undefined)
-    }
-  }, [child, path, schema, rootData, rootSchema, state])
-
-  const handleMove = useCallback(
-    (componentMeta: DraggableComponent | DraggableUISchemaElement) => {
-      const uiSchemaPath: string | undefined = (componentMeta.uiSchema as any)?.path
-      if (isDraggableComponent(componentMeta)) {
-        //TDOD very confusing using the name as path here, we should introduce a path property within DraggableComponent
-        const path = componentMeta.name
-        let pathSegments = path.includes('.') ? pathToPathSegments(path) : [path]
-        const childScope = (child as Scopable).scope,
-          name = pathSegments.pop()
-
-        //FIXME: the following should not be necessary, but somehow the path is not set correctly, when root path
-        if (pathSegments.length === 0) {
-          pathSegments = [path]
-        }
-        if (childScope && pathSegmentsToPath(scopeToPathSegments(childScope)) === componentMeta.name) {
-          console.info('Dropped on my self, ignoring')
-          return
-        }
-
-        const draggableMeta: DraggableComponent = {
-          ...componentMeta,
-          name,
-        }
-        dispatch(
-          insertControl({
-            draggableMeta,
-            child,
-            path: childPath,
-            remove: {
-              fieldPath: path,
-              layoutPath: uiSchemaPath,
-            },
-          })
-        )
-      } else {
-        if (isDraggableUISchemaElement(componentMeta)) {
-          dispatch(
-            insertControl({
-              draggableMeta: componentMeta,
-              child,
-              path: childPath,
-              remove: {
-                layoutPath: uiSchemaPath,
-              },
-            })
-          )
-        }
-      }
-    },
-    [dispatch, path, child, childPath, resolvedSchema]
+  const childPath = useMemo<string | undefined>(
+    () => (child.type === 'Control' ? composeWithUi(child as ControlElement, path) : undefined),
+    [child, path]
   )
-  const handleDrop = useCallback(
-    (componentMeta: DraggableComponent) => {
-      // @ts-ignore
-      dispatch(
-        insertControl({
-          draggableMeta: componentMeta,
-          child,
-          path: childPath
-        })
-      )
-    },
-    [dispatch, parent, index, path, schema, child, childPath, resolvedSchema]
+  const resolvedSchema = useMemo<JsonSchema | undefined>(
+    () =>
+      child.type === 'Control'
+        ? Resolve.schema(schema || rootSchema, (child as ControlElement).scope, rootSchema)
+        : undefined,
+    [schema, rootSchema, child]
   )
+
   const key = useMemo<string>(() => (!childPath ? `layout-${index}` : childPath), [childPath, index])
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
-  const myComponentMeta = useMemo<DraggableComponent | undefined>(
-    () => ({
-      name: childPath,
-      jsonSchemaElement: resolvedSchema,
-      uiSchema: child,
-    }),
-    [childPath, child, resolvedSchema]
-  )
+  const { handleAllDrop, draggedMeta } = useDropTarget({ child, childPath })
 
-  const [{ isDragging }, dragRef] = useDrag(
-    () => ({
-      type: 'MOVEBOX',
-      item: { componentMeta: myComponentMeta },
-      collect: (monitor) => ({
-        opacity: monitor.isDragging() ? 0.5 : 1,
-        isDragging: monitor.isDragging(),
-      }),
-      end: (item, monitor) => {
-        const didDrop = monitor.didDrop()
-        if (didDrop) {
-        }
-      },
-    }),
-    [myComponentMeta]
-  )
-  const handleAllDrop = useCallback(
-    () => ({
-      accept: ['DRAGBOX', 'MOVEBOX'],
-      //@ts-ignore
-      drop: ({ componentMeta }, monitor) => {
-        if (monitor.didDrop()) return
-        if (monitor.getItemType() === 'MOVEBOX') {
-          handleMove(componentMeta)
-        } else {
-          handleDrop(componentMeta)
-        }
-      },
-      hover: ({ componentMeta }, monitor) => {
-        if (monitor.getItemType() === 'MOVEBOX') {
-          const { type, scope, ...rest } = componentMeta?.uiSchema || {}
-          const draggableMeta = {
-            ...componentMeta,
-            name: componentMeta.name ? componentMeta.name.split('.').pop() : 'layout',
-            uiSchema: rest,
-          }
-          setDraggedMeta(draggableMeta)
-          return
-        }
-        setDraggedMeta(componentMeta)
-      },
-      collect: (monitor) => ({
-        isOver: monitor.isOver(),
-        isOverCurrent: monitor.isOver({ shallow: true }),
-      }),
-    }),
-    [handleDrop, setDraggedMeta]
-  )
+  const [{ isDragging }, dragRef] = useDragTarget({ child, childPath, resolvedSchema })
 
-  //@ts-ignore
   const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
-  //@ts-ignore
   const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
   const isOver = isOver1 || isOver2
   const isOverCurrent = isOverCurrent1 || isOverCurrent2
@@ -379,5 +240,3 @@ export const withAjvProps =
     // @ts-ignore
     return <Component {...props} ajv={ajv} />
   }
-
-type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
