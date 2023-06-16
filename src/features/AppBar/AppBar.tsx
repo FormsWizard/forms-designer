@@ -14,6 +14,7 @@ import { Box } from '@mui/system'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { toggleColorMode } from './AppBarSlice'
+import { TemplateModalButton } from '../Templates/TemplateModal'
 function MainAppBar() {
   const dispatch = useAppDispatch()
 
@@ -30,6 +31,7 @@ function MainAppBar() {
         <Switch checked={editMode} onChange={handleToggleEdit} />
         <LanguageSelector></LanguageSelector>
         <DarkModeSwitch></DarkModeSwitch>
+        <TemplateModalButton>Templates</TemplateModalButton>
       </Toolbar>
     </AppBar>
   )

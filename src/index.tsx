@@ -21,11 +21,9 @@ root.render(
   <React.StrictMode>
     <ReduxProvider store={store}>
       <DndProvider backend={backend}>
-        <NiceModal.Provider>
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </NiceModal.Provider>
+        <HashRouter>
+          <App />
+        </HashRouter>
       </DndProvider>
     </ReduxProvider>
   </React.StrictMode>

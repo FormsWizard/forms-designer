@@ -169,6 +169,17 @@ export const jsonFormsEditSlice = createSlice({
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedElementKey = action.payload
     },
+    loadTemplate: (state: JsonFormsEditState, action: any) => {
+      const templateData = action.payload
+      const { jsonSchema, uiSchema } = templateData.Template
+      if (!jsonSchema || !uiSchema) {
+        return
+      }
+      state.selectedElementKey = null
+      state.editMode = false
+      state.jsonSchema = jsonSchema
+      state.uiSchema = uiSchema
+    },
     removeLayout: (state: JsonFormsEditState, action: PayloadAction<{ uiSchemaPath: string }>) => {
       const { uiSchemaPath } = action.payload
       try {
@@ -403,6 +414,7 @@ export const {
   updateUISchemaByScope,
   toggleEditMode,
   updateJsonSchemaByPath,
+  loadTemplate,
 } = jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer
