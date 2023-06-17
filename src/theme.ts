@@ -97,6 +97,19 @@ export const darkThemeOverwrites: Components<Omit<Theme, 'components'>> = {
     },
   },
 }
+export const agnosticThemeOverwrites: Components<Omit<Theme, 'components'>> = {
+  MuiAppBar: {
+    styleOverrides: {
+      // Name of the slot
+
+      root: {
+        '& .MuiButton-root': {
+          color: 'white',
+        },
+      },
+    },
+  },
+}
 
 const getTheme = (themeMode: PaletteMode): Theme =>
   createTheme({
@@ -110,6 +123,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
   },
   components: {
     ...(mode === 'light' ? lgihtThemeOverwrites : darkThemeOverwrites),
+    ...agnosticThemeOverwrites,
   },
 })
 
