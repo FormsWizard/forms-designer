@@ -9,10 +9,10 @@ import {useDropTarget} from "../app/hooks";
 
 type EmptyLayoutElementProps = {
   child: UISchemaElement | undefined
-  childPath: string
   path: string
   elements: UISchemaElement[]
   layoutRendererProps: OwnPropsOfRenderer
+  direction: 'row' | 'column'
 }
 
 type StyledPlaceholderProps = {
@@ -47,17 +47,18 @@ const StyledPlaceholderElementBox = ({draggedMeta, handleAllDrop}: StyledPlaceho
 
 function LayoutPlaceholder({
                                                   child,
-                                                  childPath,
                                                   path,
                                                   elements,
-                                                  layoutRendererProps
+                                                  layoutRendererProps,
+                                                  direction = 'row'
                                                 }: EmptyLayoutElementProps) {
+  //TODO make sure we have child.path
   const {handleAllDrop, draggedMeta} = useDropTarget(
-      {child, childPath, uiSchemaPath: `${childPath}.elements.0`})
+      {child, uiSchemaPath: `${(child as any).path}.elements.0`})
   const {schema, enabled, renderers, cells} = layoutRendererProps
   return (
       <Box>
-        <Grid container direction={'row'} sx={{minWidth: 100, minHeight: 100}}>
+        <Grid container direction={direction} sx={{minWidth: 100, minHeight: 100}}>
           {[0, 1].map((index) => <Grid key={index} item xs>{
                 elements && !!elements[index] ? (
                     <JsonFormsDispatch

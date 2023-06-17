@@ -12,10 +12,9 @@ import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../
 
 export type UseDropTargetProps = {
   child: UISchemaElement
-  childPath: string
   uiSchemaPath?: string
 }
-export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetProps) => {
+export const useDropTarget = ({ child, uiSchemaPath }: UseDropTargetProps) => {
   const dispatch = useAppDispatch()
   const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>()
   const handleDrop = useCallback(
@@ -25,12 +24,11 @@ export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetP
         insertControl({
           draggableMeta: componentMeta,
           child,
-          path: childPath,
           uiSchemaPath
         })
       )
     },
-    [dispatch, child, childPath]
+    [dispatch, child]
   )
   const handleMove = useCallback(
     (componentMeta: DraggableComponent | DraggableUISchemaElement) => {
@@ -59,7 +57,6 @@ export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetP
           insertControl({
             draggableMeta,
             child,
-            path: childPath,
             remove: {
               fieldPath: path,
               layoutPath: uiSchemaPath,
@@ -72,7 +69,6 @@ export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetP
             insertControl({
               draggableMeta: componentMeta,
               child,
-              path: childPath,
               remove: {
                 layoutPath: uiSchemaPath,
               },
@@ -81,7 +77,7 @@ export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetP
         }
       }
     },
-    [dispatch, child, childPath]
+    [dispatch, child]
   )
 
   const handleAllDrop = useCallback(

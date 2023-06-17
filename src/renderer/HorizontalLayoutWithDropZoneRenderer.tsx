@@ -22,12 +22,11 @@ export const HorizontalLayoutWithDropZoneRenderer = (props: LayoutProps) => {
     enabled,
     direction: 'row',
     visible,
-    uischema: uischema as UISchemaElement,
-    childPath: (uischema as any).path
+    uischema: uischema as UISchemaElement
   }
 
   return <LayoutWithDropZoneRenderer {...childProps} renderers={renderers} cells={cells}/>
 }
 
 export default withJsonFormsLayoutProps(HorizontalLayoutWithDropZoneRenderer)
-export const horizontalLayoutTester: RankedTester = rankWith(2, uiTypeIs('HorizontalLayout'))
+export const horizontalLayoutTester: RankedTester = rankWith(10, uiTypeIs('HorizontalLayout'))

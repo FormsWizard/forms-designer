@@ -82,7 +82,7 @@ const LayoutElement = ({
   const dispatch = useAppDispatch()
   const editMode = useSelector(selectEditMode)
   const selectedKey = useSelector(selectSelectedElementKey)
-  const childPath = useMemo<string | undefined>(
+  const layoutName = useMemo<string | undefined>(
     () => (child.type === 'Control' ? composeWithUi(child as ControlElement, path) : undefined),
     [child, path]
   )
@@ -94,11 +94,11 @@ const LayoutElement = ({
     [schema, rootSchema, child]
   )
 
-  const key = useMemo<string>(() => (!childPath ? `layout-${index}` : childPath), [childPath, index])
+  const key = useMemo<string>(() => (!layoutName ? `layout-${index}` : layoutName), [layoutName, index])
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
-  const { handleAllDrop, draggedMeta } = useDropTarget({ child, childPath })
+  const { handleAllDrop, draggedMeta } = useDropTarget({ child })
 
-  const [{ isDragging }, dragRef] = useDragTarget({ child, childPath, resolvedSchema })
+  const [{ isDragging }, dragRef] = useDragTarget({ child, name: layoutName, resolvedSchema })
 
   const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
@@ -182,27 +182,24 @@ const LayoutElement = ({
 export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
   elements: UISchemaElement[]
   direction: 'row' | 'column'
-  childPath?: string
   uischema: UISchemaElement
 }
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
-  const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema, childPath } = props
+  const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
-  if ((!elements || elements.length < 2) && visible && direction === 'row') {
+  if ((!elements || elements.length < 2) && visible ) {
     // @ts-ignore
     return (
        <LayoutPlaceholder
+           direction={direction}
     child={uischema}
-    childPath={childPath}
     path={path}
     elements={elements}
     layoutRendererProps={props}
     />
     )
-  } else if (isEmpty(elements)) {
-    return null
   } else {
     return (
       <Box sx={{ display: visible ? 'block' : 'none' }}>

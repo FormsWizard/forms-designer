@@ -2,14 +2,14 @@ import { useMemo } from 'react'
 import { DraggableComponent } from '../../features/wizard/WizardSlice'
 import { useDrag } from 'react-dnd'
 
-export const useDragTarget = ({ child, childPath, resolvedSchema }) => {
+export const useDragTarget = ({ child, name, resolvedSchema }) => {
   const componentMeta = useMemo<DraggableComponent | undefined>(
     () => ({
-      name: childPath,
+      name,
       jsonSchemaElement: resolvedSchema,
       uiSchema: child,
     }),
-    [childPath, child, resolvedSchema]
+    [name, child, resolvedSchema]
   )
   return useDrag(
     () => ({

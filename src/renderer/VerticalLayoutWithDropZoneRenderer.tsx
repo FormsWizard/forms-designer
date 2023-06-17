@@ -21,12 +21,11 @@ export const VerticalLayoutWithDropZoneRenderer = ({
     enabled,
     direction: 'column',
     visible,
-    uischema: uischema as UISchemaElement,
-    childPath: (uischema as any).path
+    uischema: uischema as UISchemaElement
   }
 
   return <LayoutWithDropZoneRenderer {...childProps} renderers={renderers} cells={cells} />
 }
 
 export default withJsonFormsLayoutProps(VerticalLayoutWithDropZoneRenderer)
-export const verticalLayoutTester: RankedTester = rankWith(2, uiTypeIs('VerticalLayout'))
+export const verticalLayoutTester: RankedTester = rankWith(10, uiTypeIs('VerticalLayout'))
