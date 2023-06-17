@@ -189,16 +189,16 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
   const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
-  if ((!elements || elements.length < 2) && visible ) {
+  if ((!elements || elements.length < 2) && visible) {
     // @ts-ignore
     return (
-       <LayoutPlaceholder
-           direction={direction}
-    child={uischema}
-    path={path}
-    elements={elements}
-    layoutRendererProps={props}
-    />
+      <LayoutPlaceholder
+        direction={direction}
+        child={uischema}
+        path={path}
+        elements={elements}
+        layoutRendererProps={props}
+      />
     )
   } else {
     return (

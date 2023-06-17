@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDrag } from 'react-dnd'
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
-import {DraggableMeta} from '../wizard/WizardSlice'
+import { DraggableMeta } from '../wizard/WizardSlice'
 import { Stack } from '@mui/system'
 
 type DragBoxProps = {

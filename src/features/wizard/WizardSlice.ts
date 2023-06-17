@@ -261,7 +261,7 @@ export const jsonFormsEditSlice = createSlice({
       state: JsonFormsEditState,
       action: PayloadAction<{
         child: UISchemaElement
-        uiSchemaPath?: string,
+        uiSchemaPath?: string
         draggableMeta: DraggableComponent | DraggableUISchemaElement
         remove?: {
           fieldPath?: string
@@ -269,12 +269,9 @@ export const jsonFormsEditSlice = createSlice({
         }
       }>
     ) => {
-      const { child,
-            uiSchemaPath,
-            draggableMeta,
-            remove } = action.payload
-      const { uiSchema  } = draggableMeta,
-        path = (child as any).path  ,
+      const { child, uiSchemaPath, draggableMeta, remove } = action.payload
+      const { uiSchema } = draggableMeta,
+        path = (child as any).path,
         pathSegments = pathToPathSegments(uiSchemaPath || path),
         oldUISchemaElements = getParentUISchemaElements(uiSchemaPath || path, state.uiSchema),
         elementsPathSegment = pathSegments.slice(0, pathSegments.length - 1),

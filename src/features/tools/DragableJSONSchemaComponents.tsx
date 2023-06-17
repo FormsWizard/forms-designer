@@ -1,4 +1,4 @@
-import {DraggableComponent, DraggableElement} from '../wizard/WizardSlice'
+import { DraggableComponent, DraggableElement } from '../wizard/WizardSlice'
 import { updateScopeOfUISchemaElement } from '../../utils/uiSchemaHelpers'
 import {
   Person,
@@ -10,7 +10,8 @@ import {
   Tab,
   EditAttributes,
   ArrowRightAlt,
-  Label, ArrowDownward,
+  Label,
+  ArrowDownward,
 } from '@mui/icons-material'
 export const basicDraggableComponents: DraggableElement[] = [
   {
@@ -118,8 +119,8 @@ export const basicDraggableComponents: DraggableElement[] = [
       elements: [
         {
           type: 'HorizontalLayout',
-          elements: []
-        }
+          elements: [],
+        },
       ],
     }),
   },

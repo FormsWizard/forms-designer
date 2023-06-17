@@ -48,7 +48,7 @@
     "eject": "react-scripts eject",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "prettier": "prettier --write ./src",
     "translations:extract": "yarn run translations:extract:internal  \"src/**/*.ts*\" --ignore=\"**/*.d.ts\" --out-file \"lang/extracted.json\" --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
     "translations:extract:internal": "formatjs extract",

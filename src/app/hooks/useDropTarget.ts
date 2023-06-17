@@ -24,7 +24,7 @@ export const useDropTarget = ({ child, uiSchemaPath }: UseDropTargetProps) => {
         insertControl({
           draggableMeta: componentMeta,
           child,
-          uiSchemaPath
+          uiSchemaPath,
         })
       )
     },
