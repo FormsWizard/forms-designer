@@ -1,4 +1,4 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
@@ -19,20 +19,25 @@ import {
   deeplyUpdateNestedSchema,
 } from '../../utils/jsonSchemaHelpers'
 import { ScopableUISchemaElement } from '../../types'
-import { exampleInitialState1, exampleInitialState2, JsonFormsEditState } from './exampleState'
+import { exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
 
-export type DraggableComponent = {
+export type DraggableMeta = {
   name: string
-  jsonSchemaElement: JsonSchema
-  uiSchema?: UISchemaElement
-  ToolIcon?: OverridableComponent<any>
+  ToolIcon: OverridableComponent<any>
 }
 
-export type DraggableUISchemaElement = {
+export type DraggableComponent = Partial<DraggableMeta> & {
+  jsonSchemaElement: JsonSchema
+  uiSchema?: UISchemaElement
+}
+
+export type DraggableUISchemaElement = Partial<DraggableMeta> & {
   uiSchema: UISchemaElement
 }
+
+export type DraggableElement = DraggableComponent | DraggableUISchemaElement
 
 export const isDraggableComponent = (element: any): element is DraggableComponent =>
   element.name && element.jsonSchemaElement

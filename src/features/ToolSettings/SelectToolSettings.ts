@@ -21,10 +21,9 @@ const JsonSchema = {
 }
 
 const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
-  console.log(wizardSchema)
   return {
     options: wizardSchema.enum,
-    format: uiSchema.options.format === 'radio',
+    format: uiSchema?.options?.format === 'radio',
   }
 }
 
