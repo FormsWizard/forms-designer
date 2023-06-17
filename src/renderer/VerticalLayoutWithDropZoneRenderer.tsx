@@ -1,4 +1,4 @@
-import { LayoutProps, RankedTester, rankWith, uiTypeIs, VerticalLayout } from '@jsonforms/core'
+import {LayoutProps, RankedTester, rankWith, UISchemaElement, uiTypeIs, VerticalLayout} from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
 import React from 'react'
 
@@ -21,6 +21,8 @@ export const VerticalLayoutWithDropZoneRenderer = ({
     enabled,
     direction: 'column',
     visible,
+    uischema: uischema as UISchemaElement,
+    childPath: (uischema as any).path
   }
 
   return <LayoutWithDropZoneRenderer {...childProps} renderers={renderers} cells={cells} />

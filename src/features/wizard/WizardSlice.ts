@@ -82,7 +82,7 @@ export const getParentUISchemaElements: (
     return undefined
   }
   const parentPathSegments = pathSegments.slice(0, pathSegments.length - 1)
-  return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(parentPathSegments))
+  return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(parentPathSegments)) || []
 }
 
 export const findScopeWithinUISchemaElement: (
@@ -239,7 +239,6 @@ export const jsonFormsEditSlice = createSlice({
       state.uiSchema = updateUISchemaElement(scope, uiSchema, state.uiSchema)
     },
     /**
-     * different insert strategy, that does use the path of the uiSchemaElement
      *
      * the path is used to find the parent element in the uiSchema
      * the new element is inserted at the index of the parent element
@@ -247,6 +246,8 @@ export const jsonFormsEditSlice = createSlice({
      * for a scope, if it doesn't find a scope it searches forward, otherwise it will
      * use the root scope
      *
+     * and optional uiSchemaPath can be provided to override the path used to find the parent element
+     * this is needed for empty layouts
      *
      * @param state
      * @param action
@@ -255,7 +256,7 @@ export const jsonFormsEditSlice = createSlice({
       state: JsonFormsEditState,
       action: PayloadAction<{
         child: UISchemaElement
-        path?: string
+        uiSchemaPath?: string,
         draggableMeta: DraggableComponent | DraggableUISchemaElement
         remove?: {
           fieldPath?: string
@@ -263,11 +264,14 @@ export const jsonFormsEditSlice = createSlice({
         }
       }>
     ) => {
-      const { child, draggableMeta, remove } = action.payload,
-        { uiSchema } = draggableMeta,
-        path = (child as any).path as string,
-        pathSegments = pathToPathSegments(path),
-        oldUISchemaElements = getParentUISchemaElements(path, state.uiSchema),
+      const { child,
+            uiSchemaPath,
+            draggableMeta,
+            remove } = action.payload
+      const { uiSchema  } = draggableMeta,
+        path = (child as any).path  ,
+        pathSegments = pathToPathSegments(uiSchemaPath || path),
+        oldUISchemaElements = getParentUISchemaElements(uiSchemaPath || path, state.uiSchema),
         elementsPathSegment = pathSegments.slice(0, pathSegments.length - 1),
         elementsPointer = pathSegmentsToJSONPointer(elementsPathSegment),
         elIndex = parseInt(pathSegments[pathSegments.length - 1])

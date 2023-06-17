@@ -13,8 +13,9 @@ import { pathSegmentsToPath, pathToPathSegments, scopeToPathSegments } from '../
 export type UseDropTargetProps = {
   child: UISchemaElement
   childPath: string
+  uiSchemaPath?: string
 }
-export const useDropTarget = ({ child, childPath }: UseDropTargetProps) => {
+export const useDropTarget = ({ child, childPath, uiSchemaPath }: UseDropTargetProps) => {
   const dispatch = useAppDispatch()
   const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>()
   const handleDrop = useCallback(
@@ -25,6 +26,7 @@ export const useDropTarget = ({ child, childPath }: UseDropTargetProps) => {
           draggableMeta: componentMeta,
           child,
           path: childPath,
+          uiSchemaPath
         })
       )
     },

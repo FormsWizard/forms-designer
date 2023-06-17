@@ -26,8 +26,8 @@ import {
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
-import HorizontalLayoutElementWithPlaceholder from './HorizontalLayoutElementWithPlaceholder'
 import { useDragTarget, useDropTarget } from '../app/hooks'
+import LayoutPlaceholder from './LayoutPlaceholder'
 
 export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
@@ -161,8 +161,10 @@ const LayoutElement = ({
       </Grid>
       <Paper
         sx={{
-          border: '1px dashed grey',
+          border: 'none',
           opacity: isOver ? '1.0' : '0.2',
+          minWidth: '2em',
+          minHeight: '1.5em',
           // bgcolor: (theme) => (isOver ?  theme. : 'none'),
         }}
         ref={dropRef2}
@@ -180,21 +182,24 @@ const LayoutElement = ({
 export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
   elements: UISchemaElement[]
   direction: 'row' | 'column'
+  childPath?: string
+  uischema: UISchemaElement
 }
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
-  const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
+  const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema, childPath } = props
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
   if ((!elements || elements.length < 2) && visible && direction === 'row') {
-    return(
-       <HorizontalLayoutElementWithPlaceholder
-        child={elements?.[0]}
-        childPath={path}
-        path={path}
-        elements={elements}
-        layoutRendererProps={props}
-      ></HorizontalLayoutElementWithPlaceholder>
+    // @ts-ignore
+    return (
+       <LayoutPlaceholder
+    child={uischema}
+    childPath={childPath}
+    path={path}
+    elements={elements}
+    layoutRendererProps={props}
+    />
     )
   } else if (isEmpty(elements)) {
     return null
