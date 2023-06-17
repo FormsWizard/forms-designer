@@ -42,7 +42,6 @@ export const deeplyUpdateNestedSchema: (schema: JsonSchema, path: string[], newP
   path,
   newProperty
 ) => {
-  console.log(current(schema))
   if (path.length === 0) {
     return {
       ...schema,

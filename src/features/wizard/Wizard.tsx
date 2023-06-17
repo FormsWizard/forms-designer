@@ -39,6 +39,7 @@ function Wizard() {
   const uiSchema = useAppSelector(selectUiSchema)
   const editMode = useAppSelector(selectEditMode)
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
+  console.log({uiSchemaWithPath})
   return (
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
       <MainAppBar></MainAppBar>
