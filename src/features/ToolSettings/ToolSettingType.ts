@@ -1,9 +1,9 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema7, UISchemaElement } from '@jsonforms/core'
 
 export type ToolSetting = {
-  mapWizardSchemaToToolData: (wizardSchema: JsonSchema7, uiSchema: any) => any
+  mapWizardSchemaToToolData: (wizardSchema: JsonSchema7, uiSchema: UISchemaElement) => any
   mapToolDataToWizardSchema: (toolData: any, wizardSchema: JsonSchema7) => JsonSchema7
-  mapToolDataToWizardUischema: (toolData: any, wizardUiSchema: any) => any
+  mapToolDataToWizardUischema: (toolData: any, wizardUiSchema: UISchemaElement) => any
   isTool: (jsonSchema: JsonSchema7) => boolean
   JsonSchema: JsonSchema7
 }
