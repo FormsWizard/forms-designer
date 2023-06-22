@@ -147,6 +147,7 @@ export const exampleInitialState2: JsonFormsEditState = {
       multiEnum: {
         type: 'array',
 
+        title: 'First Name',
         uniqueItems: true,
         items: {
           type: 'string',
@@ -166,6 +167,7 @@ export const exampleInitialState2: JsonFormsEditState = {
       },
       {
         type: 'Control',
+        name: 'multiEnum',
         scope: '#/properties/multiEnum',
       },
     ],

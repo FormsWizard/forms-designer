@@ -12,6 +12,7 @@ import {
   ArrowRightAlt,
   Label,
   ArrowDownward,
+  Info,
 } from '@mui/icons-material'
 export const basicDraggableComponents: DraggableElement[] = [
   {
@@ -19,7 +20,20 @@ export const basicDraggableComponents: DraggableElement[] = [
     ToolIcon: Label,
     jsonSchemaElement: {},
     uiSchema: {
-      type: 'Control',
+      type: 'Label',
+      //@ts-ignore
+      text: 'Some Text',
+    },
+  },
+
+  {
+    name: 'Alert',
+    ToolIcon: Info,
+    jsonSchemaElement: {},
+    uiSchema: {
+      type: 'Alert',
+      //@ts-ignore
+      text: 'lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet',
     },
   },
   {
