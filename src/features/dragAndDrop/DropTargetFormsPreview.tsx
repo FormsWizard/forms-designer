@@ -3,13 +3,14 @@ import { JsonForms } from '@jsonforms/react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonSchema7, UISchemaElement } from '@jsonforms/core'
 import { Paper } from '@mui/material'
+import { renderesBasics } from '../../renderer/Renderers'
 
 const DropTargetFormsPreview: React.FC<{ metadata: DraggableComponent }> = ({ metadata }) => (
   <>
     {metadata.jsonSchemaElement && (
       <JsonForms
         data={{}}
-        renderers={materialRenderers}
+        renderers={[...materialRenderers, ...renderesBasics]}
         cells={materialCells}
         uischema={
           {
