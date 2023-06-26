@@ -18,6 +18,7 @@ import { useHover } from '@uidotdev/usehooks'
 import { useAppDispatch } from '../../app/hooks/reduxHooks'
 import { loadTemplate } from '../wizard/WizardSlice'
 import { useModal } from '@ebay/nice-modal-react'
+import './templates.css'
 export default function TemplateGrid({ templates }) {
   return (
     <Box sx={{ width: '100%', bgcolor: 'background.paper', margin: 4, padding: 2 }}>
@@ -42,7 +43,7 @@ function TemplateGridItem({ template }) {
 
   return (
     <Grid2 xs={12} md={6} ref={ref}>
-      <Paper sx={{ padding: 4 }} elevation={isHovered ? 6 : 1}>
+      <Paper sx={{ padding: 4 }} className="template-grid-item">
         <Typography variant="h5" component="h5" gutterBottom>
           {template.Name}
         </Typography>
@@ -50,7 +51,7 @@ function TemplateGridItem({ template }) {
           {template.Description}
         </Typography>
         {isHovered && (
-          <Button variant="contained" color="secondary" onClick={handleClicked}>
+          <Button variant="contained" color="secondary" className="fade-in" onClick={handleClicked}>
             Let's Go!
           </Button>
         )}
