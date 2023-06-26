@@ -23,7 +23,7 @@ import RecursiveTreeView, { RenderTree } from '../wizard/JSONSchemaTreeView'
 import { JsonSchema7 } from '@jsonforms/core'
 import { JsonForms } from '@jsonforms/react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
-import SelectToolSettings from '../ToolSettings/SelectToolSettings'
+
 import ToolSettings from '../ToolSettings/ToolSettingsView'
 
 const drawerWidth = 240

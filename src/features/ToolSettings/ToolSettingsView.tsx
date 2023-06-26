@@ -9,14 +9,14 @@ import useToolSettings from './useToolSettings'
 function ToolSettings() {
   const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
   const UIElementFromSelection = useSelector(selectUIElementFromSelection)
-  const { handleChange, toolSettings, tooldataBuffer } = useToolSettings()
-
+  const { handleChange, toolSettingsJsonSchema, tooldataBuffer } = useToolSettings()
+  console.log(toolSettingsJsonSchema)
   return (
     <div>
-      {!!toolSettings && !!tooldataBuffer && (
+      {!!toolSettingsJsonSchema && !!tooldataBuffer && (
         <JsonForms
           data={tooldataBuffer}
-          schema={toolSettings.JsonSchema}
+          schema={toolSettingsJsonSchema}
           renderers={materialRenderers}
           cells={materialCells}
           onChange={handleChange}

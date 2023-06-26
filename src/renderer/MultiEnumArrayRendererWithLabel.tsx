@@ -80,8 +80,8 @@ const hasOneOfItems = (schema: JsonSchema): boolean =>
 
 const hasEnumItems = (schema: JsonSchema): boolean => schema.type === 'string' && schema.enum !== undefined
 
-export const materialEnumArrayRendererTester: RankedTester = rankWith(
-  6,
+export const materialEnumArrayWithLabelRendererTester: RankedTester = rankWith(
+  10,
   and(
     uiTypeIs('Control'),
     and(

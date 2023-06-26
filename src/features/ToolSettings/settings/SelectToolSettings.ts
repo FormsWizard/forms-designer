@@ -1,12 +1,10 @@
 import { JsonSchema7 } from '@jsonforms/core'
-import { ToolSetting } from './ToolSettingType'
+import ToolsettingParts from '../mixins/ToolSettingParts'
+import { ToolSetting } from '../ToolSettingType'
 
 const JsonSchema = {
   type: 'object',
   properties: {
-    label: {
-      type: 'string',
-    },
     options: {
       type: 'array',
       items: {
@@ -61,5 +59,6 @@ const SelectToolSettings: ToolSetting = {
   JsonSchema,
   isTool: (jsonSchema: JsonSchema7) =>
     jsonSchema && (jsonSchema.type === 'select' || typeof jsonSchema.enum === 'object'),
+  toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default SelectToolSettings

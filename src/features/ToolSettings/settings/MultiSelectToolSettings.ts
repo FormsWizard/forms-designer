@@ -1,11 +1,9 @@
-import { ToolSetting } from './ToolSettingType'
+import ToolsettingParts from '../mixins/ToolSettingParts'
+import { ToolSetting } from '../ToolSettingType'
 
 const JsonSchema = {
   type: 'object',
   properties: {
-    label: {
-      type: 'string',
-    },
     options: {
       type: 'array',
       items: {
@@ -33,6 +31,7 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     ...wizardUiSchema,
   }
 }
+
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: any) => {
   let newEnum = toolData.options
     .map((line) => (line === undefined ? '' : line))
@@ -55,6 +54,7 @@ const MultiSelectToolSettings: ToolSetting = {
     //@ts-ignore
     jsonSchema.type === 'array' && jsonSchema?.items?.type === 'string' && jsonSchema.uniqueItems === true,
   JsonSchema,
+  toolSettingsMixins: [ToolsettingParts.Title],
 }
 
 export default MultiSelectToolSettings

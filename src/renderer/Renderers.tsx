@@ -1,10 +1,13 @@
-import { materialCells, materialEnumArrayRendererTester, materialRenderers } from '@jsonforms/material-renderers'
+import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { horizontalLayoutTester } from './HorizontalLayoutWithDropZoneRenderer'
 import HorizontalLayoutWithDropZoneRenderer from './HorizontalLayoutWithDropZoneRenderer'
 
 import MaterialAlertRenderer, { materialAlertRendererTester } from './MaterialAlertRenderer'
-import { MaterialEnumArrayWithLabelRenderer } from './MultiEnumArrayRendererWithLabel'
+import MaterialEnumArrayWithLabelRenderer, {
+  materialEnumArrayWithLabelRendererTester,
+} from './MultiEnumArrayRendererWithLabel'
 import VerticalLayoutWithDropZoneRenderer, { verticalLayoutTester } from './VerticalLayoutWithDropZoneRenderer'
+
 export const renderesDropping = [
   {
     tester: verticalLayoutTester,
@@ -17,7 +20,7 @@ export const renderesDropping = [
 ]
 export const renderesBasics = [
   {
-    tester: materialEnumArrayRendererTester,
+    tester: materialEnumArrayWithLabelRendererTester,
     renderer: MaterialEnumArrayWithLabelRenderer,
   },
   {
