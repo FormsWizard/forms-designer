@@ -1,12 +1,9 @@
 import { JsonSchema7 } from '@jsonforms/core'
 
 const TitlePart = {
-  jsonSchema: {
-    type: 'object',
-    properties: {
-      label: {
-        type: 'string',
-      },
+  jsonSchemaElement: {
+    label: {
+      type: 'string',
     },
   },
   mapAddonDataToWizardSchema: null,

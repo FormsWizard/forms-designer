@@ -5,23 +5,24 @@ import { ToolSetting } from '../ToolSettingType'
 const JsonSchema = {
   type: 'object',
   properties: {
-    options: {
+    columns: {
       type: 'array',
       items: {
         type: 'string',
       },
     },
-    format: {
+    showSortButtons: {
       type: 'boolean',
-      label: 'format',
+      label: 'showSortButtons',
     },
   },
 }
 
 const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
   return {
-    options: wizardSchema.enum,
-    format: uiSchema?.options?.format === 'radio',
+    // @ts-ignore
+    columns: Object.keys(wizardSchema.items.properties),
+    showSortButtons: uiSchema?.options?.showSortButtons === true,
   }
 }
 
@@ -30,36 +31,37 @@ const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => 
 const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
   return {
     ...wizardUiSchema,
-    options: { format: toolData.format ? 'radio' : 'default' },
+    options: { showSortButtons: toolData.showSortButtons },
   }
 }
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
-  // enum item must not be undefined
-  // enum must not have duplicates
-  // enum must have non-empty array
-  // enum must NOT have fewer than 1 items
-  let newEnum = toolData.options
-    .map((line) => (line === undefined ? '' : line))
-    .filter((line, index, array) => !array.slice(index + 1).includes(line))
-
-  if (newEnum.length === 0) {
-    newEnum = ['']
-  }
+  const newProperties = toolData.columns.reduce(
+    (prev: any, column: string) => ({
+      ...prev,
+      [column]: {
+        type: 'string',
+      },
+    }),
+    {}
+  )
 
   return {
     ...wizardSchema,
-    enum: newEnum,
+    items: {
+      ...wizardSchema.items,
+      properties: newProperties,
+    },
   }
 }
 
-const SelectToolSettings: ToolSetting = {
+const ListToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
   isTool: (jsonSchema: JsonSchema7) =>
     //@ts-ignore
-    jsonSchema && (jsonSchema.type === 'select' || typeof jsonSchema.enum === 'object'),
+    jsonSchema && jsonSchema.type === 'array' && jsonSchema?.items?.type === 'object',
   toolSettingsMixins: [ToolsettingParts.Title],
 }
-export default SelectToolSettings
+export default ListToolSettings
