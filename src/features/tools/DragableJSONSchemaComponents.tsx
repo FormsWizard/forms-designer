@@ -105,6 +105,31 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
+    name: 'List of Objects',
+    ToolIcon: EditAttributes,
+    jsonSchemaElement: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+          },
+          message: {
+            type: 'string',
+          },
+        },
+      },
+    },
+    uiSchema: {
+      type: 'Control',
+
+      options: {
+        showSortButtons: true,
+      },
+    },
+  },
+  {
     name: 'horizontales layout',
     ToolIcon: ArrowRightAlt,
     uiSchema: {
