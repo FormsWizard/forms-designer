@@ -28,11 +28,8 @@ function useToolSettings() {
         ? {
             ...toolSettings.JsonSchema,
             properties: {
+              ...toolSettings.toolSettingsMixins.reduce((prev, curr) => ({ ...prev, ...curr.jsonSchemaElement }), {}),
               ...toolSettings.JsonSchema.properties,
-              ...toolSettings.toolSettingsMixins.reduce(
-                (prev, curr) => ({ ...prev, ...curr.jsonSchema.properties }),
-                {}
-              ),
             },
           }
         : null,
