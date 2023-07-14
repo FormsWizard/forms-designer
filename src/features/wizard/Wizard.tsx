@@ -14,6 +14,7 @@ import { FormControl, FormControlLabel, FormGroup, FormHelperText, Hidden } from
 import { CheckBox } from '@mui/icons-material'
 import MaterialAlertRenderer, { materialAlertRendererTester } from '../../renderer/MaterialAlertRenderer'
 import { renderesDropping, renderesBasics } from '../../renderer/Renderers'
+import TrashDroparea from '../TrashDroparea/TrashDroparea'
 
 function Wizard() {
   const [data, setData] = useState<any>({})
@@ -46,22 +47,23 @@ function Wizard() {
         labelPlacement="top"
         control={
           <FormControl component="fieldset" aria-label="123">
-            <FormGroup row>
-              {[1, 2, 3].map((option: any, index: number) => {
-                return (
-                  <FormControlLabel
-                    id={option.value}
-                    key={option.value}
-                    control={<CheckBox key={'checkbox-' + option.value} />}
-                    label={option.label}
-                  />
-                )
-              })}
+          <FormGroup row>
+          {[1, 2, 3].map((option: any, index: number) => {
+            return (
+              <FormControlLabel
+              id={option.value}
+              key={option.value}
+              control={<CheckBox key={'checkbox-' + option.value} />}
+              label={option.label}
+              />
+              )
+            })}
             </FormGroup>
           </FormControl>
         }
       ></FormControlLabel> */}
       <RightDrawer></RightDrawer>
+<TrashDroparea></TrashDroparea>
     </Box>
   )
 }

@@ -52,6 +52,14 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
+    name: 'Datumszeitfeld',
+    ToolIcon: DateRange,
+    jsonSchemaElement: {
+      type: 'string',
+      format: 'date-time',
+    },
+  },
+  {
     name: 'Checkbox',
     ToolIcon: CheckBox,
     jsonSchemaElement: {
