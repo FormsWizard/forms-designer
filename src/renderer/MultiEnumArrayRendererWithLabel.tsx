@@ -60,7 +60,7 @@ export const MaterialEnumArrayWithLabelRenderer = ({
                     {...otherProps}
                   />
                 }
-                label={'asd'}
+                label={option.value}
               />
             )
           })}
