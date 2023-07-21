@@ -41,7 +41,7 @@ const TrashDroparea = () => {
       ref={drop}
       sx={{
         position: 'absolute',
-        right: 100,
+        right: 200,
         top: 100,
         width: 180,
         height: 180,

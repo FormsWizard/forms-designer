@@ -6,6 +6,8 @@ import React from 'react'
 import { JsonFormsDispatch } from '@jsonforms/react'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
 import { useDropTarget } from '../app/hooks'
+import LayoutElement from './LayoutElement'
+import { ArrowForward } from '@mui/icons-material'
 
 type EmptyLayoutElementProps = {
   child: UISchemaElement | undefined
@@ -47,6 +49,11 @@ function LayoutPlaceholder({ child, path, elements, layoutRendererProps, directi
   const { schema, enabled, renderers, cells } = layoutRendererProps
   return (
     <Box>
+      {direction === 'row' && <ArrowForward></ArrowForward>}
+      <StyledPlaceholderElementBox draggedMeta={draggedMeta} handleAllDrop={handleAllDrop} />
+      {/* <Box>
+        <ArrowForward></ArrowForward>
+      </Box>
       <Grid
         container
         spacing={direction === 'row' ? 2 : 0}
@@ -56,20 +63,29 @@ function LayoutPlaceholder({ child, path, elements, layoutRendererProps, directi
         {[0, 1].map((index) => (
           <Grid key={index} item xs>
             {elements && !!elements[index] ? (
-              <JsonFormsDispatch
-                uischema={elements[index]}
+              <LayoutElement
+                direction={direction}
+                key={(path || '') + index}
+                index={index}
+                // @ts-ignore
                 schema={schema}
+                // @ts-ignore
+                visible={true}
+                // @ts-ignore
                 path={path}
+                // @ts-ignore
                 enabled={enabled}
-                renderers={renderers}
+                element={elements[index]}
+                parent={elements}
                 cells={cells}
+                renderers={renderers}
               />
             ) : (
               <StyledPlaceholderElementBox draggedMeta={draggedMeta} handleAllDrop={handleAllDrop} />
             )}
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
     </Box>
   )
 }

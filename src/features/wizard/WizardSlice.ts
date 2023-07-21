@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
@@ -48,35 +48,44 @@ export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
 export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
 //TODO: document further
-export const selectUIElementByScope = (state: RootState, scope: string) => {
-  const uiSchema = selectUiSchema(state)
-  if (uiSchema?.elements) {
-    //TODO: make this code cleaner by using a functional recursive finder
-    let uiElement = undefined
-    recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
-      if (uischema.scope === scope) {
-        uiElement = uischema
-        return uischema as UISchemaElement
-      }
-    })
-    return uiElement
-  }
-  return undefined
+export const selectUIElementByScope = (uiSchema: UISchemaElement, scope: string) => {
+  //TODO: make this code cleaner by using a functional recursive finder
+  let uiElement = undefined
+  recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
+    if (uischema.scope === scope) {
+      uiElement = uischema
+      return uischema as UISchemaElement
+    }
+  })
+  return uiElement
 }
-export const selectUIElementByPath = (state: RootState, path: string) => {
+export const selectUIElementByPath = (uiSchema: UISchemaElement, path: string) => {
   const pathSegments = path?.split('.') || []
   const scope = pathSegmentsToScope(pathSegments)
-  return selectUIElementByScope(state, scope)
+  return selectUIElementByScope(uiSchema, scope)
 }
 
-export const selectUIElementFromSelection = (state: RootState) => {
-  const selectedElementKey = selectSelectedElementKey(state)
-  if (!selectedElementKey || selectedElementKey.startsWith('layout')) {
-    return undefined
+export const selectUIElementFromSelection = createSelector(
+  selectSelectedElementKey,
+  selectUiSchema,
+  (selectedElementKey, uiSchema) => {
+    if (!selectedElementKey) return undefined
+    // if type is layout name is actually an index
+    if (selectedElementKey.includes('-')) {
+      const [UiElementType, UiElementName] = selectedElementKey.split('-')
+      return undefined
+    }
+
+    return selectUIElementByPath(uiSchema, selectedElementKey)
   }
-  return selectUIElementByPath(state, selectedElementKey)
-}
+)
+// const selectUIElementByPath = createSelector([selectSelectedElementKey], (selectedElementKey) => {
 
+//   if (!selectedElementKey || selectedElementKey.startsWith('layout')) {
+//     return undefined
+//   }
+//   return selectUIElementByPath(state, selectedElementKey)
+// })
 export const selectEditMode = (state: RootState) => state.jsonFormsEdit.editMode
 export const getParentUISchemaElements: (
   uiSchemaPath: string,
@@ -84,7 +93,7 @@ export const getParentUISchemaElements: (
 ) => UISchemaElement[] | undefined = (uiSchemaPath, uiSchema) => {
   const pathSegments = pathToPathSegments(uiSchemaPath)
   if (pathSegments.length < 2) {
-    return undefined
+    return []
   }
   const parentPathSegments = pathSegments.slice(0, pathSegments.length - 1)
   return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(parentPathSegments)) || []
@@ -269,14 +278,14 @@ export const jsonFormsEditSlice = createSlice({
         }
       }>
     ) => {
-      const { child, uiSchemaPath, draggableMeta, remove } = action.payload
+      const { child, draggableMeta, remove } = action.payload
       const { uiSchema } = draggableMeta,
         path = (child as any).path,
-        pathSegments = pathToPathSegments(uiSchemaPath || path),
-        oldUISchemaElements = getParentUISchemaElements(uiSchemaPath || path, state.uiSchema),
+        pathSegments = pathToPathSegments(path),
+        oldUISchemaElements = getParentUISchemaElements(path, state.uiSchema),
         elementsPathSegment = pathSegments.slice(0, pathSegments.length - 1),
         elementsPointer = pathSegmentsToJSONPointer(elementsPathSegment),
-        elIndex = parseInt(pathSegments[pathSegments.length - 1])
+        elIndex = path ? parseInt(pathSegments[pathSegments.length - 1]) : 0
       if (isNaN(elIndex)) {
         console.error('cannot get the index of the current ui element, dropped on, the path is', path)
         return
@@ -306,19 +315,21 @@ export const jsonFormsEditSlice = createSlice({
           state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, remove.fieldPath)
         }
 
-        const scopePathSegments = scopeToPathSegments(scope),
-          parentScopePathSegments =
-            scopePathSegments.length > 0 ? scopePathSegments.slice(0, scopePathSegments.length - 1) : [],
-          properties = parentScopePathSegments.reduce(
-            (acc, pathSegment) => acc[pathSegment].properties,
-            state.jsonSchema.properties
-          )
+        const scopePathSegments = scopeToPathSegments(scope)
 
+        const parentScopePathSegments =
+          scopePathSegments.length > 0 ? scopePathSegments.slice(0, scopePathSegments.length - 1) : []
+        const properties = parentScopePathSegments.reduce(
+          (acc, pathSegment) => acc[pathSegment].properties,
+          state.jsonSchema.properties
+        )
         const { name, jsonSchemaElement } = draggableMeta
+
         let newKey = name
         for (let i = 1; properties[newKey] !== undefined; i++) {
           newKey = `${name}_${i}`
         }
+        console.log({ newKey, name, properties })
         state.jsonSchema = deeplySetNestedProperty(state.jsonSchema, parentScopePathSegments, newKey, jsonSchemaElement)
         state.selectedElementKey = pathSegmentsToScope([...parentScopePathSegments, newKey])
 

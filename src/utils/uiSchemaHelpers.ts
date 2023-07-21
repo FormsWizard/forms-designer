@@ -133,7 +133,7 @@ type LayoutWithPath = Layout & { path: string }
  */
 export const extendUiSchemaWithPath = (
   uiSchema: UISchemaElement,
-  pathSegments: string[] = []
+  pathSegments: string[] = ['']
 ): UISchemaElementWithPath | LayoutWithPath => {
   if (isLayout(uiSchema)) {
     const layout = uiSchema as Layout

@@ -10,9 +10,6 @@ import { JsonForms } from '@jsonforms/react'
 import RightDrawer from '../home/RightDrawer'
 import LeftDrawer from '../home/LeftDrawer'
 import { extendUiSchemaWithPath } from '../../utils/uiSchemaHelpers'
-import { FormControl, FormControlLabel, FormGroup, FormHelperText, Hidden } from '@mui/material'
-import { CheckBox } from '@mui/icons-material'
-import MaterialAlertRenderer, { materialAlertRendererTester } from '../../renderer/MaterialAlertRenderer'
 import { renderesDropping, renderesBasics } from '../../renderer/Renderers'
 import TrashDroparea from '../TrashDroparea/TrashDroparea'
 
@@ -63,7 +60,7 @@ function Wizard() {
         }
       ></FormControlLabel> */}
       <RightDrawer></RightDrawer>
-<TrashDroparea></TrashDroparea>
+      <TrashDroparea></TrashDroparea>
     </Box>
   )
 }
