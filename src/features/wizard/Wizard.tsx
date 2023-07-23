@@ -37,7 +37,7 @@ function Wizard() {
         onChange={handleFormChange}
         schema={jsonSchema}
         uischema={uiSchemaWithPath}
-        readonly={editMode}
+        readonly={true}
       />
       {/* <FormControlLabel
         label="aaaaaaaaaaaaaaa        sa    asa"

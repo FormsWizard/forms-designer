@@ -18,20 +18,30 @@ import { TemplateModalButton } from '../Templates/TemplateModal'
 function MainAppBar() {
   const dispatch = useAppDispatch()
 
-  const editMode = useSelector(selectEditMode)
-  const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(toggleEditMode())
-  }
+  // const editMode = useSelector(selectEditMode)
+  // const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   dispatch(toggleEditMode())
+  // }
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar>
-        <Typography variant="h6" noWrap component="div">
+      <Toolbar
+        sx={{
+          ' > *': {
+            mr: 2,
+          },
+          ' > button': {
+            mr: 2,
+          },
+        }}
+      >
+        {/* <Typography variant="h6" noWrap component="div">
           <FormattedMessage id="editMode"></FormattedMessage>
-        </Typography>
-        <Switch checked={editMode} onChange={handleToggleEdit} />
-        <LanguageSelector></LanguageSelector>
+        </Typography> */}
+        {/* <Switch checked={editMode} onChange={handleToggleEdit} /> */}
+        <Box sx={{ flexGrow: 1 }}></Box>
         <DarkModeSwitch></DarkModeSwitch>
         <TemplateModalButton>Templates</TemplateModalButton>
+        <LanguageSelector></LanguageSelector>
       </Toolbar>
     </AppBar>
   )
