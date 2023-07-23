@@ -6,7 +6,13 @@ const blankTemplate = {
   Name: 'blank Template',
   Description: 'start fresh',
   Category: '',
-  Template: { jsonSchema: {}, uiSchema: { type: 'VerticalLayout', elements: [] } },
+  Template: {
+    jsonSchema: {
+      type: 'object',
+      properties: {},
+    },
+    uiSchema: { type: 'VerticalLayout', elements: [] },
+  },
 }
 
 const COMBINED_TEMPLATES = [blankTemplate, ...TEMPLATES]

@@ -4,7 +4,10 @@
     "Name": "Math Quest",
     "Description": "Eine interaktive Mathe-Quest, die Kindern dabei hilft, ihre mathematischen Fähigkeiten zu verbessern.",
     "Template": {
-      "jsonSchema": {},
+      "jsonSchema": {
+        "type": "object",
+        "properties": {}
+      },
       "uiSchema": { "type": "VerticalLayout", "elements": [] }
     }
   },
