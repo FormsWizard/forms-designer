@@ -372,10 +372,12 @@ export const jsonFormsEditSlice = createSlice({
       // get the name of the new element
       let newKey = draggableMeta.name
       for (let i = 1; state.jsonSchema.properties[newKey] !== undefined; i++) {
-        newKey = `${newKey}_${i}`
+        newKey = `${draggableMeta.name}_${i}`
       }
       let uiSchema = draggableMeta.uiSchema
       if (isDraggableComponent(draggableMeta)) {
+        // TODO scope is not set correctly
+
         //   const deepestGroupPath = getDeepestGroupPath(child.structurePath, state.uiSchema)
 
         //   let schema = pathSegmentsToScope(deepestGroupPath)

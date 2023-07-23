@@ -12,6 +12,7 @@ import LeftDrawer from '../home/LeftDrawer'
 import { extendUiSchemaWithPath } from '../../utils/uiSchemaHelpers'
 import { renderesDropping, renderesBasics } from '../../renderer/Renderers'
 import TrashDroparea from '../TrashDroparea/TrashDroparea'
+import { Container } from '@mui/material'
 
 function Wizard() {
   const [data, setData] = useState<any>({})
@@ -30,15 +31,17 @@ function Wizard() {
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
       <MainAppBar></MainAppBar>
       <LeftDrawer></LeftDrawer>
-      <JsonForms
-        data={data}
-        renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}
-        cells={materialCells}
-        onChange={handleFormChange}
-        schema={jsonSchema}
-        uischema={uiSchemaWithPath}
-        readonly={true}
-      />
+      <Container maxWidth="md">
+        <JsonForms
+          data={data}
+          renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}
+          cells={materialCells}
+          onChange={handleFormChange}
+          schema={jsonSchema}
+          uischema={uiSchemaWithPath}
+          readonly={true}
+        />
+      </Container>
       {/* <FormControlLabel
         label="aaaaaaaaaaaaaaa        sa    asa"
         labelPlacement="top"

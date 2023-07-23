@@ -137,15 +137,24 @@ const LayoutElement = ({
       )}
       {!isDragging && (
         <>
-          <Grid key={key} item ref={dropRef} xs onClick={handleSelect} sx={{ padding: 4, backgroundColor: 'blue' }}>
-            <Paper
-              elevation={selectedKey === key ? 4 : 0}
+          <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
+            <Box
+              // elevation={selectedKey === key ? 4 : 0}
               sx={{
                 flexGrow: 1,
                 display: isDragging ? 'none' : 'flex',
                 backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
                 padding: (theme) => theme.spacing(1, 2),
-                cursor: 'grab',
+                cursor: 'grab !important',
+                ' * ': {
+                  cursor: 'grab !important',
+                },
+                ' > *': {
+                  flexGrow: 1,
+                },
+                ':hover': {
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                },
               }}
               ref={dragRef}
             >
@@ -157,7 +166,7 @@ const LayoutElement = ({
                 renderers={renderers}
                 cells={cells}
               />
-            </Paper>
+            </Box>
           </Grid>
           <Paper
             sx={{

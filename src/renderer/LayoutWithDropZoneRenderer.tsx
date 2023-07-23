@@ -11,6 +11,7 @@ import {
   Resolve,
 } from '@jsonforms/core'
 import { useJsonForms } from '@jsonforms/react'
+import { ArrowForward } from '@mui/icons-material'
 import { Box, Grid } from '@mui/material'
 import Ajv from 'ajv'
 
@@ -42,7 +43,8 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
   } else {
     return (
       <Box sx={{ display: visible ? 'block' : 'none' }}>
-        <Grid container direction={direction} spacing={direction === 'row' ? 2 : 0}>
+        {direction === 'row' && <ArrowForward></ArrowForward>}
+        <Grid container direction={direction} spacing={direction === 'row' ? 0 : 0}>
           {elements.map((element, index) => (
             <LayoutElement
               direction={direction}

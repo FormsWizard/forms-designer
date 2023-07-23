@@ -15,33 +15,44 @@ import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { toggleColorMode } from './AppBarSlice'
 import { TemplateModalButton } from '../Templates/TemplateModal'
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 function MainAppBar() {
   const dispatch = useAppDispatch()
 
-  // const editMode = useSelector(selectEditMode)
-  // const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(toggleEditMode())
-  // }
+  const editMode = useSelector(selectEditMode)
+  const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(toggleEditMode())
+  }
+
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Toolbar
-        sx={{
-          ' > *': {
-            mr: 2,
-          },
-          ' > button': {
-            mr: 2,
-          },
-        }}
-      >
-        {/* <Typography variant="h6" noWrap component="div">
-          <FormattedMessage id="editMode"></FormattedMessage>
-        </Typography> */}
-        {/* <Switch checked={editMode} onChange={handleToggleEdit} /> */}
-        <Box sx={{ flexGrow: 1 }}></Box>
-        <DarkModeSwitch></DarkModeSwitch>
-        <TemplateModalButton>Templates</TemplateModalButton>
-        <LanguageSelector></LanguageSelector>
+      <Toolbar>
+        <Grid2 container flex={1} alignItems="center">
+          <Grid2 md={6}></Grid2>
+          <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
+            <Typography variant="h6" noWrap component="div">
+              <FormattedMessage id="editMode"></FormattedMessage>
+            </Typography>
+            <Switch checked={editMode} onChange={handleToggleEdit} />
+          </Grid2>
+          <Grid2
+            md={3}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              ' > *': {
+                mr: 2,
+              },
+              ' > button': {
+                mr: 2,
+              },
+            }}
+          >
+            <DarkModeSwitch></DarkModeSwitch>
+            <TemplateModalButton>Templates</TemplateModalButton>
+            <LanguageSelector></LanguageSelector>
+          </Grid2>
+        </Grid2>
       </Toolbar>
     </AppBar>
   )
