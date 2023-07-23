@@ -19,10 +19,10 @@ import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 function MainAppBar() {
   const dispatch = useAppDispatch()
 
-  const editMode = useSelector(selectEditMode)
-  const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(toggleEditMode())
-  }
+  // const editMode = useSelector(selectEditMode)
+  // const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   dispatch(toggleEditMode())
+  // }
 
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -30,10 +30,10 @@ function MainAppBar() {
         <Grid2 container flex={1} alignItems="center">
           <Grid2 md={6}></Grid2>
           <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
-            <Typography variant="h6" noWrap component="div">
+            {/* <Typography variant="h6" noWrap component="div">
               <FormattedMessage id="editMode"></FormattedMessage>
             </Typography>
-            <Switch checked={editMode} onChange={handleToggleEdit} />
+            <Switch checked={editMode} onChange={handleToggleEdit} /> */}
           </Grid2>
           <Grid2
             md={3}
