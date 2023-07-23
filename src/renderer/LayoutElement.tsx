@@ -11,17 +11,20 @@ import {
   Resolve,
 } from '@jsonforms/core'
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
-import { Box, Grid, IconButton, Paper } from '@mui/material'
+import { Box, Grid, IconButton, Paper, Typography } from '@mui/material'
 import Ajv from 'ajv'
 import isEmpty from 'lodash/isEmpty'
-import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useMemo } from 'react'
-import { useDrop } from 'react-dnd'
+import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { useDragLayer, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import { selectEditMode, selectElement, selectSelectedElementKey } from '../features/wizard/WizardSlice'
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
 import { useDragTarget, useDropTarget } from '../app/hooks'
+import { ClassNames } from '@emotion/react'
+import classnames from 'classnames'
+import useDelkayedState from '../app/hooks/useDelayedState'
 
 export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
@@ -94,9 +97,9 @@ const LayoutElement = ({
   )
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
   const { handleAllDrop, handleDropAtStart, draggedMeta } = useDropTarget({ child })
-
+  const anythingDragging = useDragLayer((monitor) => monitor.isDragging())
   const [{ isDragging }, dragRef] = useDragTarget({ child, name: controlName, resolvedSchema })
-
+  // const anythingDragging = true
   const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver3, isOverCurrent: isOverCurrent3 }, dropRef3] = useDrop(handleDropAtStart, [handleAllDrop])
@@ -122,18 +125,23 @@ const LayoutElement = ({
   return (
     <>
       {index === 0 && (
-        <Paper
-          sx={{
-            border: 'none',
-            opacity: isOver3 ? '1.0' : '0.2',
-            minWidth: '2em',
-            minHeight: '1.5em',
-            // bgcolor: (theme) => (isOver ?  theme. : 'none'),
-            padding: 4,
-            backgroundColor: isOver3 ? 'yellow' : 'red',
-          }}
-          ref={dropRef3}
-        ></Paper>
+        <LayoutDropArea
+          isOverCurrent={isOverCurrent3}
+          dropRef={dropRef3}
+          anythingDragging={isDragging || anythingDragging}
+        ></LayoutDropArea>
+        // <Paper
+        //   sx={{
+        //     border: 'none',
+        //     opacity: isOver3 ? '1.0' : '0.2',
+        //     minWidth: '2em',
+        //     minHeight: '1.5em',
+        //     // bgcolor: (theme) => (isOver ?  theme. : 'none'),
+        //     padding: 4,
+        //     backgroundColor: isOver3 ? 'yellow' : 'red',
+        //   }}
+        //   ref={dropRef3}
+        // ></Paper>
       )}
       {!isDragging && (
         <>
@@ -168,21 +176,55 @@ const LayoutElement = ({
               />
             </Box>
           </Grid>
-          <Paper
-            sx={{
-              border: 'none',
-              opacity: isOverCurrent ? '1.0' : '0.2',
-              minWidth: '2em',
-              minHeight: '1.5em',
-              // bgcolor: (theme) => (isOver ?  theme. : 'none'),
-              padding: 4,
-              backgroundColor: isOverCurrent ? 'yellow' : 'red',
-            }}
-            ref={dropRef2}
-          ></Paper>
+          <LayoutDropArea
+            isOverCurrent={isOverCurrent}
+            dropRef={dropRef2}
+            anythingDragging={anythingDragging}
+          ></LayoutDropArea>
         </>
       )}
     </>
+  )
+}
+
+function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }) {
+  const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 10, delayedValue: true })
+
+  useEffect(() => {
+    console.log(anythingDragging)
+    setDragging(anythingDragging)
+    if (anythingDragging !== dragging && !anythingDragging) {
+      cancel(false)
+    }
+  }, [anythingDragging])
+
+  return (
+    <Box
+      sx={{
+        opacity: isOverCurrent ? '1.0' : '0.3',
+        display: dragging ? 'block' : 'none',
+      }}
+      ref={dropRef}
+    >
+      <Box
+        className={classnames({ 'is-over-dropzone': isOverCurrent })}
+        sx={{
+          display: 'flex',
+          height: '1.5em',
+          textAlign: 'center',
+          verticalAlign: 'middle',
+          margin: (theme) => theme.spacing(1, 2),
+        }}
+      >
+        <Typography
+          sx={{
+            margin: 'auto',
+          }}
+        >
+          drop here
+        </Typography>
+      </Box>
+    </Box>
   )
 }
 
