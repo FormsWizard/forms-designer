@@ -1,4 +1,5 @@
 import { isLayout, Layout, UISchemaElement } from '@jsonforms/core'
+import { last } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import { ScopableUISchemaElement } from '../types'
 
@@ -89,6 +90,7 @@ export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,
 }
 
 export const pathToPathSegments: (path: string) => string[] = (path: string) => path.split('.')
+export const getIndexFromPath: (path: string) => number = (path: string) => parseInt(last(path.split('.')))
 
 export const pathSegmentsToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
@@ -125,7 +127,7 @@ export const scopeToPathSegments = (scope: string) => {
   return rest
 }
 
-type UISchemaElementWithPath = UISchemaElement & { path: string }
+type UISchemaElementWithPath = UISchemaElement & { path: string; structurePath?: string }
 type LayoutWithPath = Layout & { path: string }
 
 /**
@@ -133,20 +135,27 @@ type LayoutWithPath = Layout & { path: string }
  */
 export const extendUiSchemaWithPath = (
   uiSchema: UISchemaElement,
-  pathSegments: string[] = ['']
+  pathSegments: string[] = [],
+  structurePathSegments: string[] = []
 ): UISchemaElementWithPath | LayoutWithPath => {
   if (isLayout(uiSchema)) {
     const layout = uiSchema as Layout
     return {
       ...layout,
       elements: layout.elements.map((el, index) =>
-        extendUiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])
+        extendUiSchemaWithPath(
+          el,
+          [...pathSegments, 'elements', index.toString()],
+          [...structurePathSegments, el.type, index.toString()]
+        )
       ),
       path: pathSegmentsToPath(pathSegments),
+      structurePath: pathSegmentsToPath(structurePathSegments),
     }
   }
   return {
     ...uiSchema,
     path: pathSegmentsToPath(pathSegments),
+    structurePath: pathSegmentsToPath(structurePathSegments),
   }
 }
