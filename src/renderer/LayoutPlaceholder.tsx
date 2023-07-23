@@ -32,25 +32,33 @@ const StyledPlaceholderElementBox = ({ draggedMeta, handleAllDrop }: StyledPlace
         borderRadius: '5px',
         boxSizing: 'border-box',
         padding: '1em 2em',
+        minWidth: 200,
+        minHeight: 100,
         margin: '1em',
-        '&:hover': {
-          border: `1px dashed green`,
-        },
+        display: 'flex',
+        // '&:hover': {
+        //   border: `1px dashed green`,
+        // },
+        backgroundColor: (theme) => (isOver ? theme.palette.action.focus : 'transparent'),
       }}
     >
-      {isOver && isOverCurrent && draggedMeta ? <DropTargetFormsPreview metadata={draggedMeta} /> : 'placeholder'}
+      {isOver && isOverCurrent && draggedMeta ? (
+        <DropTargetFormsPreview metadata={draggedMeta} />
+      ) : (
+        <span style={{ margin: 'auto' }}> Placeholder</span>
+      )}
     </Box>
   )
 }
 
 function LayoutPlaceholder({ child, path, elements, layoutRendererProps, direction = 'row' }: EmptyLayoutElementProps) {
   //TODO make sure we have child.path
-  const { handleAllDrop, draggedMeta } = useDropTarget({ child, uiSchemaPath: `${(child as any).path}.elements.0` })
+  const { handleDropAtStart, draggedMeta } = useDropTarget({ child, isPlaceholder: true })
   const { schema, enabled, renderers, cells } = layoutRendererProps
   return (
     <Box>
       {direction === 'row' && <ArrowForward></ArrowForward>}
-      <StyledPlaceholderElementBox draggedMeta={draggedMeta} handleAllDrop={handleAllDrop} />
+      <StyledPlaceholderElementBox draggedMeta={draggedMeta} handleAllDrop={handleDropAtStart} />
       {/* <Box>
         <ArrowForward></ArrowForward>
       </Box>

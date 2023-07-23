@@ -17,12 +17,7 @@ import isEmpty from 'lodash/isEmpty'
 import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useMemo } from 'react'
 import { useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
-import {
-  removeFieldAndLayout,
-  selectEditMode,
-  selectElement,
-  selectSelectedElementKey,
-} from '../features/wizard/WizardSlice'
+import { selectEditMode, selectElement, selectSelectedElementKey } from '../features/wizard/WizardSlice'
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
@@ -98,12 +93,13 @@ const LayoutElement = ({
     [controlName, index, child.type]
   )
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
-  const { handleAllDrop, draggedMeta } = useDropTarget({ child })
+  const { handleAllDrop, handleDropAtStart, draggedMeta } = useDropTarget({ child })
 
   const [{ isDragging }, dragRef] = useDragTarget({ child, name: controlName, resolvedSchema })
 
   const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
+  const [{ isOver: isOver3, isOverCurrent: isOverCurrent3 }, dropRef3] = useDrop(handleDropAtStart, [handleAllDrop])
   const isOver = isOver1 || isOver2
   const isOverCurrent = isOverCurrent1 || isOverCurrent2
   const handleSelect = useCallback(
@@ -115,30 +111,44 @@ const LayoutElement = ({
     [dispatch, key]
   )
 
-  const handleRemove = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      event.stopPropagation()
-      dispatch(removeFieldAndLayout({ path: key }))
-    },
-    [dispatch, key]
-  )
+  // const handleRemove = useCallback(
+  //   (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //     event.stopPropagation()
+  //     dispatch(removeFieldAndLayout({ path: key }))
+  //   },
+  //   [dispatch, key]
+  // )
 
   return (
     <>
-      <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
+      {index === 0 && (
         <Paper
-          elevation={selectedKey === key ? 4 : 0}
           sx={{
-            flexGrow: 1,
-            display: isDragging ? 'none' : 'flex',
-            backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
-            padding: (theme) => theme.spacing(1, 2),
-            cursor: 'grab',
+            border: 'none',
+            opacity: isOver3 ? '1.0' : '0.2',
+            minWidth: '2em',
+            minHeight: '1.5em',
+            // bgcolor: (theme) => (isOver ?  theme. : 'none'),
+            padding: 4,
+            backgroundColor: isOver3 ? 'yellow' : 'red',
           }}
-          ref={dragRef}
-        >
-          {!isGroup && (
-            <RemoveWrapper handleRemove={handleRemove} editMode={editMode}>
+          ref={dropRef3}
+        ></Paper>
+      )}
+      {!isDragging && (
+        <>
+          <Grid key={key} item ref={dropRef} xs onClick={handleSelect} sx={{ padding: 4, backgroundColor: 'blue' }}>
+            <Paper
+              elevation={selectedKey === key ? 4 : 0}
+              sx={{
+                flexGrow: 1,
+                display: isDragging ? 'none' : 'flex',
+                backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
+                padding: (theme) => theme.spacing(1, 2),
+                cursor: 'grab',
+              }}
+              ref={dragRef}
+            >
               <JsonFormsDispatch
                 uischema={child}
                 schema={schema}
@@ -147,36 +157,22 @@ const LayoutElement = ({
                 renderers={renderers}
                 cells={cells}
               />
-            </RemoveWrapper>
-          )}
-          {isGroup && (
-            <JsonFormsDispatch
-              uischema={child}
-              schema={schema}
-              path={path}
-              enabled={enabled}
-              renderers={renderers}
-              cells={cells}
-            />
-          )}
-        </Paper>
-      </Grid>
-      <Paper
-        sx={{
-          border: 'none',
-          opacity: isOver ? '1.0' : '0.2',
-          minWidth: '2em',
-          minHeight: '1.5em',
-          // bgcolor: (theme) => (isOver ?  theme. : 'none'),
-        }}
-        ref={dropRef2}
-      >
-        {isOver && isOverCurrent && draggedMeta ? (
-          <Paper sx={{ padding: (theme) => theme.spacing(1, 2), bgcolor: (theme) => theme.palette.secondary.light }}>
-            <DropTargetFormsPreview metadata={draggedMeta} />
-          </Paper>
-        ) : null}
-      </Paper>
+            </Paper>
+          </Grid>
+          <Paper
+            sx={{
+              border: 'none',
+              opacity: isOverCurrent ? '1.0' : '0.2',
+              minWidth: '2em',
+              minHeight: '1.5em',
+              // bgcolor: (theme) => (isOver ?  theme. : 'none'),
+              padding: 4,
+              backgroundColor: isOverCurrent ? 'yellow' : 'red',
+            }}
+            ref={dropRef2}
+          ></Paper>
+        </>
+      )}
     </>
   )
 }
