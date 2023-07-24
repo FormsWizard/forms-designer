@@ -70,6 +70,7 @@ export const deeplyUpdateNestedSchema: (schema: JsonSchema, path: string[], newP
     },
   } as JsonSchema
 }
+
 export const deeplyRemoveNestedProperty: (schema: JsonSchema, path: string) => JsonSchema = (schema, path) => {
   if (!schema.properties) throw new Error(`Schema has no properties`)
   const pathSegments = pathToPathSegments(path)

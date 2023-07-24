@@ -1,4 +1,5 @@
 import { isLayout, Layout, UISchemaElement } from '@jsonforms/core'
+import { current } from '@reduxjs/toolkit'
 import { last } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import { ScopableUISchemaElement } from '../types'
@@ -53,6 +54,15 @@ export const insertUISchemaAfterScope = (
     }
     return uischema
   })
+}
+export const getAllScopesInSchema = (uiSchema: UISchemaElement) => {
+  let scopes = []
+  recursivelyMapSchema(uiSchema, (ui: ScopableUISchemaElement) => {
+    console.log(ui)
+    ui.scope && scopes.push(ui.scope)
+    return ui
+  })
+  return scopes
 }
 export const removeUISchemaElement = (scope: string, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {

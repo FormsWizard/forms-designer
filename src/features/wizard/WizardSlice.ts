@@ -2,6 +2,7 @@ import { createSelector, createSlice, current, PayloadAction } from '@reduxjs/to
 import { JsonSchema, Resolve, resolveSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
+  getAllScopesInSchema,
   getIndexFromPath,
   pathSegmentsToJSONPointer,
   pathSegmentsToPath,
@@ -23,7 +24,8 @@ import { ScopableUISchemaElement } from '../../types'
 import { exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
-import { findLast, findLastIndex, last } from 'lodash'
+import { cloneDeep, findLast, findLastIndex, last } from 'lodash'
+import collectSchemaGarbage from '../../utils/collectSchemaGargabe'
 
 export type DraggableMeta = {
   name: string
@@ -202,26 +204,6 @@ const getUiSchemaWithFlatScope: (
   }
 }
 
-const prepareRemoveLayoutFromUISchema: (
-  uiSchema: UISchemaElement,
-  uiSchemaPath: string
-) => { pointer: string; elements: UISchemaElement[] } = (uiSchema, uiSchemaPath) => {
-  const { index, parentPath } = getIndexAndParentPathOfUISchemaElement(uiSchemaPath)
-  if (index === undefined || !parentPath) {
-    throw new Error('Invalid path, path should lead to an element part of an array, thus be at least 2 segments long')
-  }
-  const pointer = pathSegmentsToJSONPointer(pathToPathSegments(parentPath))
-  const oldUISchema = jsonpointer.get(uiSchema, pointer)
-  if (!Array.isArray(oldUISchema)) {
-    throw new Error('UISchema Elements bucket is not an array')
-  }
-
-  return {
-    pointer,
-    elements: [...oldUISchema.slice(0, index), ...oldUISchema.slice(index + 1)],
-  }
-}
-
 const getDeepestGroupPath = (structurePath: string, uiSchema: any): string[] => {
   const structurePathSegments = pathToPathSegments(structurePath)
   const siblingRemoved = structurePathSegments.slice(0, structurePathSegments.length - 2)
@@ -268,15 +250,7 @@ export const jsonFormsEditSlice = createSlice({
       state.jsonSchema = jsonSchema
       state.uiSchema = uiSchema
     },
-    removeLayout: (state: JsonFormsEditState, action: PayloadAction<{ uiSchemaPath: string }>) => {
-      const { uiSchemaPath } = action.payload
-      try {
-        const { pointer, elements } = prepareRemoveLayoutFromUISchema(state.uiSchema, uiSchemaPath)
-        jsonpointer.set(state.uiSchema, pointer, elements)
-      } catch (e) {
-        console.error(e)
-      }
-    },
+
     removeField: (state: JsonFormsEditState, action: PayloadAction<{ path: string }>) => {
       const { path } = action.payload
       state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, path)
@@ -304,6 +278,7 @@ export const jsonFormsEditSlice = createSlice({
       if (scope) {
         state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegmentsToPath(scopeToPathSegments(scope)))
       }
+      state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
@@ -449,7 +424,7 @@ export const {
   renameField,
   removeFieldOrLayout,
   removeField,
-  removeLayout,
+
   updateUISchemaByScope,
   toggleEditMode,
   updateJsonSchemaByPath,
