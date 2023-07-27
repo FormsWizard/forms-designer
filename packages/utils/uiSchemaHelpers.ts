@@ -1,7 +1,7 @@
-import {isLayout, Layout, Scopable, UISchemaElement} from '@jsonforms/core'
+import { isLayout, Layout, UISchemaElement } from '@jsonforms/core'
+import { last } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
-
-type ScopableUISchemaElement = UISchemaElement & Scopable
+import { ScopableUISchemaElement } from '../types'
 
 const insertIntoArray = <T>(arr: T[], index: number, element: T) => {
   return [...arr.slice(0, index), element, ...arr.slice(index)]
@@ -54,6 +54,15 @@ export const insertUISchemaAfterScope = (
     return uischema
   })
 }
+export const getAllScopesInSchema = (uiSchema: UISchemaElement) => {
+  let scopes = []
+  recursivelyMapSchema(uiSchema, (ui: ScopableUISchemaElement) => {
+    console.log(ui)
+    ui.scope && scopes.push(ui.scope)
+    return ui
+  })
+  return scopes
+}
 export const removeUISchemaElement = (scope: string, uiSchema: UISchemaElement) => {
   return recursivelyMapSchema(uiSchema, (uischema) => {
     if (isLayout(uischema) && uischema.elements.find((el: ScopableUISchemaElement) => el.scope === scope)) {
@@ -90,6 +99,7 @@ export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,
 }
 
 export const pathToPathSegments: (path: string) => string[] = (path: string) => path.split('.')
+export const getIndexFromPath: (path: string) => number = (path: string) => parseInt(last(path.split('.')))
 
 export const pathSegmentsToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
@@ -126,7 +136,7 @@ export const scopeToPathSegments = (scope: string) => {
   return rest
 }
 
-type UISchemaElementWithPath = UISchemaElement & { path: string }
+type UISchemaElementWithPath = UISchemaElement & { path: string; structurePath?: string }
 type LayoutWithPath = Layout & { path: string }
 
 /**
@@ -134,20 +144,27 @@ type LayoutWithPath = Layout & { path: string }
  */
 export const extendUiSchemaWithPath = (
   uiSchema: UISchemaElement,
-  pathSegments: string[] = []
+  pathSegments: string[] = [],
+  structurePathSegments: string[] = []
 ): UISchemaElementWithPath | LayoutWithPath => {
   if (isLayout(uiSchema)) {
     const layout = uiSchema as Layout
     return {
       ...layout,
       elements: layout.elements.map((el, index) =>
-        extendUiSchemaWithPath(el, [...pathSegments, 'elements', index.toString()])
+        extendUiSchemaWithPath(
+          el,
+          [...pathSegments, 'elements', index.toString()],
+          [...structurePathSegments, el.type, index.toString()]
+        )
       ),
       path: pathSegmentsToPath(pathSegments),
+      structurePath: pathSegmentsToPath(structurePathSegments),
     }
   }
   return {
     ...uiSchema,
     path: pathSegmentsToPath(pathSegments),
+    structurePath: pathSegmentsToPath(structurePathSegments),
   }
 }
