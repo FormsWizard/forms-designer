@@ -22,12 +22,14 @@
     "@jsonforms/core": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
+    "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
     "ajv": "^8.12.0",
+    "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "react-dnd": "^16.0.1",
+    "state": "workspace:*",
     "types": "workspace:*",
-    "utils": "workspace:*",
-    "state": "workspace:*"
+    "utils": "workspace:*"
   }
 }
