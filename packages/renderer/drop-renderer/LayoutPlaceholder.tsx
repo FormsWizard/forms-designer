@@ -4,7 +4,6 @@ import { useDrop } from 'react-dnd'
 import { Box, Grid } from '@mui/material'
 import React from 'react'
 import { JsonFormsDispatch } from '@jsonforms/react'
-import { useDropTarget } from 'react-hooks'
 import { DropTargetFormsPreview } from './DropTargetFormsPreview'
 
 type EmptyLayoutElementProps = {
