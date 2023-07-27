@@ -1,5 +1,10 @@
 import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
-import {JsonFormsEditState} from "utils/types";
+export type JsonFormsEditState = {
+  jsonSchema: JsonSchema
+  uiSchema?: any
+  selectedElementKey?: string | null
+  editMode: boolean
+}
 
 export const exampleInitialState1: JsonFormsEditState = {
   editMode: false,
@@ -129,23 +134,32 @@ export const exampleInitialState1: JsonFormsEditState = {
   },
 }
 
-export const initialState: JsonFormsEditState = {
+export const exampleInitialState2: JsonFormsEditState = {
   editMode: false,
   jsonSchema: {
     type: 'object',
     properties: {
-      Radio: {
-        type: 'string',
-        enum: ['One', 'Two', 'Three'],
-      },
-
-      multiEnum: {
-        type: 'array',
-
-        uniqueItems: true,
-        items: {
-          type: 'string',
-          enum: ['foo', 'bar', 'foobar'],
+      address: {
+        type: 'object',
+        properties: {
+          created: {
+            type: 'string',
+            format: 'date-time',
+          },
+          street: {
+            type: 'string',
+          },
+          city: {
+            type: 'string',
+          },
+          zip: {
+            type: 'string',
+            pattern: '[0-9]{5}',
+          },
+          country: {
+            type: 'string',
+            enum: ['Germany', 'France', 'UK', 'USA', 'Italy', 'Spain'],
+          },
         },
       },
     },
@@ -154,16 +168,36 @@ export const initialState: JsonFormsEditState = {
     type: 'VerticalLayout',
     elements: [
       {
-        type: 'Control',
-        scope: '#/properties/Radio',
-        label: 'Radio Buttons mit langem Label',
-        options: { format: 'radio' },
-      },
-      {
-        type: 'Control',
-        label: 'Radio Buttons mit langem Label',
-        name: 'multiEnum',
-        scope: '#/properties/multiEnum',
+        type: 'Group',
+        label: 'address',
+
+        elements: [
+          {
+            type: 'VerticalLayout',
+            elements: [
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/created',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/street',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/city',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/zip',
+              },
+              {
+                type: 'Control',
+                scope: '#/properties/address/properties/country',
+              },
+            ],
+          },
+        ],
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import { jsonFormsEditReducer } from './jsonFormsEditSlice'
+import jsonFormsEditReducer from './jsonFormsEditSlice'
 export const makeStore = () => configureStore({
   reducer: {
     jsonFormsEdit: jsonFormsEditReducer,
