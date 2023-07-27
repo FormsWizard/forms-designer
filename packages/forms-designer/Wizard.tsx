@@ -41,17 +41,17 @@ export function Wizard() {
 
   return <Box>
     <Grid container>
-      <Grid item xs={6}>
+      <Grid item xs={1}>
     <div ref={dragRef} style={{backgroundColor: 'grey', padding: '1em', opacity}}>Drag me</div>
         </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={11}>
     <JsonForms
         data={data}
         renderers={[...materialRenderers, ...basicRenderer, ...additionalRenderers]}
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
-        uischema={uiSchema}/>
+        uischema={uiSchemaWithPath}/>
       </Grid>
       </Grid>
   </Box>
