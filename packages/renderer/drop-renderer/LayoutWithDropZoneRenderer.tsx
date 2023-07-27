@@ -203,7 +203,7 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
     ) : null
   } else {
     return (
-      <Box sx={{ display: visible ? 'block' : 'none' }}>
+      <Box sx={{ display: visible !== false ? 'block' : 'none' }}>
         <Grid container direction={direction} spacing={direction === 'row' ? 2 : 0}>
           {elements.map((element, index) => (
             <LayoutElement
