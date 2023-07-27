@@ -1,0 +1,27 @@
+{
+  "name": "react-hooks",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.16",
+    "eslint": "^8.45.0",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@jsonforms/core": "^3.1.0",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-redux": "^8.1.1",
+    "state": "workspace:*",
+    "utils": "workspace:*",
+    "types": "workspace:*"
+  }
+}
