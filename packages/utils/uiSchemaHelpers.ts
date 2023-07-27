@@ -55,7 +55,7 @@ export const insertUISchemaAfterScope = (
   })
 }
 export const getAllScopesInSchema = (uiSchema: UISchemaElement) => {
-  let scopes = []
+  let scopes: string[] = []
   recursivelyMapSchema(uiSchema, (ui: ScopableUISchemaElement) => {
     console.log(ui)
     ui.scope && scopes.push(ui.scope)
@@ -99,7 +99,7 @@ export const updateUISchemaElement = (scope: string, newSchema: UISchemaElement,
 }
 
 export const pathToPathSegments: (path: string) => string[] = (path: string) => path.split('.')
-export const getIndexFromPath: (path: string) => number = (path: string) => parseInt(last(path.split('.')))
+export const getIndexFromPath: (path: string) => number = (path: string) => parseInt(last(path.split('.')) || '')
 
 export const pathSegmentsToScope = (path: string[]) => {
   return `#/properties/${path.join('/properties/')}`
