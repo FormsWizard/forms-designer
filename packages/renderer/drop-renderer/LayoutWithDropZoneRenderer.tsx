@@ -16,7 +16,6 @@ import Ajv from 'ajv'
 import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useMemo } from 'react'
 import { useDrop } from 'react-dnd'
 import {
-  removeFieldAndLayout,
   selectEditMode,
   selectElement,
   useAppDispatch, useAppSelector
@@ -115,7 +114,6 @@ const LayoutElement = ({
   const handleRemove = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       event.stopPropagation()
-      dispatch(removeFieldAndLayout({ path: key }))
     },
     [dispatch, key]
   )
