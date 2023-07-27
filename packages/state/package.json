@@ -1,0 +1,24 @@
+{
+  "name": "state",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\""
+  },
+  "devDependencies": {
+    "eslint": "^8.45.0",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@jsonforms/core": "^3.1.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "jsonpointer": "^5.0.1",
+    "lodash": "^4.17.21",
+    "react-redux": "^8.1.1",
+    "utils": "workspace:*"
+  }
+}
