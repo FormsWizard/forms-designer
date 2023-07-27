@@ -10,7 +10,6 @@ import defaultTheme from "./default-theme";
 import {CacheProvider, EmotionCache} from '@emotion/react';
 import createEmotionCache from "./createEmotionCache";
 import {reduxWrapper} from "./reduxHooks";
-import {Provider} from "react-redux";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -24,16 +23,12 @@ export type WizardAppProps = AppProps & {
 function App({Component, emotionCache = clientSideEmotionCache, ...rest}: WizardAppProps) {
   const backend = isTouchDevice() ? TouchBackend : HTML5Backend
   const { props: pageProps, store } = reduxWrapper.useWrappedStore(rest)
-  return <Provider store={store}>
-    <CacheProvider value={emotionCache}>
-      <DndProvider backend={backend}>
+  return <CacheProvider value={emotionCache}>
         <ThemeProvider theme={defaultTheme}>
           <CssBaseline/>
           <Component {...pageProps} />
         </ThemeProvider>
-      </DndProvider>
   </CacheProvider>
-  </Provider>
 }
 
 export default App

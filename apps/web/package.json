@@ -12,7 +12,6 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
-    "@formswizard/forms-designer": "workspace:*",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
     "@mui/icons-material": "~5.11.16",
@@ -28,7 +27,8 @@
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.1",
-    "ui": "workspace:*"
+    "ui": "workspace:*",
+    "forms-designer": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",

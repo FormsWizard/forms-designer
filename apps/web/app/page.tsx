@@ -1,13 +1,5 @@
-import {Box, Button, TextField} from "@mui/material";
-import { Header } from "ui";
-import WizardWrapper from "./WizardWrapper";
-import {reduxWrapper} from "./reduxHooks";
+import {WizardApp} from "forms-designer";
  export default function Page() {
 
-  return (
-    <>
-      <Header text="Web" />
-        <WizardWrapper />
-    </>
-  );
+  return <WizardApp />
 }
