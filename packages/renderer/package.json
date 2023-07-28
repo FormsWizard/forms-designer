@@ -34,6 +34,7 @@
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
     "state": "workspace:*",
-    "utils": "workspace:*"
+    "utils": "workspace:*",
+    "react-hooks": "workspace:*"
   }
 }

@@ -1,10 +1,9 @@
 import type { OwnPropsOfRenderer, UISchemaElement } from '@jsonforms/core'
-import { useDrop } from 'react-dnd'
 
 import { Box, Grid } from '@mui/material'
 import React from 'react'
 import { DropTargetFormsPreview } from './DropTargetFormsPreview'
-import { useDropTarget } from './useDropTarget'
+import {useDNDHooksContext, useDropTarget} from 'react-hooks'
 import { ArrowForward } from '@mui/icons-material'
 
 type EmptyLayoutElementProps = {
@@ -20,6 +19,7 @@ type StyledPlaceholderProps = {
   handleAllDrop: any
 }
 const StyledPlaceholderElementBox = ({ draggedMeta, handleAllDrop }: StyledPlaceholderProps) => {
+  const { useDrop } = useDNDHooksContext()
   // @ts-ignore
   const [{ isOver, isOverCurrent }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   return (

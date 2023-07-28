@@ -11,13 +11,11 @@ import {
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
-import { useDragLayer, useDrop } from 'react-dnd'
 import { useAppDispatch, useAppSelector, selectEditMode, selectElement, selectSelectedElementKey } from 'state'
 import { Delete } from '@mui/icons-material'
-import { useDragTarget } from './useDragTarget'
-import { useDropTarget } from './useDropTarget'
 import classnames from 'classnames'
 import { useDelayedState } from '../hooks'
+import {useDNDHooksContext, useDragTarget, useDropTarget} from 'react-hooks'
 
 export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
@@ -90,6 +88,7 @@ const LayoutElement = ({
   )
   const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
   const { handleAllDrop, handleDropAtStart, draggedMeta } = useDropTarget({ child })
+  const { useDrop, useDragLayer } = useDNDHooksContext()
   const anythingDragging = useDragLayer((monitor) => monitor.isDragging())
   const [{ isDragging }, dragRef] = useDragTarget({ child, name: controlName, resolvedSchema })
   // const anythingDragging = true
@@ -189,7 +188,6 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
   const [dragging, setDragging, cancel] = useDelayedState<boolean>(false, { delay: 10, delayedValue: true })
 
   useEffect(() => {
-    console.log(anythingDragging)
     setDragging(anythingDragging)
     if (anythingDragging !== dragging && !anythingDragging) {
       cancel(false)
