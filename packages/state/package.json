@@ -12,15 +12,17 @@
     "eslint": "^8.45.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "types": "workspace:*"
   },
   "dependencies": {
-    "@jsonforms/core": "^3.1.0",
-    "@reduxjs/toolkit": "^1.9.5",
     "jsonpointer": "^5.0.1",
     "lodash": "^4.17.21",
-    "react-redux": "^8.1.1",
-    "types": "workspace:*",
     "utils": "workspace:*"
+  },
+  "peerDependencies": {
+    "@jsonforms/core": "^3.1.0",
+    "react": "^16.9.0 || ^17.0.0 || ^18",
+    "react-redux": "^8.1.1"
   }
 }

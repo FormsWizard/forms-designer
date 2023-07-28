@@ -14,8 +14,10 @@
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2"
   },
+  "peerDependencies": {
+    "@jsonforms/core": "^3.1.0"
+  },
   "dependencies": {
-    "@jsonforms/core": "^3.1.0",
     "lodash": "^4.17.21"
   }
 }
