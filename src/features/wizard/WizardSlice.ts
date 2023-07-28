@@ -278,7 +278,7 @@ export const jsonFormsEditSlice = createSlice({
       if (scope) {
         state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegmentsToPath(scopeToPathSegments(scope)))
       }
-      state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
+      // state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
@@ -353,9 +353,9 @@ export const jsonFormsEditSlice = createSlice({
       if (isDraggableComponent(draggableMeta)) {
         // TODO scope is not set correctly
 
-        //   const deepestGroupPath = getDeepestGroupPath(child.structurePath, state.uiSchema)
+        // const deepestGroupPath = getDeepestGroupPath(child.structurePath, state.uiSchema)
 
-        //   let schema = pathSegmentsToScope(deepestGroupPath)
+        // let schema = pathSegmentsToScope(deepestGroupPath)
         uiSchema = getUiSchemaWithFlatScope(draggableMeta, [], newKey)
 
         //   // // TODO add createsOwnScope to draggableMeta
