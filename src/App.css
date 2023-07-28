@@ -39,7 +39,16 @@
 }
 
 .is-over-dropzone {
-  box-shadow: 0px 0px 18px 3px #f9d739;
-
+  /* box-shadow: 0px 0px 18px 3px #f9d739; */
+  border-radius: 4px;
   animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0px 0px 18px 3px #f9d739;
+  }
+  to {
+    box-shadow: 0 0 10px 6px #fdcf02;
+  }
 }
