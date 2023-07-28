@@ -33,6 +33,8 @@
   "dependencies": {
     "state": "workspace:*",
     "renderer": "workspace:*",
-    "utils": "workspace:*"
+    "utils": "workspace:*",
+    "toolbox": "workspace:*",
+    "react-hooks": "workspace:*"
   }
 }

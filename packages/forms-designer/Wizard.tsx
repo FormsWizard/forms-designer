@@ -5,9 +5,9 @@ import {materialCells, materialRenderers} from "@jsonforms/material-renderers";
 import {JsonForms} from "@jsonforms/react";
 import {selectJsonSchema, selectUiSchema, useAppSelector} from "state";
 import {extendUiSchemaWithPath} from "utils";
-import {basicRenderer, dropRenderer, verticalLayoutTester, VerticalLayoutWithDropZoneRenderer} from 'renderer';
+import {basicRenderer, verticalLayoutTester, VerticalLayoutWithDropZoneRenderer} from 'renderer';
 import {useDrag} from "react-dnd";
-import {Box, Grid} from "@mui/material";
+
 const additionalRenderers = [{
   tester: verticalLayoutTester,
   renderer: VerticalLayoutWithDropZoneRenderer,
@@ -39,20 +39,12 @@ export function Wizard() {
         },
       }))
 
-  return <Box>
-    <Grid container>
-      <Grid item xs={1}>
-    <div ref={dragRef} style={{backgroundColor: 'grey', padding: '1em', opacity}}>Drag me</div>
-        </Grid>
-      <Grid item xs={11}>
-    <JsonForms
+  return <JsonForms
         data={data}
         renderers={[...materialRenderers, ...basicRenderer, ...additionalRenderers]}
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
-        uischema={uiSchemaWithPath}/>
-      </Grid>
-      </Grid>
-  </Box>
+        uischema={uiSchemaWithPath}
+  />
 }

@@ -25,15 +25,15 @@ import { collectSchemaGarbage } from 'utils'
 
 export type DraggableMeta = {
   name: string
-  ToolIcon: any
+  ToolIcon?: any
 }
 
-export type DraggableComponent = Partial<DraggableMeta> & {
+export type DraggableComponent = DraggableMeta & {
   jsonSchemaElement: JsonSchema
   uiSchema?: UISchemaElement
 }
 
-export type DraggableUISchemaElement = Partial<DraggableMeta> & {
+export type DraggableUISchemaElement = DraggableMeta & {
   uiSchema: UISchemaElement
 }
 
