@@ -8,6 +8,7 @@ import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPrevi
 import { useDropTarget } from '../app/hooks'
 import LayoutElement from './LayoutElement'
 import { ArrowForward } from '@mui/icons-material'
+import LongHorizontalArrow from '../Icons/LongHorizontalArrow'
 
 type EmptyLayoutElementProps = {
   child: UISchemaElement | undefined
@@ -57,7 +58,7 @@ function LayoutPlaceholder({ child, path, elements, layoutRendererProps, directi
   const { schema, enabled, renderers, cells } = layoutRendererProps
   return (
     <Box>
-      {direction === 'row' && <ArrowForward></ArrowForward>}
+      {direction === 'row' && <LongHorizontalArrow></LongHorizontalArrow>}
       <StyledPlaceholderElementBox draggedMeta={draggedMeta} handleAllDrop={handleDropAtStart} />
       {/* <Box>
         <ArrowForward></ArrowForward>

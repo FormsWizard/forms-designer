@@ -16,6 +16,7 @@ import { Box, Grid } from '@mui/material'
 import Ajv from 'ajv'
 
 import React, { ComponentType } from 'react'
+import LongHorizontalArrow from '../Icons/LongHorizontalArrow'
 
 import LayoutElement from './LayoutElement'
 import LayoutPlaceholder from './LayoutPlaceholder'
@@ -43,7 +44,7 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
   } else {
     return (
       <Box sx={{ display: visible ? 'block' : 'none' }}>
-        {direction === 'row' && <ArrowForward></ArrowForward>}
+        {direction === 'row' && <LongHorizontalArrow></LongHorizontalArrow>}
         <Grid container direction={direction} spacing={direction === 'row' ? 0 : 0}>
           {elements.map((element, index) => (
             <LayoutElement
