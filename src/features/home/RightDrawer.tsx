@@ -124,22 +124,22 @@ export default function RightDrawer() {
     [jsonSchema]
   )
   const dispatch = useAppDispatch()
-  const handleLabelChange = useCallback(
-    (e) => {
-      const path = selectedKey?.split('.') || []
-      // @ts-ignore
-      dispatch(
-        updateUISchemaByScope({
-          scope: pathSegmentsToScope(path),
-          uiSchema: {
-            ...uiSchema,
-            label: e.target.value,
-          },
-        })
-      )
-    },
-    [dispatch, selectedKey, uiSchema]
-  )
+  // const handleLabelChange = useCallback(
+  //   (e) => {
+  //     const path = selectedKey?.split('.') || []
+  //     // @ts-ignore
+  //     dispatch(
+  //       updateUISchemaByScope({
+  //         scope: pathSegmentsToScope(path),
+  //         uiSchema: {
+  //           ...uiSchema,
+  //           label: e.target.value,
+  //         },
+  //       })
+  //     )
+  //   },
+  //   [dispatch, selectedKey, uiSchema]
+  // )
   return (
     <Drawer
       open={!!selectedKey}
@@ -161,7 +161,7 @@ export default function RightDrawer() {
         ) : (
           <FieldNameEditor path={selectedKey} />
         )}
-        <TextField label={'Label'} onChange={handleLabelChange} value={uiSchema?.label || ''} />
+        {/* <TextField label={'Label'} onChange={handleLabelChange} value={uiSchema?.label || ''} /> */}
         <ToolSettings></ToolSettings>
       </Box>
       <Divider />

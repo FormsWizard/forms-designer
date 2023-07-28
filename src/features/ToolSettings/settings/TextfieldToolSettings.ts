@@ -4,17 +4,11 @@ import { ToolSetting } from '../ToolSettingType'
 
 const JsonSchema = {
   type: 'object',
-  properties: {
-    text: {
-      type: 'string',
-    },
-  },
+  properties: {},
 }
 
 const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
-  return {
-    text: uiSchema.text,
-  }
+  return {}
 }
 
 // TODO: insteat of forcefully enforcing rules, we should just warn the user and prevent the update to the schema
@@ -22,7 +16,6 @@ const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => 
 const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
   return {
     ...wizardUiSchema,
-    text: toolData.text,
   }
 }
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
@@ -31,13 +24,13 @@ const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => 
   }
 }
 
-const AlertToolSetting: ToolSetting = {
+const TextfieldToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
   isTool: (jsonSchema: JsonSchema7, uiSchema) =>
-    uiSchema && (uiSchema.type === 'Alert' || typeof uiSchema.text === 'string'),
+    uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'string',
   toolSettingsMixins: [ToolsettingParts.Title],
 }
-export default AlertToolSetting
+export default TextfieldToolSettings

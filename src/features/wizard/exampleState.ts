@@ -3,6 +3,7 @@ export type JsonFormsEditState = {
   jsonSchema: JsonSchema
   uiSchema?: any
   selectedElementKey?: string
+  selectedPath?: string
   editMode: boolean
 }
 

@@ -2,22 +2,28 @@ import { isEqual } from 'lodash'
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from '../../app/hooks/reduxHooks'
-import { selectSelectedElementKey, selectUIElementFromSelection, updateJsonSchemaByPath } from '../wizard/WizardSlice'
+import {
+  selectPath,
+  selectSelectedElementKey,
+  selectUIElementFromSelection,
+  updateJsonSchemaByPath,
+} from '../wizard/WizardSlice'
 import SelectToolSettings from './settings/SelectToolSettings'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
-import { selectSelectedElementJsonSchema } from './ToolSettingsSelectors'
-
+import { selectSelectedElementJsonSchema, selectSelectedPath } from './ToolSettingsSelectors'
+console.log(ToolSettingsDefinitions)
 function useToolSettings() {
   const dispatch = useAppDispatch()
   const [tooldataBuffer, setToolDataBuffer] = useState({})
   const selectedKey = useSelector(selectSelectedElementKey)
+  const selectedPath = useSelector(selectSelectedPath)
   const UIElementFromSelection = useSelector(selectUIElementFromSelection)
   const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
   const prevSelectedKey = useRef(null)
 
   const toolSettings = useMemo(
     () =>
-      selectedElementJsonSchema
+      selectedElementJsonSchema || UIElementFromSelection
         ? ToolSettingsDefinitions.find((d) => d.isTool(selectedElementJsonSchema, UIElementFromSelection)) ?? null
         : null,
     [selectedElementJsonSchema, UIElementFromSelection]
@@ -72,20 +78,20 @@ function useToolSettings() {
 
       dispatch(
         updateJsonSchemaByPath({
-          path: selectedKey,
+          path: selectedPath,
           updatedSchema: updatedJsonSchemaFromAddons,
           updatedUIschema: updatedUIschemaWithAddons,
         })
       )
     },
-    [UIElementFromSelection, dispatch, selectedElementJsonSchema, selectedKey, toolSettings]
+    [UIElementFromSelection, dispatch, selectedElementJsonSchema, selectedPath, toolSettings]
   )
 
   useEffect(() => {
-    if (prevSelectedKey.current === selectedKey) return
+    if (prevSelectedKey.current === selectedPath) return
     setToolDataBuffer(getToolData())
-    prevSelectedKey.current = selectedKey
-  }, [getToolData, selectedKey])
+    prevSelectedKey.current = selectedPath
+  }, [getToolData, selectedPath])
 
   return { handleChange, uiSchema: {}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer }
 }

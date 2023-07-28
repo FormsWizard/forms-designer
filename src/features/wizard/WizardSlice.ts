@@ -1,5 +1,5 @@
 import { createSelector, createSlice, current, PayloadAction } from '@reduxjs/toolkit'
-import { JsonSchema, Resolve, resolveSchema, Scopable, UISchemaElement } from '@jsonforms/core'
+import { JsonSchema, Resolve, resolveSchema, Scopable, setSchema, UISchemaElement } from '@jsonforms/core'
 import { RootState } from '../../app/store'
 import {
   getAllScopesInSchema,
@@ -49,6 +49,7 @@ export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSc
 export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
 export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
+export const selectSelectedPath = (state: RootState) => state.jsonFormsEdit.selectedPath
 //TODO: document further
 export const selectUIElementByScope = (uiSchema: UISchemaElement, scope: string) => {
   //TODO: make this code cleaner by using a functional recursive finder
@@ -68,17 +69,16 @@ export const selectUIElementByPath = (uiSchema: UISchemaElement, path: string) =
 }
 
 export const selectUIElementFromSelection = createSelector(
-  selectSelectedElementKey,
+  selectSelectedPath,
   selectUiSchema,
-  (selectedElementKey, uiSchema) => {
-    if (!selectedElementKey) return undefined
+  (selectedPath, uiSchema) => {
+    if (!selectedPath) return undefined
     // if type is layout name is actually an index
-    if (selectedElementKey.includes('-')) {
-      const [UiElementType, UiElementName] = selectedElementKey.split('-')
+    if (selectedPath.includes('-')) {
+      const [UiElementType, UiElementName] = selectedPath.split('-')
       return undefined
     }
-
-    return selectUIElementByPath(uiSchema, selectedElementKey)
+    return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath)))
   }
 )
 
@@ -237,6 +237,9 @@ export const jsonFormsEditSlice = createSlice({
     selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedElementKey = action.payload
     },
+    selectPath: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
+      state.selectedPath = action.payload
+    },
     loadTemplate: (state: JsonFormsEditState, action: any) => {
       const templateData = action.payload
       const { jsonSchema, uiSchema } = templateData.Template
@@ -257,13 +260,19 @@ export const jsonFormsEditSlice = createSlice({
       state: JsonFormsEditState,
       action: PayloadAction<{ path: string; updatedSchema: any; updatedUIschema: any }>
     ) => {
-      //TODO: handle removing key-value pair from data produced by the form in the current session
-      // does work for me in the current version of the app
+      // path is the path to the uiSchema element e.g. elements.0.elements.0
       const { path, updatedSchema, updatedUIschema } = action.payload
-      const pathSegments = pathToPathSegments(path)
-      const scope = pathSegmentsToScope(pathSegments)
-      state.jsonSchema = deeplyUpdateNestedSchema(state.jsonSchema, pathSegments, updatedSchema)
-      state.uiSchema = updateUISchemaElement(scope, updatedUIschema, state.uiSchema)
+      let uiSchema = jsonpointer.get(state.uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(path)))
+
+      jsonpointer.set(state.uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(path)), updatedUIschema)
+
+      // only update json schema if ui schema has a scope
+      if (uiSchema?.scope) {
+        const schema = resolveSchema(state.jsonSchema, uiSchema.scope, state.jsonSchema)
+        if (schema) {
+          Object.assign(schema, updatedSchema)
+        }
+      }
     },
     removeFieldOrLayout: (state: JsonFormsEditState, action: PayloadAction<{ componentMeta: DraggableComponent }>) => {
       // instead of using an abritrary path, we use the scope of the uiSchema element to remove the json schema part
@@ -420,6 +429,7 @@ export const jsonFormsEditSlice = createSlice({
 export const {
   insertControl,
   selectElement,
+  selectPath,
   renameField,
   removeFieldOrLayout,
   removeField,

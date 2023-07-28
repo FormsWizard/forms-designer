@@ -17,7 +17,7 @@ import isEmpty from 'lodash/isEmpty'
 import React, { ComponentType, FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useDragLayer, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
-import { selectEditMode, selectElement, selectSelectedElementKey } from '../features/wizard/WizardSlice'
+import { selectEditMode, selectElement, selectPath, selectSelectedElementKey } from '../features/wizard/WizardSlice'
 import { useSelector } from 'react-redux'
 import { Delete } from '@mui/icons-material'
 import DropTargetFormsPreview from '../features/dragAndDrop/DropTargetFormsPreview'
@@ -110,8 +110,10 @@ const LayoutElement = ({
       event.stopPropagation()
       // @ts-ignore
       dispatch(selectElement(key))
+      // @ts-ignore
+      dispatch(selectPath(child.path))
     },
-    [dispatch, key]
+    [dispatch, key, child]
   )
 
   // const handleRemove = useCallback(

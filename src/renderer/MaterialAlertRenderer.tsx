@@ -39,7 +39,7 @@ export const materialAlertRendererTester: RankedTester = rankWith(1, uiTypeIs('A
 export const MaterialAlertRenderer = ({ text, visible }: LabelProps) => {
   return (
     <Hidden xsUp={!visible}>
-      <Alert severity="info">
+      <Alert severity="info" variant="outlined">
         <Typography variant="h6">{text}</Typography>
       </Alert>
     </Hidden>
