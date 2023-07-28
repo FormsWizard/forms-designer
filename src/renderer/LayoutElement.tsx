@@ -191,7 +191,6 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }) {
   const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 10, delayedValue: true })
 
   useEffect(() => {
-    console.log(anythingDragging)
     setDragging(anythingDragging)
     if (anythingDragging !== dragging && !anythingDragging) {
       cancel(false)

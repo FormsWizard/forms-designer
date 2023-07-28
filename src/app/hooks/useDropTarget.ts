@@ -90,7 +90,6 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
       accept: ['DRAGBOX', 'MOVEBOX'],
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
-        console.log(monitor)
         if (monitor.didDrop()) return
         if (monitor.getItemType() === 'MOVEBOX') {
           handleMove(componentMeta)
@@ -123,7 +122,6 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
       accept: ['DRAGBOX', 'MOVEBOX'],
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
-        console.log(monitor)
         if (monitor.didDrop()) return
         if (monitor.getItemType() === 'MOVEBOX') {
           handleMove(componentMeta, true)
@@ -156,6 +154,5 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
     handleAllDrop,
     handleDropAtStart,
     draggedMeta,
-    handleDrop,
   }
 }

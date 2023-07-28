@@ -24,7 +24,6 @@ function useTemplates() {
   }
   const categories = useMemo(() => ['all Templates'].concat(TEMPLATES.map((t) => t.Category)), [])
   const templates = useMemo(() => {
-    console.log(TEMPLATES)
     const combined = COMBINED_TEMPLATES
 
     return combined.filter((t) => {

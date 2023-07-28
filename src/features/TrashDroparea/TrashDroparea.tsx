@@ -21,9 +21,6 @@ const TrashDroparea = () => {
     accept: ['DRAGBOX', 'MOVEBOX'],
     //@ts-ignore
     drop: ({ componentMeta }, monitor) => {
-      // if (monitor.didDrop()) {
-      //   console.log('drop')
-      // }
       if (monitor.getItemType() === 'MOVEBOX') {
         handleRemove(componentMeta)
       } else {
