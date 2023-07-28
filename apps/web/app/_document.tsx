@@ -17,7 +17,7 @@ interface WizardAppDocumentProps extends DocumentProps {
   emotionStyleTags: JSX.Element[];
 }
 
-export default function WizardAppDocument({ emotionStyleTags }: WizardAppDocumentProps) {
+function WizardAppDocument({ emotionStyleTags }: WizardAppDocumentProps) {
   return (
       <Html lang="en">
       <Head>

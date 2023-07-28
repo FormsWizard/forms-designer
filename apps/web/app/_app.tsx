@@ -2,7 +2,6 @@ import type {AppProps} from 'next/app'
 import React, {useMemo} from "react";
 
 import {HTML5Backend} from 'react-dnd-html5-backend'
-import {DndProvider} from 'react-dnd'
 import {TouchBackend} from 'react-dnd-touch-backend'
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import defaultTheme from "./default-theme";

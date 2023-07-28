@@ -14,9 +14,9 @@ export type AppBarState = {
 export const getEditMode = (state: RootState) => state.AppBar.editMode
 export const getSelectedLanguage = (state: RootState) => state.AppBar.selectedLanguage
 let defaultThemeMode = 'light'
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+/*if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   defaultThemeMode = 'dark'
-}
+}*/
 export const appBarSlice = createSlice({
   name: 'jsonFormEdit',
   initialState: { editMode: false, selectedLanguage: 'de', themeMode: defaultThemeMode },
