@@ -2,9 +2,16 @@ import { JsonSchema, resolveSchema, UISchemaElement } from '@jsonforms/core'
 import { cloneDeep } from 'lodash'
 import { getAllScopesInSchema } from './uiSchemaHelpers'
 
+/**
+ *
+ * @param jsonschema schema to be cleaned
+ * @param uiSchema uiSchema defining the scopes
+ *
+ * @returns jsonschema with all unused properties removed
+ */
 export default function collectSchemaGarbage(jsonschema: JsonSchema, uiSchema: UISchemaElement) {
   const scopes = getAllScopesInSchema(uiSchema)
-  const marked = cloneDeep(jsonschema)
+  const marked = jsonschema
   traverseObjects(marked, (obj) => {
     if (obj.type && !obj.properties) {
       obj.toBeDeleted = true

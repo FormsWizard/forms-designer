@@ -142,6 +142,15 @@ type LayoutWithPath = Layout & { path: string }
 /**
  * recursively add a path, that uniquely identifies a schema element, to a UISchemaElement
  */
+
+/**
+ *
+ * @param uiSchema uiSchema to be extended with paths
+ * @param pathSegments recursive parameter, do not use
+ * @param structurePathSegments recursive parameter, do not us
+ * @returns uiSchema with paths added, that uniquely identify a schema element
+ * e.g. {type: 'Control', scope: '#/properties/foo'} -> {type: 'Control', scope: '#/properties/foo', path: 'elements.0.foo.1', structurePath: 'verticalLayout.0.foo.1'}
+ */
 export const extendUiSchemaWithPath = (
   uiSchema: UISchemaElement,
   pathSegments: string[] = [],

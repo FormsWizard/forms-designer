@@ -24,8 +24,6 @@ import { ScopableUISchemaElement } from '../../types'
 import { exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
-import { cloneDeep, findLast, findLastIndex, last } from 'lodash'
-import collectSchemaGarbage from '../../utils/collectSchemaGargabe'
 
 export type DraggableMeta = {
   name: string
@@ -204,33 +202,33 @@ const getUiSchemaWithFlatScope: (
   }
 }
 
-const getDeepestGroupPath = (structurePath: string, uiSchema: any): string[] => {
-  const structurePathSegments = pathToPathSegments(structurePath)
-  const siblingRemoved = structurePathSegments.slice(0, structurePathSegments.length - 2)
-  // const pathPairs = siblingRemoved.reduce((prev, curr, index, array) => {
-  //   if (!isNaN(parseInt(curr))) return prev
-  //   return [...prev, [curr, parseInt(array[index + 1])]]
-  // }, [])
-  const deepestGroupIndex = findLastIndex(siblingRemoved, (pair) => pair === 'Group')
-  const deepestGroup = siblingRemoved.slice(0, deepestGroupIndex + 2)
+// const getDeepestGroupPath = (structurePath: string, uiSchema: any): string[] => {
+//   const structurePathSegments = pathToPathSegments(structurePath)
+//   const siblingRemoved = structurePathSegments.slice(0, structurePathSegments.length - 2)
+//   // const pathPairs = siblingRemoved.reduce((prev, curr, index, array) => {
+//   //   if (!isNaN(parseInt(curr))) return prev
+//   //   return [...prev, [curr, parseInt(array[index + 1])]]
+//   // }, [])
+//   const deepestGroupIndex = findLastIndex(siblingRemoved, (pair) => pair === 'Group')
+//   const deepestGroup = siblingRemoved.slice(0, deepestGroupIndex + 2)
 
-  let schemaPath = []
-  deepestGroup.reduce((prev, curr) => {
-    let index = parseInt(curr)
-    if (isNaN(index)) return prev
-    let element = prev[index]
-    if (element.type === 'Group' && element.label) {
-      schemaPath.push(element.label)
-    }
-    if (element.elements) {
-      return element.elements
-    }
-    return element
-  }, uiSchema.elements)
-  console.log(current(uiSchema))
+//   let schemaPath = []
+//   deepestGroup.reduce((prev, curr) => {
+//     let index = parseInt(curr)
+//     if (isNaN(index)) return prev
+//     let element = prev[index]
+//     if (element.type === 'Group' && element.label) {
+//       schemaPath.push(element.label)
+//     }
+//     if (element.elements) {
+//       return element.elements
+//     }
+//     return element
+//   }, uiSchema.elements)
+//   // console.log(current(uiSchema))
 
-  return schemaPath
-}
+//   return schemaPath
+// }
 
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
@@ -372,6 +370,7 @@ export const jsonFormsEditSlice = createSlice({
         state.jsonSchema.properties[newKey] = draggableMeta.jsonSchemaElement
       }
       oldUISchemaElements.splice(targetIndex, 0, uiSchema)
+      // buildSchemaFromUISchema(state.uiSchema)
     },
 
     moveControl: (
@@ -433,3 +432,27 @@ export const {
 } = jsonFormsEditSlice.actions
 
 export default jsonFormsEditSlice.reducer
+
+function buildSchemaFromUISchema(uiSchema) {
+  const newSchema: JsonSchema = {}
+  console.log(current(uiSchema))
+  const allScopes = mapUiSchemaToJSONSchema(uiSchema, newSchema)
+
+  exampleInitialState2.jsonSchema = newSchema
+  return newSchema
+}
+
+function mapUiSchemaToJSONSchema(uiSchema, newSchema) {
+  // we only care about groups and scopaable elements
+
+  if (uiSchema.type === 'Group') {
+    newSchema.type = 'object'
+    newSchema.id = uiSchema.label
+    newSchema.properties = {}
+  }
+  if (uiSchema.scope) {
+    newSchema.type = 'object'
+    newSchema.id = uiSchema.label
+    newSchema.properties = {}
+  }
+}

@@ -26,7 +26,7 @@ function Wizard() {
   )
   const jsonSchema = useAppSelector(selectJsonSchema)
   const uiSchema = useAppSelector(selectUiSchema)
-  const editMode = useAppSelector(selectEditMode)
+
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
   const listRef = useRef<null | HTMLDivElement>(null)
   const { updatePosition } = useScroll(listRef)
