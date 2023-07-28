@@ -14,7 +14,7 @@ function useToolSettings() {
   const UIElementFromSelection = useSelector(selectUIElementFromSelection)
   const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
   const prevSelectedKey = useRef(null)
-  console.log({ selectedElementJsonSchema, UIElementFromSelection })
+
   const toolSettings = useMemo(
     () =>
       selectedElementJsonSchema

@@ -142,6 +142,8 @@ export const basicDraggableComponents: DraggableElement[] = [
     ToolIcon: ArrowRightAlt,
     uiSchema: {
       type: 'HorizontalLayout',
+      //@ts-ignore
+      elements: [],
     },
   },
   {
@@ -149,6 +151,9 @@ export const basicDraggableComponents: DraggableElement[] = [
     ToolIcon: ArrowDownward,
     uiSchema: {
       type: 'HorizontalLayout',
+      //@ts-ignore
+      label: 'Vertikales Layout',
+      elements: [],
     },
   },
 
@@ -165,7 +170,7 @@ export const basicDraggableComponents: DraggableElement[] = [
       label: 'Gruppe',
       elements: [
         {
-          type: 'HorizontalLayout',
+          type: 'VerticalLayout',
           elements: [],
         },
       ],

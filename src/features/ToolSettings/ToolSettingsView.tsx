@@ -10,7 +10,7 @@ function ToolSettings() {
   const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
   const UIElementFromSelection = useSelector(selectUIElementFromSelection)
   const { handleChange, toolSettingsJsonSchema, tooldataBuffer } = useToolSettings()
-  console.log(toolSettingsJsonSchema)
+
   return (
     <div>
       {!!toolSettingsJsonSchema && !!tooldataBuffer && (

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { JsonFormsCore } from '@jsonforms/core'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { useAppSelector } from '../../app/hooks/reduxHooks'
@@ -10,11 +10,11 @@ import { JsonForms } from '@jsonforms/react'
 import RightDrawer from '../home/RightDrawer'
 import LeftDrawer from '../home/LeftDrawer'
 import { extendUiSchemaWithPath } from '../../utils/uiSchemaHelpers'
-import { FormControl, FormControlLabel, FormGroup, FormHelperText, Hidden } from '@mui/material'
-import { CheckBox } from '@mui/icons-material'
-import MaterialAlertRenderer, { materialAlertRendererTester } from '../../renderer/MaterialAlertRenderer'
 import { renderesDropping, renderesBasics } from '../../renderer/Renderers'
 import TrashDroparea from '../TrashDroparea/TrashDroparea'
+import { Container, Paper } from '@mui/material'
+import { useScroll } from './useScroll'
+import { useDragDropManager } from 'react-dnd'
 
 function Wizard() {
   const [data, setData] = useState<any>({})
@@ -26,22 +26,39 @@ function Wizard() {
   )
   const jsonSchema = useAppSelector(selectJsonSchema)
   const uiSchema = useAppSelector(selectUiSchema)
-  const editMode = useAppSelector(selectEditMode)
+
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
+  const listRef = useRef<null | HTMLDivElement>(null)
+  const { updatePosition } = useScroll(listRef)
+
+  const dragDropManager = useDragDropManager()
+  const monitor = dragDropManager.getMonitor()
+
+  useEffect(() => {
+    const unsubscribe = monitor.subscribeToOffsetChange(() => {
+      const offset = monitor.getSourceClientOffset()?.y as number
+      updatePosition(offset)
+    })
+    return unsubscribe
+  }, [monitor, updatePosition])
 
   return (
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
       <MainAppBar></MainAppBar>
       <LeftDrawer></LeftDrawer>
-      <JsonForms
-        data={data}
-        renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}
-        cells={materialCells}
-        onChange={handleFormChange}
-        schema={jsonSchema}
-        uischema={uiSchemaWithPath}
-        readonly={editMode}
-      />
+      <Container maxWidth="md">
+        <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
+          <JsonForms
+            data={data}
+            renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}
+            cells={materialCells}
+            onChange={handleFormChange}
+            schema={jsonSchema}
+            uischema={uiSchemaWithPath}
+            readonly={true}
+          />
+        </Paper>
+      </Container>
       {/* <FormControlLabel
         label="aaaaaaaaaaaaaaa        sa    asa"
         labelPlacement="top"
@@ -63,7 +80,7 @@ function Wizard() {
         }
       ></FormControlLabel> */}
       <RightDrawer></RightDrawer>
-<TrashDroparea></TrashDroparea>
+      <TrashDroparea></TrashDroparea>
     </Box>
   )
 }

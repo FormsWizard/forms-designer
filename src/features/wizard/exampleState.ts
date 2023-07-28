@@ -138,38 +138,7 @@ export const exampleInitialState2: JsonFormsEditState = {
   editMode: false,
   jsonSchema: {
     type: 'object',
-    properties: {
-      Radio: {
-        type: 'string',
-        enum: ['One', 'Two', 'Three'],
-      },
-
-      multiEnum: {
-        type: 'array',
-
-        uniqueItems: true,
-        items: {
-          type: 'string',
-          enum: ['foo', 'bar', 'foobar'],
-        },
-      },
-    },
+    properties: {},
   },
-  uiSchema: {
-    type: 'VerticalLayout',
-    elements: [
-      {
-        type: 'Control',
-        scope: '#/properties/Radio',
-        label: 'Radio Buttons mit langem Label',
-        options: { format: 'radio' },
-      },
-      {
-        type: 'Control',
-        label: 'Radio Buttons mit langem Label',
-        name: 'multiEnum',
-        scope: '#/properties/multiEnum',
-      },
-    ],
-  },
+  uiSchema: { type: 'VerticalLayout', elements: [] },
 }

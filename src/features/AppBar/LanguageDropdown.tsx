@@ -35,7 +35,7 @@ function LanguageSelector() {
   const locale = useSelector(getSelectedLanguage)
   const dispatch = useDispatch()
   return (
-    <Root sx={{ color: 'white' }}>
+    <Root sx={{ color: 'white', minWidth: 150 }}>
       <Select
         id="language-select"
         value={locale}

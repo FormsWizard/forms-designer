@@ -87,15 +87,15 @@ export const lgihtThemeOverwrites: Components<Omit<Theme, 'components'>> = {
   },
 }
 export const darkThemeOverwrites: Components<Omit<Theme, 'components'>> = {
-  MuiButton: {
-    styleOverrides: {
-      // Name of the slot
-      root: {
-        // Some CSS
-        fontSize: '1rem',
-      },
-    },
-  },
+  // MuiButton: {
+  //   styleOverrides: {
+  //     // Name of the slot
+  //     root: {
+  //       // Some CSS
+  //       marginRight: 8,
+  //     },
+  //   },
+  // },
 }
 export const agnosticThemeOverwrites: Components<Omit<Theme, 'components'>> = {
   MuiAppBar: {

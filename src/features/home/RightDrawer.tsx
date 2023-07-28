@@ -6,7 +6,6 @@ import Toolbar from '@mui/material/Toolbar'
 
 import { useSelector } from 'react-redux'
 import {
-  removeFieldAndLayout,
   renameField,
   selectElement,
   selectJsonSchema,
@@ -40,12 +39,12 @@ export const FieldNameEditor: React.FC<{ path: string }> = ({ path }) => {
     setEditMode(false)
   }, [pathSegments, setNewFieldName, setEditMode])
 
-  const handleRemove = useCallback(() => {
-    // @ts-ignore
-    dispatch(removeFieldAndLayout({ path }))
-    // @ts-ignore
-    dispatch(selectElement(undefined))
-  }, [dispatch, path])
+  // const handleRemove = useCallback(() => {
+  //   // @ts-ignore
+  //   dispatch(removeFieldAndLayout({ path }))
+  //   // @ts-ignore
+  //   dispatch(selectElement(undefined))
+  // }, [dispatch, path])
   const handleRenameOrSetEditMode = useCallback(() => {
     if (editMode) {
       const pathSegments = path?.split('.') || []
@@ -97,9 +96,9 @@ export const FieldNameEditor: React.FC<{ path: string }> = ({ path }) => {
           <IconButton onClick={handleRenameOrSetEditMode}>{editMode ? <Save /> : <Edit />}</IconButton>
         </Grid>
         <Grid item>
-          <IconButton onClick={() => handleRemove()}>
+          {/* <IconButton onClick={() => handleRemove()}>
             <Delete />
-          </IconButton>
+          </IconButton> */}
         </Grid>
       </Grid>
     </>

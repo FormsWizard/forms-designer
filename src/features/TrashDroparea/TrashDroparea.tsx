@@ -4,14 +4,14 @@ import { Box } from '@mui/material'
 import React, { useCallback, useRef } from 'react'
 import { useDragDropManager, useDragLayer, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../../app/hooks/reduxHooks'
-import { removeFieldAndLayout } from '../wizard/WizardSlice'
+import { DraggableComponent, removeFieldOrLayout } from '../wizard/WizardSlice'
 
 const TrashDroparea = () => {
   const dispatch = useAppDispatch()
 
   const handleRemove = useCallback(
-    (key) => {
-      dispatch(removeFieldAndLayout({ path: key }))
+    (componentMeta: DraggableComponent) => {
+      dispatch(removeFieldOrLayout({ componentMeta }))
     },
     [dispatch]
   )
@@ -21,11 +21,8 @@ const TrashDroparea = () => {
     accept: ['DRAGBOX', 'MOVEBOX'],
     //@ts-ignore
     drop: ({ componentMeta }, monitor) => {
-      // if (monitor.didDrop()) {
-      //   console.log('drop')
-      // }
       if (monitor.getItemType() === 'MOVEBOX') {
-        handleRemove(componentMeta.name)
+        handleRemove(componentMeta)
       } else {
         console.log('somethign other ')
       }
@@ -35,13 +32,16 @@ const TrashDroparea = () => {
       isOver: monitor.isOver(),
     }),
   })
+  if (!isDragging) {
+    return null
+  }
 
   return (
     <Box
       ref={drop}
       sx={{
-        position: 'absolute',
-        right: 100,
+        position: 'fixed',
+        right: 200,
         top: 100,
         width: 180,
         height: 180,

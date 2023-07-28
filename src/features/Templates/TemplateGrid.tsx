@@ -11,7 +11,7 @@ import { useState } from 'react'
 import useTemplates from './useTemplates'
 import { LayersOutlined } from '@mui/icons-material'
 import TEMPLATES from './TEMPLATES.json'
-import { template } from 'lodash'
+
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { Button, Paper, Typography } from '@mui/material'
 import { useHover } from '@uidotdev/usehooks'
