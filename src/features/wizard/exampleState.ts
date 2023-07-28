@@ -138,67 +138,7 @@ export const exampleInitialState2: JsonFormsEditState = {
   editMode: false,
   jsonSchema: {
     type: 'object',
-    properties: {
-      address: {
-        type: 'object',
-        properties: {
-          created: {
-            type: 'string',
-            format: 'date-time',
-          },
-          street: {
-            type: 'string',
-          },
-          city: {
-            type: 'string',
-          },
-          zip: {
-            type: 'string',
-            pattern: '[0-9]{5}',
-          },
-          country: {
-            type: 'string',
-            enum: ['Germany', 'France', 'UK', 'USA', 'Italy', 'Spain'],
-          },
-        },
-      },
-    },
+    properties: {},
   },
-  uiSchema: {
-    type: 'VerticalLayout',
-    elements: [
-      {
-        type: 'Group',
-        label: 'address',
-
-        elements: [
-          {
-            type: 'VerticalLayout',
-            elements: [
-              {
-                type: 'Control',
-                scope: '#/properties/address/properties/created',
-              },
-              {
-                type: 'Control',
-                scope: '#/properties/address/properties/street',
-              },
-              {
-                type: 'Control',
-                scope: '#/properties/address/properties/city',
-              },
-              {
-                type: 'Control',
-                scope: '#/properties/address/properties/zip',
-              },
-              {
-                type: 'Control',
-                scope: '#/properties/address/properties/country',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+  uiSchema: { type: 'VerticalLayout', elements: [] },
 }
