@@ -9,6 +9,7 @@ import { pathSegmentsToPath, pathToPathSegments } from './uiSchemaHelpers'
  * @param path path to the nested schema
  * @param newKey new key for the property
  * @param newProperty the property to insert
+ * @param ensurePath  if true, will create the path if it does not exist
  */
 export const deeplySetNestedProperty: (
   schema: JsonSchema,
