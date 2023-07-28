@@ -1,3 +1,4 @@
-export * from './wizard/store'
-export * from './wizard/hooks'
+export * from './store'
+export * from './hooks'
 export * from './wizard/jsonFormsEditSlice'
+export * from './appBar/appBarSlice'

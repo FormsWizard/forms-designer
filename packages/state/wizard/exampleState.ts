@@ -3,11 +3,9 @@ export type JsonFormsEditState = {
   jsonSchema: JsonSchema
   uiSchema?: any
   selectedElementKey?: string | null
-  editMode: boolean
 }
 
 export const exampleInitialState1: JsonFormsEditState = {
-  editMode: false,
   jsonSchema: {
     type: 'object',
     properties: {
@@ -135,7 +133,6 @@ export const exampleInitialState1: JsonFormsEditState = {
 }
 
 export const exampleInitialState2: JsonFormsEditState = {
-  editMode: false,
   jsonSchema: {
     type: 'object',
     properties: {

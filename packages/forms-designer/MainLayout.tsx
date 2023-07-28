@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react';
 import {Container, Drawer, Paper, Toolbar} from "@mui/material";
 import {Wizard} from "./Wizard";
 import {Toolbox} from "toolbox";
-import { useDrag } from 'react-dnd'
+import {MainAppBar} from "./layout/MainAppBar";
 
 interface OwnProps {
 }
@@ -13,6 +13,7 @@ const drawerWidth = 240
 const MainLayout: FunctionComponent<Props> = (props) => {
 
   return (<>
+    <MainAppBar />
     <Drawer
         variant="persistent"
         anchor="left"
@@ -30,6 +31,7 @@ const MainLayout: FunctionComponent<Props> = (props) => {
       <Toolbox />
     </Drawer>
     <Container maxWidth="md">
+      <Toolbar/>
       <Paper sx={{p: 4, m: 4}} elevation={12} square>
         <Wizard/>
       </Paper>

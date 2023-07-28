@@ -11,7 +11,13 @@ import {
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
-import { useAppDispatch, useAppSelector, selectEditMode, selectElement, selectSelectedElementKey } from 'state'
+import {
+  useAppDispatch,
+  useAppSelector,
+  selectElement,
+  selectSelectedElementKey,
+  getEditMode
+} from 'state'
 import { Delete } from '@mui/icons-material'
 import classnames from 'classnames'
 import { useDelayedState } from '../hooks'
@@ -69,7 +75,7 @@ const LayoutElement = ({
   const rootSchema = getSchema(state)
   //const rootData = getData(state)
   const dispatch = useAppDispatch()
-  const editMode = useAppSelector(selectEditMode)
+  const editMode = useAppSelector(getEditMode)
   const selectedKey = useAppSelector(selectSelectedElementKey)
   const controlName = useMemo<string | undefined>(
     () => (child.type === 'Control' ? composeWithUi(child as ControlElement, path) : undefined),

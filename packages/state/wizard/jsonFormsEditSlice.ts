@@ -1,6 +1,6 @@
 import { createSelector, createSlice, current, PayloadAction } from '@reduxjs/toolkit'
 import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
-import { RootState } from './store'
+import { RootState } from '../store'
 import {
   pathSegmentsToJSONPointer,
   pathSegmentsToPath,
@@ -87,7 +87,6 @@ export const selectUIElementFromSelection: (state: RootState) => UISchemaElement
 //   return selectUIElementByPath(state, selectedElementKey)
 // })
 
-export const selectEditMode = (state: RootState) => state.jsonFormsEdit.editMode
 export const getParentUISchemaElements: (
   uiSchemaPath: string,
   uiSchema: UISchemaElement
@@ -242,7 +241,6 @@ export const jsonFormsEditSlice = createSlice({
         return
       }
       state.selectedElementKey = null
-      state.editMode = false
       state.jsonSchema = jsonSchema
       state.uiSchema = uiSchema
     },
@@ -419,10 +417,7 @@ export const jsonFormsEditSlice = createSlice({
       }
       const [movedElement] = sourceElements.splice(sourceIndex, 1)
       targetElements.splice(targetIndex, 0, movedElement)
-    },
-    toggleEditMode: (state: JsonFormsEditState) => {
-      state.editMode = !state.editMode
-    },
+    }
   },
 })
 
@@ -434,10 +429,9 @@ export const {
   removeField,
 
   updateUISchemaByScope,
-  toggleEditMode,
   updateJsonSchemaByPath,
   loadTemplate,
   moveControl,
 } = jsonFormsEditSlice.actions
 
-export default jsonFormsEditSlice.reducer
+export const jsonFormsEditReducer = jsonFormsEditSlice.reducer
