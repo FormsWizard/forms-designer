@@ -197,7 +197,7 @@ const LayoutElement = ({
 }
 
 function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }) {
-  const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 100, delayedValue: true })
+  const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 1, delayedValue: true })
 
   useEffect(() => {
     setDragging(anythingDragging)
@@ -218,6 +218,7 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }) {
         className={classnames({ 'is-over-dropzone': isOverCurrent })}
         sx={{
           display: 'flex',
+          borderRadius: 4,
           height: '1.5em',
           textAlign: 'center',
           verticalAlign: 'middle',

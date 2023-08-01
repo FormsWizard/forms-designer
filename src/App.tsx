@@ -10,7 +10,6 @@ import { IntlProvider } from 'react-intl'
 import messages from './locals/index'
 import { useSelector } from 'react-redux'
 import { getSelectedLanguage, toggleColorMode } from './features/AppBar/AppBarSlice'
-
 import getTheme from './theme'
 import { useAppDispatch, useAppSelector } from './app/hooks/reduxHooks'
 import { getThemeProps } from '@mui/system'
