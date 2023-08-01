@@ -10,6 +10,7 @@ import { Tab } from '@mui/material'
 import { useCallback } from 'react'
 
 import { basicDraggableComponents, advancedDraggableComponents } from '../tools/DragableJSONSchemaComponents'
+import BuildingBlocks from '../buildingBlocks/buildingBlocks'
 
 const drawerWidth = 240
 
@@ -40,7 +41,7 @@ export default function LeftDrawer() {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Tools" value="1" />
-            <Tab label="Templates" value="2" />
+            <Tab label="blocks" value="2" />
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ p: 0 }}>
@@ -65,16 +66,7 @@ export default function LeftDrawer() {
           </Box>
         </TabPanel>
         <TabPanel value="2" sx={{ p: 0 }}>
-          {advancedDraggableComponents.map((component, index) => {
-            return (
-              <DragBox
-                ToolIcon={component.ToolIcon}
-                name={component.name}
-                key={component.name}
-                componentMeta={component}
-              ></DragBox>
-            )
-          })}
+          <BuildingBlocks></BuildingBlocks>
         </TabPanel>
       </TabContext>
     </Drawer>
