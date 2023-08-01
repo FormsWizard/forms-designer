@@ -155,6 +155,7 @@ const LayoutElement = ({
                 display: isDragging ? 'none' : 'flex',
                 backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
                 padding: (theme) => theme.spacing(1, 2),
+
                 cursor: 'grab !important',
                 ' * ': {
                   cursor: 'grab !important',
@@ -163,7 +164,13 @@ const LayoutElement = ({
                   flexGrow: 1,
                 },
                 ':hover': {
-                  backgroundColor: (theme) => theme.palette.primary.main,
+                  backgroundColor: (theme) => theme.palette.primary.light,
+                  // ' > *': {
+                  //   'accent-color': (theme) => theme.palette.secondary.contrastText,
+                  //   color: (theme) => theme.palette.secondary.contrastText,
+
+                  //   '-webkit-text-fill-color': (theme) => theme.palette.secondary.contrastText,
+                  // },
                 },
               }}
               ref={dragRef}
@@ -190,7 +197,7 @@ const LayoutElement = ({
 }
 
 function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }) {
-  const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 10, delayedValue: true })
+  const [dragging, setDragging, cancel] = useDelkayedState(false, { delay: 100, delayedValue: true })
 
   useEffect(() => {
     setDragging(anythingDragging)
