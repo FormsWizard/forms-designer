@@ -3,6 +3,7 @@ import counterReducer from '../features/counter/counterSlice'
 import jsonFormsEditReducer from '../features/wizard/WizardSlice'
 import templateSlice from '../features/wizard/TemplateSlice'
 import AppBarSlice from '../features/AppBar/AppBarSlice'
+import buildingBlocksSlice from '../features/buildingBlocks/buildingBlocksSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     jsonFormsEdit: jsonFormsEditReducer,
     template: templateSlice,
     AppBar: AppBarSlice,
+    buildingBlocks: buildingBlocksSlice,
   },
 })
 
