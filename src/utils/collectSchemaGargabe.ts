@@ -1,4 +1,5 @@
 import { JsonSchema, resolveSchema, UISchemaElement } from '@jsonforms/core'
+import { current } from '@reduxjs/toolkit'
 import { cloneDeep } from 'lodash'
 import { getAllScopesInSchema } from './uiSchemaHelpers'
 
@@ -17,11 +18,11 @@ export default function collectSchemaGarbage(jsonschema: JsonSchema, uiSchema: U
       obj.toBeDeleted = true
     }
   })
-
+  console.log(marked)
   for (let scope of scopes) {
     let resolved = resolveSchema(marked, scope, marked)
     //@ts-ignore
-    delete resolved.toBeDeleted
+    if (resolved && resolved.toBeDeleted) delete resolved.toBeDeleted
   }
   traverseDelete(marked)
   return marked
