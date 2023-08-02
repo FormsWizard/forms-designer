@@ -156,43 +156,43 @@ const LayoutElement = ({
                 backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
                 padding: (theme) => theme.spacing(1, 2),
 
-                cursor: 'grab !important',
-                ' * ': {
-                  cursor: 'grab !important',
-                },
-                ' > *': {
-                  flexGrow: 1,
-                },
-                ':hover': {
-                  backgroundColor: (theme) => theme.palette.primary.light,
-                  // ' > *': {
-                  //   'accent-color': (theme) => theme.palette.secondary.contrastText,
-                  //   color: (theme) => theme.palette.secondary.contrastText,
-
-                  //   '-webkit-text-fill-color': (theme) => theme.palette.secondary.contrastText,
-                  // },
-                },
-              }}
-              ref={dragRef}
-            >
-              <JsonFormsDispatch
-                uischema={child}
-                schema={schema}
-                path={path}
-                enabled={enabled}
-                renderers={renderers}
-                cells={cells}
-              />
-            </Box>
-          </Grid>
-          <LayoutDropArea
-            isOverCurrent={isOverCurrent}
-            dropRef={dropRef2}
-            anythingDragging={anythingDragging}
-          ></LayoutDropArea>
-        </>
-      )}
-    </>
+                      cursor: 'grab !important',
+                      ' * ': {
+                        cursor: 'grab !important',
+                      },
+                      ' > *': {
+                        flexGrow: 1,
+                      },
+                      ':hover': {
+                        backgroundColor: (theme) => theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
+                        transition: theme => theme.transitions.create(
+                            ['background-color', 'color'],
+                            {
+                              duration: theme.transitions.duration.short,
+                            },
+                        )
+                      },
+                    }}
+                    ref={dragRef}
+                >
+                  <JsonFormsDispatch
+                      uischema={child}
+                      schema={schema}
+                      path={path}
+                      enabled={enabled}
+                      renderers={renderers}
+                      cells={cells}
+                  />
+                </Box>
+              </Grid>
+              <LayoutDropArea
+                  isOverCurrent={isOverCurrent}
+                  dropRef={dropRef2}
+                  anythingDragging={anythingDragging}
+              ></LayoutDropArea>
+            </>
+        )}
+      </>
   )
 }
 
