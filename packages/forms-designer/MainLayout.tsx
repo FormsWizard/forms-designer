@@ -3,6 +3,7 @@ import {Container, Drawer, Paper, Toolbar} from "@mui/material";
 import {Wizard} from "./Wizard";
 import {Toolbox} from "toolbox";
 import {MainAppBar} from "./layout/MainAppBar";
+import {TrashFAB} from "./components";
 
 interface OwnProps {
 }
@@ -35,6 +36,7 @@ const MainLayout: FunctionComponent<Props> = (props) => {
       <Paper sx={{p: 4, m: 4}} elevation={12} square>
         <Wizard/>
       </Paper>
+      <TrashFAB />
     </Container>
 
   </>);
