@@ -1,6 +1,6 @@
-import {JsonSchema, Scopable, UISchemaElement} from "@jsonforms/core";
+import {JsonSchema, Labelable, Scopable, UISchemaElement} from "@jsonforms/core";
 
-export type ScopableUISchemaElement = UISchemaElement & Scopable
+export type ScopableUISchemaElement = UISchemaElement & Scopable & Labelable
 
 export type DraggableMeta = {
   name: string
