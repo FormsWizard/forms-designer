@@ -36,7 +36,10 @@ const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () 
             alignItems="center"
             gap={2}
             sx={{
-              '& .MuiSvgIcon-root': {
+              '&:hover': {
+                cursor: 'grab'
+              },
+              '& .MuiSvgIWizacon-root': {
                 // fontSize: '2rem',
                 color: 'secondary.dark',
               },
