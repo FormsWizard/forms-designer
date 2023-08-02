@@ -57,7 +57,6 @@ export const insertUISchemaAfterScope = (
 export const getAllScopesInSchema = (uiSchema: UISchemaElement) => {
   let scopes: string[] = []
   recursivelyMapSchema(uiSchema, (ui: ScopableUISchemaElement) => {
-    console.log(ui)
     ui.scope && scopes.push(ui.scope)
     return ui
   })
