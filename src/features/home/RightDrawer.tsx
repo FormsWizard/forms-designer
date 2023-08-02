@@ -92,9 +92,9 @@ export const FieldNameEditor: React.FC<{ path: string }> = ({ path }) => {
         )}
       </Box>
       <Grid container flex="auto">
-        <Grid item>
+        {/* <Grid item>
           <IconButton onClick={handleRenameOrSetEditMode}>{editMode ? <Save /> : <Edit />}</IconButton>
-        </Grid>
+        </Grid> */}
         <Grid item>
           {/* <IconButton onClick={() => handleRemove()}>
             <Delete />
