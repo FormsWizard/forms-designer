@@ -1,5 +1,7 @@
 import {WizardApp} from "forms-designer";
- export default function Page() {
+ const Page = () => {
 
   return <WizardApp />
 }
+
+export default Page
