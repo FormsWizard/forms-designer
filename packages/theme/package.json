@@ -1,0 +1,24 @@
+{
+  "name": "theme",
+  "version": "0.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "license": "MIT",
+  "scripts": {
+    "type-check": "tsc",
+    "build": "tsup index.tsx --format esm --dts",
+    "dev": "npm run build -- --watch"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.2"
+  },
+  "peerDependencies": {
+    "@mui/base": "5.0.0-beta.8",
+    "@mui/icons-material": "^5.14.0",
+    "@mui/material": "^5.14.0",
+    "react": ">=17"
+  }
+}
