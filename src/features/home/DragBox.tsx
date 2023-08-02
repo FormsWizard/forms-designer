@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDrag } from 'react-dnd'
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import { DraggableMeta } from '../wizard/WizardSlice'
 import { Stack } from '@mui/system'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 type DragBoxProps = {
   name: string
@@ -11,7 +12,7 @@ type DragBoxProps = {
   ToolIcon: any
 }
 const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () => <></> }: DragBoxProps) => {
-  const [, dragRef] = useDrag(
+  const [, dragRef, dragPreview] = useDrag(
     () => ({
       type: 'DRAGBOX',
       item: { componentMeta },
@@ -26,11 +27,13 @@ const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () 
     }),
     []
   )
-
+  useEffect(() => { // this useEffect hides the default preview
+    dragPreview(getEmptyImage(), { captureDraggingState: true });
+}, []);
   return (
-    <Card ref={dragRef}>
-      <CardActionArea>
-        <CardContent>
+    <Card ref={dragRef} draggable="false">
+      <CardActionArea draggable="false">
+        <CardContent draggable="false">
           <Stack
             direction="row"
             alignItems="center"
