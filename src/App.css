@@ -38,10 +38,29 @@
   }
 }
 
+/* .is-over-dropzone {
+  background: linear-gradient(90deg, blue 50%, transparent 50%), linear-gradient(0deg, blue 50%, transparent 50%),
+    linear-gradient(90deg, blue 50%, transparent 50%), linear-gradient(0deg, blue 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+  background-size: 22px 2px, 2px 22px, 22px 2px, 2px 22px;
+  background-position: left top, right top, left bottom, left top;
+  padding: 2px;
+  animation: border-dance 12s infinite linear;
+  border: none;
+} */
 .is-over-dropzone {
   /* box-shadow: 0px 0px 18px 3px #f9d739; */
 
-  animation: glow 1s ease-in-out infinite alternate;
+  /* background-position: 212px 0px, 0px 116px, 0px 0px, 216px 116px; */
+}
+
+@keyframes border-dance {
+  0% {
+    background-position: left top, right top, right bottom, left bottom;
+  }
+  100% {
+    background-position: right top, right bottom, left bottom, left top;
+  }
 }
 
 @keyframes glow {

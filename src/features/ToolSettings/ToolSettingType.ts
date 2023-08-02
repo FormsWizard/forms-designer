@@ -6,5 +6,5 @@ export type ToolSetting = {
   mapToolDataToWizardUischema: (toolData: any, wizardUiSchema: UISchemaElement) => any
   isTool: (jsonSchema: JsonSchema, uiSchema: any) => boolean
   JsonSchema: JsonSchema7
-  toolSettingsMixins: [any]
+  toolSettingsMixins: any[]
 }

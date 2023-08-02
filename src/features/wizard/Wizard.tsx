@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { JsonFormsCore } from '@jsonforms/core'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
-import { useAppSelector } from '../../app/hooks/reduxHooks'
-import { selectEditMode, selectJsonSchema, selectUiSchema } from './WizardSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks/reduxHooks'
+import { selectEditMode, selectElement, selectJsonSchema, selectPath, selectUiSchema } from './WizardSlice'
 import { Box } from '@mui/system'
 import MainAppBar from '../AppBar/AppBar'
 import { JsonForms } from '@jsonforms/react'
@@ -17,6 +17,7 @@ import { useDragDropManager } from 'react-dnd'
 import {TrashFAB} from "../TrashDroparea/TrashFAB";
 
 function Wizard() {
+  const wizardPaperRef = useRef<null | HTMLDivElement>(null)
   const [data, setData] = useState<any>({})
   const handleFormChange = useCallback(
     (state: Pick<JsonFormsCore, 'data' | 'errors'>) => {
@@ -42,12 +43,26 @@ function Wizard() {
     return unsubscribe
   }, [monitor, updatePosition])
 
+  const dispatch = useAppDispatch()
+  const handleDeselect = useCallback(() => {
+    // @ts-ignore
+    dispatch(selectElement(null))
+    // @ts-ignore
+    dispatch(selectPath(null))
+  }, [dispatch])
+
+  const handleClick = (e) => {
+    if (wizardPaperRef.current && !wizardPaperRef.current.contains(e.target)) {
+      handleDeselect()
+    }
+  }
+
   return (
-    <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, p: 3, mt: 8 }}>
+    <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, mt: 8, minHeight: '85vh' }}>
       <MainAppBar></MainAppBar>
       <LeftDrawer></LeftDrawer>
-      <Container maxWidth="md">
-        <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
+      <Container maxWidth="md" onClick={handleClick}>
+        <Paper sx={{ p: 4, m: 4 }} elevation={12} square ref={wizardPaperRef}>
           <JsonForms
             data={data}
             renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}

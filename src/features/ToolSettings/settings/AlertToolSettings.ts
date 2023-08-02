@@ -38,6 +38,6 @@ const AlertToolSetting: ToolSetting = {
   JsonSchema,
   isTool: (jsonSchema: JsonSchema7, uiSchema) =>
     uiSchema && (uiSchema.type === 'Alert' || typeof uiSchema.text === 'string'),
-  toolSettingsMixins: [ToolsettingParts.Title],
+  toolSettingsMixins: [],
 }
 export default AlertToolSetting

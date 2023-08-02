@@ -44,29 +44,6 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
-    name: 'Datumsfeld',
-    ToolIcon: DateRange,
-    jsonSchemaElement: {
-      type: 'string',
-      format: 'date',
-    },
-  },
-  {
-    name: 'Datumszeitfeld',
-    ToolIcon: DateRange,
-    jsonSchemaElement: {
-      type: 'string',
-      format: 'date-time',
-    },
-  },
-  {
-    name: 'Checkbox',
-    ToolIcon: CheckBox,
-    jsonSchemaElement: {
-      type: 'boolean',
-    },
-  },
-  {
     name: 'Mehrzeiliges Textfeld',
     ToolIcon: ShortText,
     jsonSchemaElement: {
@@ -80,6 +57,14 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
+    name: 'Checkbox',
+    ToolIcon: CheckBox,
+    jsonSchemaElement: {
+      type: 'boolean',
+    },
+  },
+
+  {
     name: 'Radio Buttons',
     ToolIcon: RadioButtonChecked,
     jsonSchemaElement: {
@@ -89,7 +74,7 @@ export const basicDraggableComponents: DraggableElement[] = [
     uiSchema: {
       type: 'Control',
       options: {
-        format: 'radio',
+        format: 'default',
       },
     },
   },
@@ -112,6 +97,23 @@ export const basicDraggableComponents: DraggableElement[] = [
       },
     },
   },
+  {
+    name: 'Datumsfeld',
+    ToolIcon: DateRange,
+    jsonSchemaElement: {
+      type: 'string',
+      format: 'date',
+    },
+  },
+  {
+    name: 'Datumszeitfeld',
+    ToolIcon: DateRange,
+    jsonSchemaElement: {
+      type: 'string',
+      format: 'date-time',
+    },
+  },
+
   {
     name: 'List of Objects',
     ToolIcon: EditAttributes,
@@ -138,26 +140,6 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
-    name: 'horizontales layout',
-    ToolIcon: ArrowRightAlt,
-    uiSchema: {
-      type: 'HorizontalLayout',
-      //@ts-ignore
-      elements: [],
-    },
-  },
-  {
-    name: 'vertikales layout',
-    ToolIcon: ArrowDownward,
-    uiSchema: {
-      type: 'HorizontalLayout',
-      //@ts-ignore
-      label: 'Vertikales Layout',
-      elements: [],
-    },
-  },
-
-  {
     name: 'gruppe',
     ToolIcon: Tab,
     jsonSchemaElement: {
@@ -175,6 +157,25 @@ export const basicDraggableComponents: DraggableElement[] = [
         },
       ],
     }),
+  },
+  {
+    name: 'horizontales layout',
+    ToolIcon: ArrowRightAlt,
+    uiSchema: {
+      type: 'HorizontalLayout',
+      //@ts-ignore
+      elements: [],
+    },
+  },
+  {
+    name: 'vertikales layout',
+    ToolIcon: ArrowDownward,
+    uiSchema: {
+      type: 'HorizontalLayout',
+      //@ts-ignore
+      label: 'Vertikales Layout',
+      elements: [],
+    },
   },
 ]
 

@@ -13,7 +13,7 @@ const JsonSchema = {
     },
     format: {
       type: 'boolean',
-      label: 'format',
+      title: 'als Dropdown anzeigen',
     },
   },
 }
@@ -21,7 +21,7 @@ const JsonSchema = {
 const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
   return {
     options: wizardSchema.enum,
-    format: uiSchema?.options?.format === 'radio',
+    format: uiSchema?.options?.format !== 'radio',
   }
 }
 
@@ -30,7 +30,7 @@ const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => 
 const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
   return {
     ...wizardUiSchema,
-    options: { format: toolData.format ? 'radio' : 'default' },
+    options: { format: toolData.format ? 'default' : 'radio' },
   }
 }
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {

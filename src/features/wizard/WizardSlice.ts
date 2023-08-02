@@ -354,7 +354,7 @@ export const jsonFormsEditSlice = createSlice({
         const schemaInGroup = getJsonSchemaByPath(state.jsonSchema, deepestGroupPath.join('.'))
 
         let newKey = draggableMeta.name
-        // this looks a bit whacky, but since we allways great the group on the first level, and fields on the group level, we check both
+        // this looks a bit whacky, but since we allways create the group on the first level, and fields on the group level, we check both
         for (
           let i = 1;
           schemaInGroup.properties[newKey] !== undefined || state.jsonSchema.properties[newKey] !== undefined;

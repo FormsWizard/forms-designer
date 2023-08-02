@@ -10,12 +10,22 @@ import {
 } from '@jsonforms/core'
 import {JsonFormsDispatch, useJsonForms} from '@jsonforms/react'
 import {Box, Grid, IconButton, Typography} from '@mui/material'
-import React, {FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo} from 'react'
-import {useDragLayer, useDrop} from 'react-dnd'
-import {useAppDispatch} from '../app/hooks/reduxHooks'
-import {selectEditMode, selectElement, selectPath, selectSelectedElementKey} from '../features/wizard/WizardSlice'
-import {useSelector} from 'react-redux'
-import {Delete} from '@mui/icons-material'
+import  React, {
+
+  FC,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import { useDragLayer, useDrop } from 'react-dnd'
+import { useAppDispatch } from '../app/hooks/reduxHooks'
+import { selectEditMode, selectElement, selectPath, selectSelectedElementKey } from '../features/wizard/WizardSlice'
+import { useSelector } from 'react-redux'
+import { Delete } from '@mui/icons-material'
+
 import {useDragTarget, useDropTarget} from '../app/hooks'
 import classnames from 'classnames'
 import useDelkayedState from '../app/hooks/useDelayedState'
@@ -96,7 +106,7 @@ const LayoutElement = ({
   // const anythingDragging = true
   const [{ isOverCurrent: isOverCurrent1}, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOverCurrent: isOverCurrent2}, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
-  const [{ isOverCurrent: isOverCurrent3}, dropRef3] = useDrop(handleDropAtStart, [handleAllDrop])
+  const [{  isOverCurrent: isOverCurrent3 }, dropRef3] = useDrop(handleDropAtStart, [handleAllDrop])
   const isOverCurrent = isOverCurrent1 || isOverCurrent2
   const handleSelect = useCallback(
       (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -190,28 +200,31 @@ const LayoutElement = ({
 }
 
 function LayoutDropArea({isOverCurrent, dropRef, anythingDragging}) {
-  const [dragging, setDragging, cancel] = useDelkayedState(false, {delay: 1, delayedValue: true})
+  // const [dragging, setDragging, cancel] = useDelkayedState(false, {delay: 1yar, delayedValue: true})
+  // const [dragging, setDragging] = useState(false)
 
-  useEffect(() => {
-    setDragging(anythingDragging)
-    if (anythingDragging !== dragging && !anythingDragging) {
-      cancel(false)
-    }
-  }, [anythingDragging])
+  // useEffect(() => {
+  //   setDragging(anythingDragging)
+  //   if (anythingDragging !== dragging && !anythingDragging) {
+  //     // cancel(false)
+  //   }
+  // }, [anythingDragging])
 
   return (
       <Box
           sx={{
             opacity: isOverCurrent ? '1.0' : '0.3',
-            display: dragging ? 'block' : 'none',
+            display: 'block',
           }}
           ref={dropRef}
       >
         <Box
-            className={classnames({'is-over-dropzone': isOverCurrent})}
+            className={classnames('is-dropzone', {'is-over-dropzone': isOverCurrent})}
             sx={{
               display: 'flex',
-              borderRadius: 4,
+          border: anythingDragging ? `1px dashed darkgray` : 'none',
+              borderRadius: '5px',
+          boxSizing: 'border-box',
               height: '1.5em',
               textAlign: 'center',
               verticalAlign: 'middle',
@@ -221,6 +234,7 @@ function LayoutDropArea({isOverCurrent, dropRef, anythingDragging}) {
           <Typography
               sx={{
                 margin: 'auto',
+            opacity: anythingDragging ? '1.0' : '0',
               }}
           >
             drop here
