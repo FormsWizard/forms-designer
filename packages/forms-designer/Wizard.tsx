@@ -6,13 +6,14 @@ import {JsonForms} from "@jsonforms/react";
 import {selectJsonSchema, selectUiSchema, useAppSelector} from "state";
 import {extendUiSchemaWithPath} from "utils";
 import {basicRenderer, verticalLayoutTester, VerticalLayoutWithDropZoneRenderer} from 'renderer';
-import {useDrag} from "react-dnd";
+import {JsonFormsRendererRegistryEntry} from "@jsonforms/core";
 
 const additionalRenderers = [{
   tester: verticalLayoutTester,
   renderer: VerticalLayoutWithDropZoneRenderer,
 }]
 
+const renderers: JsonFormsRendererRegistryEntry[] = [...materialRenderers, ...additionalRenderers, ...basicRenderer]
 export function Wizard() {
   const [data, setData] = useState({});
 
@@ -24,24 +25,10 @@ export function Wizard() {
   const uiSchema = useAppSelector(selectUiSchema)
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
 
-  const [{opacity}, dragRef] = useDrag(
-      () => ({
-        type: 'MOVEBOX',
-        item: {name: 'test'},
-        collect: (monitor) => ({
-          opacity: monitor.isDragging() ? 0.5 : 1,
-          isDragging: monitor.isDragging(),
-        }),
-        end: (item, monitor) => {
-          const didDrop = monitor.didDrop()
-          if (didDrop) {
-          }
-        },
-      }))
-
   return <JsonForms
+        readonly={true}
         data={data}
-        renderers={[...materialRenderers, ...basicRenderer, ...additionalRenderers]}
+        renderers={renderers}
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
