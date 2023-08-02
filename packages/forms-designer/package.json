@@ -21,20 +21,23 @@
     "@jsonforms/core": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
-    "react": "^16.9.0 || ^17.0.0 || ^18",
-    "react-redux": "^8.1.1",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
-    "react-dnd-touch-backend": "^16.0.1",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
-    "@mui/x-date-pickers": "^6.10.0"
+    "@mui/x-date-pickers": "^6.10.0",
+    "react": "^16.9.0 || ^17.0.0 || ^18",
+    "react-dnd": "^16.0.1",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
+    "react-redux": "^8.1.1"
   },
   "dependencies": {
-    "state": "workspace:*",
+    "theme": "workspace:*",
+    "react-hooks": "workspace:*",
     "renderer": "workspace:*",
-    "utils": "workspace:*",
+    "state": "workspace:*",
     "toolbox": "workspace:*",
-    "react-hooks": "workspace:*"
+    "utils": "workspace:*"
   }
 }
