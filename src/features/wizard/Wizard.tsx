@@ -11,10 +11,10 @@ import RightDrawer from '../home/RightDrawer'
 import LeftDrawer from '../home/LeftDrawer'
 import { extendUiSchemaWithPath } from '../../utils/uiSchemaHelpers'
 import { renderesDropping, renderesBasics } from '../../renderer/Renderers'
-import TrashDroparea from '../TrashDroparea/TrashDroparea'
 import { Container, Paper } from '@mui/material'
 import { useScroll } from './useScroll'
 import { useDragDropManager } from 'react-dnd'
+import {TrashFAB} from "../TrashDroparea/TrashFAB";
 
 function Wizard() {
   const [data, setData] = useState<any>({})
@@ -80,7 +80,7 @@ function Wizard() {
         }
       ></FormControlLabel> */}
       <RightDrawer></RightDrawer>
-      <TrashDroparea></TrashDroparea>
+      <TrashFAB />
     </Box>
   )
 }
