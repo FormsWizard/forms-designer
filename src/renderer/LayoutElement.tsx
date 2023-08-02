@@ -24,7 +24,7 @@ import { useDragLayer, useDrop } from 'react-dnd'
 import { useAppDispatch } from '../app/hooks/reduxHooks'
 import { selectEditMode, selectElement, selectPath, selectSelectedElementKey } from '../features/wizard/WizardSlice'
 import { useSelector } from 'react-redux'
-import { Delete } from '@mui/icons-material'
+import { AddBox, Delete } from '@mui/icons-material'
 
 import {useDragTarget, useDropTarget} from '../app/hooks'
 import classnames from 'classnames'
@@ -148,15 +148,14 @@ const LayoutElement = ({
             //   ref={dropRef3}
             // ></Paper>
         )}
-        {!isDragging && (
-            <>
+ 
               <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
                 <Box
                     // elevation={selectedKey === key ? 4 : 0}
                     sx={{
                       flexGrow: 1,
-                      display: isDragging ? 'none' : 'flex',
-                      backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
+                      display: "flex",
+                      backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.dark : 'none'),
                       padding: (theme) => theme.spacing(1, 2),
 
                       cursor: 'grab !important',
@@ -194,9 +193,7 @@ const LayoutElement = ({
                   anythingDragging={anythingDragging}
               ></LayoutDropArea>
             </>
-        )}
-      </>
-  )
+         )
 }
 
 function LayoutDropArea({isOverCurrent, dropRef, anythingDragging}) {
@@ -221,24 +218,27 @@ function LayoutDropArea({isOverCurrent, dropRef, anythingDragging}) {
         <Box
             className={classnames('is-dropzone', {'is-over-dropzone': isOverCurrent})}
             sx={{
-              display: 'flex',
+              display: "flex",
           border: anythingDragging ? `1px dashed darkgray` : 'none',
               borderRadius: '5px',
           boxSizing: 'border-box',
-              height: '1.5em',
+              // height: '1.5em',
               textAlign: 'center',
               verticalAlign: 'middle',
-              margin: (theme) => theme.spacing(1, 2),
+               margin: (theme) => theme.spacing(1, 2),
+            padding: 1
             }}
         >
-          <Typography
+          {/* <Typography
               sx={{
                 margin: 'auto',
-            opacity: anythingDragging ? '1.0' : '0',
+            opacity: anythingDragging ? '1.0' : '1',
+                padding: 1
+
               }}
-          >
-            drop here
-          </Typography>
+          > */}
+            <AddBox color={isOverCurrent ? 'success' : "info"} sx={{ opacity: anythingDragging ? '1.0' : '0', margin: "auto", fontSize: "2em"}}></AddBox>
+          {/* </Typography> */}
         </Box>
       </Box>
   )
