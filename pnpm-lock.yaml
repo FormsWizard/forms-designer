@@ -119,6 +119,12 @@ importers:
 
   packages/forms-designer:
     dependencies:
+      '@emotion/cache':
+        specifier: ^11.11.0
+        version: 11.11.0
+      '@emotion/react':
+        specifier: ^11.11.1
+        version: 11.11.1(@types/react@18.2.5)(react@17.0.2)
       '@jsonforms/core':
         specifier: ^3.1.0
         version: 3.1.0
@@ -158,6 +164,9 @@ importers:
       state:
         specifier: workspace:*
         version: link:../state
+      theme:
+        specifier: workspace:*
+        version: link:../theme
       toolbox:
         specifier: workspace:*
         version: link:../toolbox
@@ -342,6 +351,34 @@ importers:
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
+
+  packages/theme:
+    dependencies:
+      '@mui/base':
+        specifier: 5.0.0-beta.8
+        version: 5.0.0-beta.8(@types/react@18.2.16)(react-dom@18.2.0)(react@17.0.2)
+      '@mui/icons-material':
+        specifier: ^5.14.0
+        version: 5.14.1(@mui/material@5.14.2)(@types/react@18.2.16)(react@17.0.2)
+      '@mui/material':
+        specifier: ^5.14.0
+        version: 5.14.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: '>=17'
+        version: 17.0.2
+    devDependencies:
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-custom:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: ^4.5.2
+        version: 4.9.5
 
   packages/toolbox:
     dependencies:
