@@ -22,5 +22,5 @@ export const MaterialAlertRenderer = ({ text, visible }: LabelProps) => {
   )
 }
 
-const MaterialAlertRendererWithProps: React.ComponentType<OwnPropsOfLabel> = withJsonFormsLabelProps(MaterialAlertRenderer);
+const MaterialAlertRendererWithProps: React.ComponentClass<OwnPropsOfLabel> | React.FunctionComponent<OwnPropsOfLabel> = withJsonFormsLabelProps(MaterialAlertRenderer) as React.FunctionComponent<OwnPropsOfLabel>;
 export default MaterialAlertRendererWithProps
