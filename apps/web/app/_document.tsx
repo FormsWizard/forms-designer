@@ -10,8 +10,7 @@ import Document, {
 import createEmotionServer from '@emotion/server/create-instance';
 import { AppType } from 'next/app';
 import theme  from './default-theme';
-import { WizardAppProps } from './_app';
-import createEmotionCache from "./createEmotionCache";
+import createEmotionCache from './createEmotionCache';
 
 interface WizardAppDocumentProps extends DocumentProps {
   emotionStyleTags: JSX.Element[];
@@ -67,10 +66,15 @@ WizardAppDocument.getInitialProps = async (ctx: DocumentContext) => {
   const cache = createEmotionCache();
   const { extractCriticalToChunks } = createEmotionServer(cache);
 
+  type WizardAppProps = {
+    emotionCache: ReturnType<typeof createEmotionCache>;
+  }
+
   ctx.renderPage = () =>
       originalRenderPage({
         enhanceApp: (App: React.ComponentType<React.ComponentProps<AppType> & WizardAppProps>) =>
             function EnhanceApp(props) {
+              // @ts-ignore
               return <App emotionCache={cache} {...props} />;
             },
       });
