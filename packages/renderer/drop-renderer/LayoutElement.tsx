@@ -17,11 +17,11 @@ import {
   selectElement,
   selectSelectedElementKey,
   getEditMode
-} from 'state'
+} from "@formswizard/state"
 import { Delete } from '@mui/icons-material'
 import classnames from 'classnames'
 import { useDelayedState } from '../hooks'
-import {useDNDHooksContext, useDragTarget, useDropTarget} from 'react-hooks'
+import {useDNDHooksContext, useDragTarget, useDropTarget} from "@formswizard/react-hooks"
 
 export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
 const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {

@@ -1,22 +1,21 @@
 {
-  "name": "renderer",
+  "name": "@formswizard/renderer",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "license": "MIT",
   "scripts": {
+    "build": "tsup index.tsx --format esm --dts",
     "lint": "eslint \"**/*.ts*\"",
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.195",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.2",
-    "types": "workspace:*"
+    "@formswizard/types": "workspace:*"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0",
@@ -32,8 +31,8 @@
     "ajv": "^8.12.0",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21",
-    "state": "workspace:*",
-    "utils": "workspace:*",
-    "react-hooks": "workspace:*"
+    "@formswizard/state": "workspace:*",
+    "@formswizard/utils": "workspace:*",
+    "@formswizard/react-hooks": "workspace:*"
   }
 }

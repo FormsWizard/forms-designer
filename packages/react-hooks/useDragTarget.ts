@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import {DraggableComponent} from "types";
+import {DraggableComponent} from "@formswizard/types";
 import {JsonSchema} from "@jsonforms/core";
 import {useDNDHooksContext} from "./DNDHooksContext";
 

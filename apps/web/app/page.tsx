@@ -1,7 +1,7 @@
-import {WizardApp} from "forms-designer";
- const Page = () => {
+import {WizardWrapper} from './WizardWrapper'
+const Page = () => {
 
-  return <WizardApp />
+  return <WizardWrapper />
 }
 
 export default Page

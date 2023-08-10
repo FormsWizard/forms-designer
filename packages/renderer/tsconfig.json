@@ -2,6 +2,7 @@
   "extends": "tsconfig/react-library.json",
   "compilerOptions": {
     "lib": ["esnext", "dom"],
+    "resolveJsonModule": true
   },
   "include": ["."],
   "exclude": ["dist", "build", "node_modules"]

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from '../store'
 
-import { ScopableUISchemaElement } from 'types'
+import { ScopableUISchemaElement } from "@formswizard/types"
 
 export type AppBarState = {
   editMode: boolean

@@ -1,6 +1,6 @@
-import {DraggableComponent} from "state";
+import {DraggableComponent} from "@formswizard/state";
 import {Person} from "@mui/icons-material";
-import {updateScopeOfUISchemaElement} from "utils";
+import {updateScopeOfUISchemaElement} from "@formswizard/utils";
 
 export const advancedDraggableComponents: DraggableComponent[] = [
   {

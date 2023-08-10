@@ -1,16 +1,16 @@
 {
-  "name": "forms-designer",
+  "name": "@formswizard/forms-designer",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "generate:component": "turbo gen react-component"
+    "generate:component": "turbo gen react-component",
+    "build": "tsup index.tsx --format esm --dts"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
@@ -32,11 +32,11 @@
     "react-redux": "^8.1.1"
   },
   "dependencies": {
-    "theme": "workspace:*",
-    "react-hooks": "workspace:*",
-    "renderer": "workspace:*",
-    "state": "workspace:*",
-    "toolbox": "workspace:*",
-    "utils": "workspace:*"
+    "@formswizard/theme": "workspace:*",
+    "@formswizard/react-hooks": "workspace:*",
+    "@formswizard/renderer": "workspace:*",
+    "@formswizard/state": "workspace:*",
+    "@formswizard/toolbox": "workspace:*",
+    "@formswizard/utils": "workspace:*"
   }
 }

@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from 'react';
 import {Container, Drawer, Paper, Toolbar} from "@mui/material";
 import {Wizard} from "./Wizard";
-import {Toolbox} from "toolbox";
+import {Toolbox} from "@formswizard/toolbox";
 import {MainAppBar} from "./layout/MainAppBar";
 import {TrashFAB} from "./components";
 

@@ -2,7 +2,7 @@ import React, {useContext} from 'react'
 import { useDrag as useDragHook } from 'react-dnd'
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
-import { useDNDHooksContext} from "react-hooks";
+import { useDNDHooksContext} from "@formswizard/react-hooks";
 
 export type DraggableMeta = {
   name: string

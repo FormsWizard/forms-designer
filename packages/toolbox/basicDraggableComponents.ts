@@ -1,4 +1,4 @@
-import {DraggableElement} from "state";
+import {DraggableElement} from "@formswizard/state";
 import {
   TextFields,
   DateRange,
@@ -12,7 +12,7 @@ import {
   ArrowDownward,
   Info,
 } from '@mui/icons-material'
-import {updateScopeOfUISchemaElement} from "utils";
+import {updateScopeOfUISchemaElement} from "@formswizard/utils";
 
 export const basicDraggableComponents: DraggableElement[] = [
   {

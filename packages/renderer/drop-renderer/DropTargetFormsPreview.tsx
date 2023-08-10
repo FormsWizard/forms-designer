@@ -1,4 +1,4 @@
-import { DraggableComponent } from 'types'
+import { DraggableComponent } from "@formswizard/types"
 import { JsonForms } from '@jsonforms/react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonSchema7, UISchemaElement } from '@jsonforms/core'

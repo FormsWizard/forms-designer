@@ -4,11 +4,11 @@ import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 
 import {IconButton, Typography, useTheme} from '@mui/material'
-import { useAppDispatch } from 'state'
+import { useAppDispatch } from "@formswizard/state"
 import { Box } from '@mui/material'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
-import { toggleColorMode } from 'state'
+import { toggleColorMode } from "@formswizard/state"
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 export function MainAppBar() {
   const dispatch = useAppDispatch()

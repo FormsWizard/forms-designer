@@ -5,7 +5,7 @@ import { useAppDispatch,
   DraggableUISchemaElement,
   insertControl,
   moveControl
-} from 'state'
+} from "@formswizard/state"
 
 export type UseDropTargetProps = {
   child: UISchemaElement

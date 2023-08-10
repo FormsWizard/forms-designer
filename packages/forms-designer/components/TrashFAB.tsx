@@ -2,8 +2,8 @@ import { DeleteOutline } from '@mui/icons-material'
 import {Fab, useTheme, Zoom} from '@mui/material'
 
 import React, {useCallback, useMemo} from 'react'
-import {useDNDHooksContext} from "react-hooks";
-import {DraggableComponent, removeFieldOrLayout, useAppDispatch} from "state";
+import {useDNDHooksContext} from "@formswizard/react-hooks";
+import {DraggableComponent, removeFieldOrLayout, useAppDispatch} from "@formswizard/state";
 
 export const TrashFAB = () => {
   const { useDrop, useDragLayer } = useDNDHooksContext()

@@ -11,17 +11,17 @@ import {
   scopeToPathSegments,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
-} from 'utils'
+} from "@formswizard/utils"
 import {
   deeplyRemoveNestedProperty,
   deeplyRenameNestedProperty,
   deeplyUpdateNestedSchema,
-} from 'utils'
-import { ScopableUISchemaElement } from 'types'
+} from "@formswizard/utils"
+import { ScopableUISchemaElement } from "@formswizard/types"
 import { exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { findLastIndex } from 'lodash'
-import { collectSchemaGarbage } from 'utils'
+import { collectSchemaGarbage } from "@formswizard/utils"
 
 export type DraggableMeta = {
   name: string
@@ -50,7 +50,7 @@ export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdi
 //TODO: document further
 export const selectUIElementByScope: (uiSchema: UISchemaElement, scope: string) => UISchemaElement | undefined = (uiSchema, scope) => {
   //TODO: make this code cleaner by using a functional recursive findestate.jsonSchema.propertiesr
-  let uiElement = undefined
+  let uiElement: UISchemaElement | undefined = undefined
   recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
     if (uischema.scope === scope) {
       uiElement = uischema
