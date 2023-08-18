@@ -50,6 +50,7 @@ export const TrashFAB = () => {
         <Fab
             ref={dropRef}
             sx={{
+              zIndex: 10000,
               position: 'absolute',
               bottom: 16,
               right: 16

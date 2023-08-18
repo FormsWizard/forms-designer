@@ -155,7 +155,7 @@ const LayoutElement = ({
                     sx={{
                       flexGrow: 1,
                       display: "flex",
-                      backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.dark : 'none'),
+                      backgroundColor: (theme) => (selectedKey === key ? (theme.palette.mode === 'dark' ? theme.palette.grey[800]  : theme.palette.grey[200]) : 'none'),
                       padding: (theme) => theme.spacing(1, 2),
 
                       cursor: 'grab !important',
