@@ -1,10 +1,8 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 
 import { DragBox } from './DragBox'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
-import { useDrag as useDragHook } from 'react-dnd'
+import { Tab, Box } from '@mui/material'
 import { useCallback } from 'react'
 import {basicDraggableComponents} from "./basicDraggableComponents";
 import {advancedDraggableComponents} from "./advancedDraggableComponents";
