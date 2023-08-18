@@ -1,6 +1,5 @@
 import { isLayout, Layout, UISchemaElement } from '@jsonforms/core'
-import { last } from 'lodash'
-import isEmpty from 'lodash/isEmpty'
+import { last, isEmpty } from 'lodash'
 import { ScopableUISchemaElement } from '../types'
 
 const insertIntoArray = <T>(arr: T[], index: number, element: T) => {
