@@ -15,6 +15,8 @@ import { Container, Paper } from '@mui/material'
 import { useScroll } from './useScroll'
 import { useDragDropManager } from 'react-dnd'
 import {TrashFAB} from "../TrashDroparea/TrashFAB";
+import { useSelector } from 'react-redux'
+import { getpreviewModus } from '../AppBar/AppBarSlice'
 
 function Wizard() {
   const wizardPaperRef = useRef<null | HTMLDivElement>(null)
@@ -34,6 +36,9 @@ function Wizard() {
 
   const dragDropManager = useDragDropManager()
   const monitor = dragDropManager.getMonitor()
+
+  const previewModus = useSelector(getpreviewModus)
+
 
   useEffect(() => {
     const unsubscribe = monitor.subscribeToOffsetChange(() => {
@@ -56,22 +61,38 @@ function Wizard() {
       handleDeselect()
     }
   }
+  
+
 
   return (
     <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, mt: 8, minHeight: '85vh' }}>
       <MainAppBar></MainAppBar>
       <LeftDrawer></LeftDrawer>
       <Container maxWidth="md" onClick={handleClick}>
+        
+        
         <Paper sx={{ p: 4, m: 4 }} elevation={12} square ref={wizardPaperRef}>
+        {!previewModus && 
           <JsonForms
             data={data}
             renderers={[...materialRenderers, ...renderesBasics, ...renderesDropping]}
             cells={materialCells}
+            
+            schema={jsonSchema}
+            uischema={uiSchemaWithPath}
+            readonly={true} />
+          }
+          {previewModus &&          
+           <JsonForms
+            data={data}
+            renderers={[...materialRenderers, ...renderesBasics]}
+            cells={materialCells}
             onChange={handleFormChange}
             schema={jsonSchema}
             uischema={uiSchemaWithPath}
-            readonly={true}
-          />
+            />
+          }
+
         </Paper>
       </Container>
       {/* <FormControlLabel

@@ -13,16 +13,16 @@ import LanguageSelector from './LanguageDropdown'
 import { Box } from '@mui/system'
 import Brightness4Icon from '@mui/icons-material/Brightness4'
 import Brightness7Icon from '@mui/icons-material/Brightness7'
-import { toggleColorMode } from './AppBarSlice'
+import { getpreviewModus, toggleColorMode, togglePreviewModus } from './AppBarSlice'
 import { TemplateModalButton } from '../Templates/TemplateModal'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 function MainAppBar() {
   const dispatch = useAppDispatch()
 
-  // const editMode = useSelector(selectEditMode)
-  // const handleToggleEdit = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(toggleEditMode())
-  // }
+  const previewModus = useSelector(getpreviewModus)
+  const handleTogglePreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(togglePreviewModus())
+  }
 
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -30,10 +30,10 @@ function MainAppBar() {
         <Grid2 container flex={1} alignItems="center">
           <Grid2 md={6}></Grid2>
           <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
-            {/* <Typography variant="h6" noWrap component="div">
-              <FormattedMessage id="editMode"></FormattedMessage>
+             <Typography variant="h6" noWrap component="div">
+              <FormattedMessage id="preview"></FormattedMessage>
             </Typography>
-            <Switch checked={editMode} onChange={handleToggleEdit} /> */}
+            <Switch checked={previewModus} onChange={handleTogglePreview} /> 
           </Grid2>
           <Grid2
             md={3}
