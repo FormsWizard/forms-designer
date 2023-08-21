@@ -1,8 +1,8 @@
 {
   "name": "@formswizard/react-hooks",
   "version": "0.0.0",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -11,11 +11,11 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
+    "@formswizard/types": "workspace:*",
     "eslint": "^8.45.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^5.1.6",
-    "@formswizard/types": "workspace:*",
     "react": ">=18"
   },
   "peerDependencies": {
@@ -26,6 +26,8 @@
   },
   "dependencies": {
     "@formswizard/state": "workspace:*",
-    "@formswizard/utils": "workspace:*"
+    "@formswizard/utils": "workspace:*",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
   }
 }

@@ -14,6 +14,7 @@ const drawerWidth = 240
 const MainLayout: FunctionComponent<Props> = (props) => {
 
   return (<>
+    {/*
     <MainAppBar />
     <Drawer
         variant="persistent"
@@ -31,14 +32,14 @@ const MainLayout: FunctionComponent<Props> = (props) => {
       <Toolbar/>
       <Toolbox />
     </Drawer>
+    */}
     <Container maxWidth="md">
-      <Toolbar/>
+      {/*<Toolbar/>*/}
       <Paper sx={{p: 4, m: 4}} elevation={12} square>
         <Wizard/>
       </Paper>
       <TrashFAB />
     </Container>
-
   </>);
 };
 

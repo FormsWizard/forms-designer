@@ -28,9 +28,11 @@
     "react-redux": "^8.1.1"
   },
   "dependencies": {
-    "@mui/system": "^5.14.1",
+    "@formswizard/react-hooks": "workspace:*",
     "@formswizard/state": "workspace:*",
     "@formswizard/utils": "workspace:*",
-    "@formswizard/react-hooks": "workspace:*"
+    "@mui/system": "^5.14.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
   }
 }

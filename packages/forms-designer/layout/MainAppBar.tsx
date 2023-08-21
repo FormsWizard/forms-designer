@@ -33,7 +33,7 @@ export function MainAppBar() {
               },
             }}
           >
-            <DarkModeSwitch></DarkModeSwitch>
+            {/*<DarkModeSwitch></DarkModeSwitch>*/}
           </Grid>
         </Grid>
       </Toolbar>
