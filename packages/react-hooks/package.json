@@ -6,7 +6,8 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsup index.ts --format esm --dts",
+    "build": "tsup index.ts --format esm,cjs --dts --external react",
+    "dev": "tsup index.ts --format esm,cjs --watch --dts --external react",
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
@@ -14,7 +15,8 @@
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^5.1.6",
-    "@formswizard/types": "workspace:*"
+    "@formswizard/types": "workspace:*",
+    "react": ">=18"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0",

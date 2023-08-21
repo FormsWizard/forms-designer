@@ -6,14 +6,16 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsup index.ts --format esm --dts",
+    "build": "tsup index.ts --format esm,cjs --dts",
+    "build": "tsup index.ts --format esm,cjs --watch --dts",
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "react": ">=18"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0"

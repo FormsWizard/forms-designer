@@ -8,13 +8,14 @@
   "scripts": {
     "type-check": "tsc",
     "build": "tsup index.tsx --format esm --dts",
-    "dev": "npm run build -- --watch"
+    "dev": "tsup index.tsx --format esm --watch --dts"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "react": ">=18"
   },
   "peerDependencies": {
     "@mui/base": "5.0.0-beta.8",
