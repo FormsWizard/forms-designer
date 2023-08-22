@@ -10,7 +10,6 @@
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
-    "@formswizard/forms-designer": "workspace:*",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
@@ -37,6 +36,9 @@
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.9.4",
-    "vite": "^4.0.3"
+    "vite": "^4.4.9",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.4"
   }
 }
