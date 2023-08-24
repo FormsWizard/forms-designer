@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "build": "tsup index.ts --format esm,cjs --dts",
-    "build": "tsup index.ts --format esm,cjs --watch --dts",
+    "dev": "tsup index.ts --format esm,cjs --watch --dts",
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
