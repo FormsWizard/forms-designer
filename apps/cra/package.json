@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build -l 3000",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -27,6 +27,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/testing-library__jest-dom": "^5.14.5",
+    "serve": "^14.2.1",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.4"
   },
