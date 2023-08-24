@@ -7,6 +7,7 @@ const JsonSchema = {
   properties: {
     text: {
       type: 'string',
+      
     },
   },
 }
@@ -22,13 +23,13 @@ const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => 
 const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
   return {
     ...wizardUiSchema,
-    text: toolData.text,
+    text: toolData.text ?? "",
   }
 }
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
   return {
     ...wizardSchema,
-  }
+    }
 }
 
 const AlertToolSetting: ToolSetting = {
