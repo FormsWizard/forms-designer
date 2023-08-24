@@ -27,20 +27,21 @@ const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () 
     }),
     []
   )
-  useEffect(() => { // this useEffect hides the default preview
-    dragPreview(getEmptyImage(), { captureDraggingState: true });
-}, []);
+  useEffect(() => {
+    // this useEffect hides the default preview
+    dragPreview(getEmptyImage(), { captureDraggingState: true })
+  }, [])
   return (
-    <Card ref={dragRef} draggable="false">
-      <CardActionArea draggable="false">
-        <CardContent draggable="false">
+    <Card ref={dragRef}>
+      <CardActionArea>
+        <CardContent>
           <Stack
             direction="row"
             alignItems="center"
             gap={2}
             sx={{
               '&:hover': {
-                cursor: 'grab'
+                cursor: 'grab',
               },
               '& .MuiSvgIWizacon-root': {
                 // fontSize: '2rem',
