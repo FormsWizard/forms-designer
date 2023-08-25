@@ -1,3 +1,5 @@
 import {WizardApp} from "@formswizard/forms-designer";
 
-export default WizardApp;
+export const App = () => {
+  return <WizardApp />
+};

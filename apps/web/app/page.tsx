@@ -1,7 +1,8 @@
-import {WizardWrapper} from './WizardWrapper'
+import {withNoSSR} from "./withNoSSR";
+import {Wizard, WizardProvider} from "@formswizard/forms-designer";
 const Page = () => {
 
-  return <WizardWrapper />
+  return <WizardProvider><Wizard /></WizardProvider>
 }
 
-export default Page
+export default withNoSSR(Page)
