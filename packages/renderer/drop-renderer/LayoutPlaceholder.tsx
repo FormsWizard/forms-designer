@@ -5,6 +5,7 @@ import React from 'react'
 import { DropTargetFormsPreview } from './DropTargetFormsPreview'
 import { useDNDHooksContext, useDropTarget } from '@formswizard/react-hooks'
 import { ArrowForward } from '@mui/icons-material'
+import { useDrop } from 'react-dnd'
 
 type EmptyLayoutElementProps = {
   child: UISchemaElement
@@ -19,7 +20,6 @@ type StyledPlaceholderProps = {
   handleAllDrop: any
 }
 const StyledPlaceholderElementBox = ({ draggedMeta, handleAllDrop }: StyledPlaceholderProps) => {
-  const { useDrop } = useDNDHooksContext()
   // @ts-ignore
   const [{ isOver, isOverCurrent }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   return (
@@ -53,6 +53,7 @@ function LayoutPlaceholder({ child, path, elements, layoutRendererProps, directi
   //TODO make sure we have child.path
   const { handleDropAtStart, draggedMeta } = useDropTarget({ child, isPlaceholder: true })
   const { schema, enabled, renderers, cells } = layoutRendererProps
+
   return (
     <Box>
       {direction === 'row' && <ArrowForward></ArrowForward>}

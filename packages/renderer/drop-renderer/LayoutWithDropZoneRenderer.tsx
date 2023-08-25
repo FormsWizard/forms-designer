@@ -18,7 +18,7 @@ export interface MaterialLayoutRendererProps extends OwnPropsOfRenderer {
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
   const { visible, elements, schema, path, enabled, direction, renderers, cells, uischema } = props
-  if (elements.length === 0 && visible) {
+  if (elements.length === 0) {
     // @ts-ignore
     return (
       <LayoutPlaceholder
