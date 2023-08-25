@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import {IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid} from '@mui/material'
-import { useAppDispatch } from "@formswizard/state"
-import { Brightness4, Brightness7} from '@mui/icons-material'
-import { toggleColorMode } from "@formswizard/state"
+import { IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid } from '@mui/material'
+import { useAppDispatch } from '@formswizard/state'
+import { Brightness4, Brightness7 } from '@mui/icons-material'
+import { toggleColorMode } from '@formswizard/state'
 export function MainAppBar() {
   const dispatch = useAppDispatch()
 
   return (
-    <AppBar position="fixed"  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <Grid container flex={1} alignItems="center">
           <Grid item md={6}>
@@ -40,7 +40,6 @@ export function MainAppBar() {
     </AppBar>
   )
 }
-
 
 function DarkModeSwitch() {
   const theme = useTheme()

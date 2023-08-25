@@ -1,9 +1,5 @@
 import type { UISchemaElement } from '@jsonforms/core'
-import {
-  getAjv,
-  OwnPropsOfRenderer,
-
-} from '@jsonforms/core'
+import { getAjv, OwnPropsOfRenderer } from '@jsonforms/core'
 import { useJsonForms } from '@jsonforms/react'
 import { ArrowForward } from '@mui/icons-material'
 import { Box, Grid } from '@mui/material'

@@ -1,4 +1,4 @@
-import {JsonSchema, Labelable, Scopable, UISchemaElement} from "@jsonforms/core";
+import { JsonSchema, Labelable, Scopable, UISchemaElement } from '@jsonforms/core'
 
 export type ScopableUISchemaElement = UISchemaElement & Scopable & Labelable
 

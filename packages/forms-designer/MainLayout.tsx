@@ -1,21 +1,20 @@
-import React, {FunctionComponent} from 'react';
-import {Container, Drawer, Paper, Toolbar} from "@mui/material";
-import {Wizard} from "./Wizard";
-import {Toolbox} from "@formswizard/toolbox";
-import {MainAppBar} from "./layout/MainAppBar";
-import {TrashFAB} from "./components";
+import React, { FunctionComponent } from 'react'
+import { Container, Drawer, Paper, Toolbar } from '@mui/material'
+import { Wizard } from './Wizard'
+import { Toolbox } from '@formswizard/toolbox'
+import { MainAppBar } from './layout/MainAppBar'
+import { TrashFAB } from './components'
 
-interface OwnProps {
-}
+interface OwnProps {}
 
-type Props = OwnProps;
+type Props = OwnProps
 
 const drawerWidth = 240
 export const MainLayout: FunctionComponent<Props> = (props) => {
-
-  return (<>
-    <MainAppBar />
-    <Drawer
+  return (
+    <>
+      <MainAppBar />
+      <Drawer
         variant="persistent"
         anchor="left"
         open
@@ -27,17 +26,17 @@ export const MainLayout: FunctionComponent<Props> = (props) => {
             boxSizing: 'border-box',
           },
         }}
-    >
-      <Toolbar/>
-      <Toolbox />
-    </Drawer>
-    <Container maxWidth="md">
-      <Toolbar/>
-      <Paper sx={{p: 4, m: 4}} elevation={12} square>
-        <Wizard/>
-      </Paper>
-      <TrashFAB />
-    </Container>
-  </>);
-};
-
+      >
+        <Toolbar />
+        <Toolbox />
+      </Drawer>
+      <Container maxWidth="md">
+        <Toolbar />
+        <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
+          <Wizard />
+        </Paper>
+        <TrashFAB />
+      </Container>
+    </>
+  )
+}

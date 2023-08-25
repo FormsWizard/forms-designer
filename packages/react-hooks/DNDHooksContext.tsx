@@ -1,4 +1,4 @@
-import {createContext, useContext} from "react";
+import { createContext, useContext } from 'react'
 import { useDrag as useDragHook, useDrop as useDropHook, useDragLayer as useDragLayerHook } from 'react-dnd'
 
 type DNDHooksContextType = {
@@ -15,7 +15,7 @@ export const DNDHooksContext = createContext<DNDHooksContextType>({
   },
   useDragLayer: () => {
     throw new Error('useDragLayer must be used within a DNDHooksProvider')
-  }
+  },
 })
 
 export const useDNDHooksContext = () => useContext(DNDHooksContext)

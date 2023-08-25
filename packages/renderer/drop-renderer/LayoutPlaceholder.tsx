@@ -3,7 +3,7 @@ import type { OwnPropsOfRenderer, UISchemaElement } from '@jsonforms/core'
 import { Box, Grid } from '@mui/material'
 import React from 'react'
 import { DropTargetFormsPreview } from './DropTargetFormsPreview'
-import {useDNDHooksContext, useDropTarget} from "@formswizard/react-hooks"
+import { useDNDHooksContext, useDropTarget } from '@formswizard/react-hooks'
 import { ArrowForward } from '@mui/icons-material'
 
 type EmptyLayoutElementProps = {

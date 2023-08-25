@@ -1,6 +1,9 @@
 import { useCallback, useState, useRef, useEffect } from 'react'
 
-export function useDelayedState<T>(initial: T, { delay = 300, delayedValue = true }): [T ,React.Dispatch<React.SetStateAction<T>> , (state: T) => void] {
+export function useDelayedState<T>(
+  initial: T,
+  { delay = 300, delayedValue = true }
+): [T, React.Dispatch<React.SetStateAction<T>>, (state: T) => void] {
   const [state, setState] = useState(initial)
   const [change, setChange] = useState(initial)
   const timer = useRef<number | null>(null)

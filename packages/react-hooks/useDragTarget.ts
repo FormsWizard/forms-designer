@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import {DraggableComponent} from "@formswizard/types";
-import {JsonSchema} from "@jsonforms/core";
-import {useDNDHooksContext} from "./DNDHooksContext";
+import { DraggableComponent } from '@formswizard/types'
+import { JsonSchema } from '@jsonforms/core'
+import { useDNDHooksContext } from './DNDHooksContext'
 
 type UseDragTargetProps = {
   child?: any
@@ -11,11 +11,14 @@ type UseDragTargetProps = {
 export const useDragTarget = ({ child, name, resolvedSchema }: UseDragTargetProps) => {
   const { useDrag } = useDNDHooksContext()
   const componentMeta = useMemo<DraggableComponent | undefined>(
-    () => (name && resolvedSchema) ? ({
-      name,
-      jsonSchemaElement: resolvedSchema,
-      uiSchema: child,
-    }) : undefined,
+    () =>
+      name && resolvedSchema
+        ? {
+            name,
+            jsonSchemaElement: resolvedSchema,
+            uiSchema: child,
+          }
+        : undefined,
     [name, child, resolvedSchema]
   )
   return useDrag(

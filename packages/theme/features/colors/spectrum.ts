@@ -4,8 +4,8 @@ export enum TRAFFIC_LIGHT {
   yellow = 'yellow',
   orange = 'orange',
   red = 'red',
-  white = 'white'
-};
+  white = 'white',
+}
 
 export enum CONNECTION {
   perfect = TRAFFIC_LIGHT.darkgreen,
@@ -18,5 +18,5 @@ export enum SECURITY_INDICATOR {
   advanced = TRAFFIC_LIGHT.darkgreen,
   good = TRAFFIC_LIGHT.lightgreen,
   dubious = TRAFFIC_LIGHT.orange,
-  insufficient = TRAFFIC_LIGHT.red
+  insufficient = TRAFFIC_LIGHT.red,
 }

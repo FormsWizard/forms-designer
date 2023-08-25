@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react'
 import { UISchemaElement } from '@jsonforms/core'
-import { useAppDispatch,
+import {
+  useAppDispatch,
   DraggableComponent,
   DraggableUISchemaElement,
   insertControl,
-  moveControl
-} from "@formswizard/state"
+  moveControl,
+} from '@formswizard/state'
 
 export type UseDropTargetProps = {
   child: UISchemaElement
@@ -153,6 +154,6 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
     handleAllDrop,
     handleDropAtStart,
     draggedMeta,
-    handleDrop
+    handleDrop,
   }
 }

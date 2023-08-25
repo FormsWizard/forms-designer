@@ -1,8 +1,8 @@
 import {
   MaterialEnumArrayWithLabelRenderer,
-  materialEnumArrayWithLabelRendererTester
-} from "./MultiEnumArrayRendererWithLabel";
-import {MaterialAlertRenderer, materialAlertRendererTester} from "./MaterialAlertRenderer";
+  materialEnumArrayWithLabelRendererTester,
+} from './MultiEnumArrayRendererWithLabel'
+import { MaterialAlertRenderer, materialAlertRendererTester } from './MaterialAlertRenderer'
 
 export * from './MaterialAlertRenderer'
 export * from './MultiEnumArrayRendererWithLabel'

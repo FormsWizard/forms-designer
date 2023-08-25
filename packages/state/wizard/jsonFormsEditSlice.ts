@@ -11,17 +11,13 @@ import {
   scopeToPathSegments,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
-} from "@formswizard/utils"
-import {
-  deeplyRemoveNestedProperty,
-  deeplyRenameNestedProperty,
-  deeplyUpdateNestedSchema,
-} from "@formswizard/utils"
-import { ScopableUISchemaElement } from "@formswizard/types"
+} from '@formswizard/utils'
+import { deeplyRemoveNestedProperty, deeplyRenameNestedProperty, deeplyUpdateNestedSchema } from '@formswizard/utils'
+import { ScopableUISchemaElement } from '@formswizard/types'
 import { exampleInitialState2, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { findLastIndex } from 'lodash'
-import { collectSchemaGarbage } from "@formswizard/utils"
+import { collectSchemaGarbage } from '@formswizard/utils'
 
 export type DraggableMeta = {
   name: string
@@ -48,7 +44,10 @@ export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
 export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
 //TODO: document further
-export const selectUIElementByScope: (uiSchema: UISchemaElement, scope: string) => UISchemaElement | undefined = (uiSchema, scope) => {
+export const selectUIElementByScope: (uiSchema: UISchemaElement, scope: string) => UISchemaElement | undefined = (
+  uiSchema,
+  scope
+) => {
   //TODO: make this code cleaner by using a functional recursive findestate.jsonSchema.propertiesr
   let uiElement: UISchemaElement | undefined = undefined
   recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
@@ -323,7 +322,7 @@ export const jsonFormsEditSlice = createSlice({
     ) => {
       const { child, draggableMeta, placeBefore = false, isPlaceholder = false } = action.payload
       const path = child.path === '' ? 'elements.0' : isPlaceholder ? child.path + '.elements.0' : child.path
-      if(!path) {
+      if (!path) {
         console.error('cannot insert control, no path provided')
         return
       }
@@ -343,7 +342,7 @@ export const jsonFormsEditSlice = createSlice({
       // )
 
       // get the name of the new element
-      if(!state.jsonSchema.properties) {
+      if (!state.jsonSchema.properties) {
         console.error('cannot insert control, no properties in json schema')
         return
       }
@@ -387,12 +386,12 @@ export const jsonFormsEditSlice = createSlice({
     ) => {
       const { child, draggableMeta, placeBefore } = action.payload
       // this is tghe move target
-      const { index= 0, parentPath } = getIndexAndParentPathOfUISchemaElement(child.path || '')
+      const { index = 0, parentPath } = getIndexAndParentPathOfUISchemaElement(child.path || '')
       // this is the move source
       const { path: sourcePath } = draggableMeta.uiSchema as any
       const { index: sourceIndex, parentPath: sourceParentPath } = getIndexAndParentPathOfUISchemaElement(sourcePath)
 
-      if(!sourceIndex || !sourceParentPath) {
+      if (!sourceIndex || !sourceParentPath) {
         throw new Error('source parent path is undefined')
       }
 
@@ -417,7 +416,7 @@ export const jsonFormsEditSlice = createSlice({
       }
       const [movedElement] = sourceElements.splice(sourceIndex, 1)
       targetElements.splice(targetIndex, 0, movedElement)
-    }
+    },
   },
 })
 

@@ -1,1 +1,1 @@
-export * from './useDelayedState';
+export * from './useDelayedState'

@@ -5,7 +5,7 @@ import {
   RankedTester,
   rankWith,
   UISchemaElement,
-  uiTypeIs
+  uiTypeIs,
 } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
 import React from 'react'
@@ -28,6 +28,10 @@ export const HorizontalLayoutWithDropZoneRenderer = (props: LayoutProps) => {
   return <LayoutWithDropZoneRenderer {...childProps} renderers={renderers} cells={cells} />
 }
 
-const HorizontalLayoutWithDropZoneRendererWithProps: React.ComponentClass<LayoutProps & OwnPropsOfLayout> | React.FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(HorizontalLayoutWithDropZoneRenderer);
+const HorizontalLayoutWithDropZoneRendererWithProps:
+  | React.ComponentClass<LayoutProps & OwnPropsOfLayout>
+  | React.FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(
+  HorizontalLayoutWithDropZoneRenderer
+)
 export default HorizontalLayoutWithDropZoneRendererWithProps
 export const horizontalLayoutTester: RankedTester = rankWith(10, uiTypeIs('HorizontalLayout'))

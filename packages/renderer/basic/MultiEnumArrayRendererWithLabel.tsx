@@ -3,7 +3,8 @@ import {
   ControlProps,
   DispatchPropsOfMultiEnumControl,
   hasType,
-  JsonSchema, OwnPropsOfControl,
+  JsonSchema,
+  OwnPropsOfControl,
   OwnPropsOfEnum,
   Paths,
   RankedTester,
@@ -18,7 +19,7 @@ import { withJsonFormsMultiEnumProps } from '@jsonforms/react'
 
 import { FormControl, FormControlLabel, FormGroup, FormHelperText, Hidden, FormLabel } from '@mui/material'
 import { isEmpty } from 'lodash'
-import React from "react";
+import React from 'react'
 
 export const MaterialEnumArrayWithLabelRenderer = ({
   schema,
@@ -35,7 +36,8 @@ export const MaterialEnumArrayWithLabelRenderer = ({
   ...otherProps
 }: ControlProps & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl) => {
   // @ts-ignore
-  return (<Hidden xlUp={!visible}>
+  return (
+    <Hidden xlUp={!visible}>
       <FormControl component="fieldset">
         <FormLabel component={'legend' as 'label'}>{label}</FormLabel>
         <FormGroup row>
@@ -96,5 +98,8 @@ export const materialEnumArrayWithLabelRendererTester: RankedTester = rankWith(
   )
 )
 
-const MaterialEnumArrayWithLabelRendererWithProps: React.ComponentClass<OwnPropsOfControl & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl> | React.FunctionComponent<OwnPropsOfControl & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl> = withJsonFormsMultiEnumProps(MaterialEnumArrayWithLabelRenderer);
+const MaterialEnumArrayWithLabelRendererWithProps:
+  | React.ComponentClass<OwnPropsOfControl & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl>
+  | React.FunctionComponent<OwnPropsOfControl & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl> =
+  withJsonFormsMultiEnumProps(MaterialEnumArrayWithLabelRenderer)
 export default MaterialEnumArrayWithLabelRendererWithProps

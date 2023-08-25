@@ -5,7 +5,7 @@ import {
   rankWith,
   UISchemaElement,
   uiTypeIs,
-  VerticalLayout
+  VerticalLayout,
 } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
 import React from 'react'
@@ -35,6 +35,10 @@ export const VerticalLayoutWithDropZoneRenderer = ({
   return <LayoutWithDropZoneRenderer {...childProps} renderers={renderers} cells={cells} />
 }
 
-const VerticalLayoutWithDropZoneRendererWithProps: React.ComponentClass<LayoutProps & OwnPropsOfLayout> | React.FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(VerticalLayoutWithDropZoneRenderer);
+const VerticalLayoutWithDropZoneRendererWithProps:
+  | React.ComponentClass<LayoutProps & OwnPropsOfLayout>
+  | React.FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(
+  VerticalLayoutWithDropZoneRenderer
+)
 export default VerticalLayoutWithDropZoneRendererWithProps
 export const verticalLayoutTester: RankedTester = rankWith(10, uiTypeIs('VerticalLayout'))
