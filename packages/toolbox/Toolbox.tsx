@@ -36,7 +36,7 @@ export function Toolbox() {
             return (
               <DragBox
                 name={component.name}
-                ToolIcon={component.ToolIcon}
+                ToolIconName={component.ToolIconName}
                 key={component.name}
                 componentMeta={component}
               />
@@ -48,7 +48,7 @@ export function Toolbox() {
         {advancedDraggableComponents.map((component, index) => {
           return (
             <DragBox
-              ToolIcon={component.ToolIcon}
+              ToolIconName={component.ToolIconName}
               name={component.name}
               key={component.name}
               componentMeta={component}

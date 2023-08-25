@@ -16,16 +16,16 @@ import {
 import { deeplyRemoveNestedProperty, deeplyRenameNestedProperty, deeplyUpdateNestedSchema } from '@formswizard/utils'
 import {
   DraggableComponent,
-  DraggableMeta,
   DraggableUISchemaElement,
   ScopableUISchemaElement,
+  DraggableElement,
 } from '@formswizard/types'
 import { exampleInitialState, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { findLastIndex, last } from 'lodash'
 import { collectSchemaGarbage } from '@formswizard/utils'
 
-export type DraggableElement = DraggableComponent | DraggableUISchemaElement
+// export type DraggableElement = DraggableComponent | DraggableUISchemaElement
 
 export const isDraggableComponent = (element: any): element is DraggableComponent =>
   element.name && element.jsonSchemaElement
@@ -459,38 +459,39 @@ function getJsonSchemaByPath(jsonSchema, path) {
     if (prev?.type === 'object' && prev.properties && prev.properties[key]) {
       return prev.properties[key]
     }
-    return null
+    return prev
   }, jsonSchema)
   return selectedElement
 }
-//@ts-ignore
-export const selectUIElementFromSelection = createSelector(
-  selectSelectedPath,
-  selectUiSchema,
-  (selectedPath, uiSchema) => {
-    if (!selectedPath) return undefined
-    // if type is layout name is actually an index
-    if (selectedPath.includes('-')) {
-      const [UiElementType, UiElementName] = selectedPath.split('-')
-      return undefined
-    }
-    return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath)))
-  }
-)
 
 //@ts-ignore
-const selectSelectedElementJsonSchema = createSelector(
-  selectJsonSchema,
-  selectUIElementFromSelection,
-  (jsonSchema, selectedUiSchema) => {
-    // @ts-ignore
-    if (!selectedUiSchema || !selectedUiSchema.scope) {
-      return null
-    }
-    const selectedElement = resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
+// export const selectUIElementFromSelection = createSelector(
+//   selectSelectedPath,
+//   selectUiSchema,
+//   (selectedPath, uiSchema) => {
+//     if (!selectedPath) return undefined
+//     // if type is layout name is actually an index
+//     if (selectedPath.includes('-')) {
+//       const [UiElementType, UiElementName] = selectedPath.split('-')
+//       return undefined
+//     }
+//     return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath)))
+//   }
+// )
 
-    return selectedElement
-  }
-)
+// //@ts-ignore
+// const selectSelectedElementJsonSchema = createSelector(
+//   selectJsonSchema,
+//   selectUIElementFromSelection,
+//   (jsonSchema, selectedUiSchema) => {
+//     // @ts-ignore
+//     if (!selectedUiSchema || !selectedUiSchema.scope) {
+//       return null
+//     }
+//     const selectedElement = resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
 
-export { selectSelectedElementJsonSchema }
+//     return selectedElement
+//   }
+// )
+
+// export { selectSelectedElementJsonSchema }

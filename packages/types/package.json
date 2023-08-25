@@ -4,10 +4,10 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "build": "tsup index.ts --format esm,cjs --dts"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
     "@jsonforms/core": "^3.1.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",

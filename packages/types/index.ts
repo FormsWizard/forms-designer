@@ -4,15 +4,15 @@ export type ScopableUISchemaElement = UISchemaElement & Scopable & Labelable
 
 export type DraggableMeta = {
   name: string
-  ToolIcon: any
+  ToolIconName?: string
 }
 
-export type DraggableComponent = Partial<DraggableMeta> & {
+export type DraggableComponent = DraggableMeta & {
   jsonSchemaElement: JsonSchema
   uiSchema?: UISchemaElement
 }
 
-export type DraggableUISchemaElement = Partial<DraggableMeta> & {
+export type DraggableUISchemaElement = DraggableMeta & {
   uiSchema: UISchemaElement
 }
 

@@ -13,6 +13,7 @@
     "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react"
   },
   "devDependencies": {
+    "@formswizard/types": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",

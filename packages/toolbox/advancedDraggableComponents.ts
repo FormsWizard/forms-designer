@@ -1,11 +1,9 @@
-import { DraggableComponent } from '@formswizard/state'
-import { Person } from '@mui/icons-material'
 import { updateScopeOfUISchemaElement } from '@formswizard/utils'
-
+import { DraggableComponent } from '@formswizard/types'
 export const advancedDraggableComponents: DraggableComponent[] = [
   {
     name: 'person',
-    ToolIcon: Person,
+    ToolIconName: 'Person',
     jsonSchemaElement: {
       type: 'object',
       properties: {
