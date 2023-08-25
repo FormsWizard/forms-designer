@@ -7,6 +7,6 @@ if [ -d "$SITEDIR" ]; then
 fi
 mkdir "$SITEDIR"
 
-cp -r apps/web/.next "$SITEDIR"/next
+cp -r apps/web/out "$SITEDIR"/next
 cp -r apps/cra/build "$SITEDIR"/cra
 cp -r apps/storybook/storybook-static "$SITEDIR"/storybook

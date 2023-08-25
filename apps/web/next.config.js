@@ -1,4 +1,5 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: []
+  transpilePackages: [],
+  output: 'export'
 };
