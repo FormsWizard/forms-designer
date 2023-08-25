@@ -1,10 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "build": "turbo run build --concurrency 20",
+    "build": "turbo run build --filter=!@formswizard/wizard-vite --concurrency 20",
     "dev": "turbo run dev --concurrency 20",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "build:pages": "./makeSite.sh"
   },
   "devDependencies": {
     "@turbo/gen": "^1.10.7",
