@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   transpilePackages: [],
-  output: 'export'
+  output: 'export',
+  basePath: '/forms-designer/next'
 };
