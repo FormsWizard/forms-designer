@@ -18,7 +18,7 @@ import {
   selectSelectedElementKey,
   getEditMode,
 } from '@formswizard/state'
-import { Delete } from '@mui/icons-material'
+import { AddBox, Delete } from '@mui/icons-material'
 import classnames from 'classnames'
 import { useDelayedState } from '../hooks'
 import { useDNDHooksContext, useDragTarget, useDropTarget } from '@formswizard/react-hooks'
@@ -141,46 +141,54 @@ const LayoutElement = ({
         //   ref={dropRef3}
         // ></Paper>
       )}
-      {!isDragging && (
-        <>
-          <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
-            <Box
-              // elevation={selectedKey === key ? 4 : 0}
-              sx={{
-                flexGrow: 1,
-                display: isDragging ? 'none' : 'flex',
-                backgroundColor: (theme) => (selectedKey === key ? theme.palette.primary.light : 'none'),
-                padding: (theme) => theme.spacing(1, 2),
-                cursor: 'grab !important',
-                ' * ': {
-                  cursor: 'grab !important',
-                },
-                ' > *': {
-                  flexGrow: 1,
-                },
-                ':hover': {
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                },
-              }}
-              ref={dragRef}
-            >
-              <JsonFormsDispatch
-                uischema={child}
-                schema={schema}
-                path={path}
-                enabled={enabled}
-                renderers={renderers}
-                cells={cells}
-              />
-            </Box>
-          </Grid>
-          <LayoutDropArea
-            isOverCurrent={isOverCurrent}
-            dropRef={dropRef2}
-            anythingDragging={anythingDragging}
-          ></LayoutDropArea>
-        </>
-      )}
+
+      <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
+        <Box
+          // elevation={selectedKey === key ? 4 : 0}
+          sx={{
+            flexGrow: 1,
+            display: 'flex',
+            backgroundColor: (theme) =>
+              selectedKey === key
+                ? theme.palette.mode === 'dark'
+                  ? theme.palette.grey[800]
+                  : theme.palette.grey[200]
+                : 'none',
+            padding: (theme) => theme.spacing(1, 2),
+
+            cursor: 'grab !important',
+            ' * ': {
+              cursor: 'grab !important',
+            },
+            ' > *': {
+              flexGrow: 1,
+            },
+            ':hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
+              transition: (theme) =>
+                theme.transitions.create(['background-color', 'color'], {
+                  duration: theme.transitions.duration.short,
+                }),
+            },
+          }}
+          ref={dragRef}
+        >
+          <JsonFormsDispatch
+            uischema={child}
+            schema={schema}
+            path={path}
+            enabled={enabled}
+            renderers={renderers}
+            cells={cells}
+          />
+        </Box>
+      </Grid>
+      <LayoutDropArea
+        isOverCurrent={isOverCurrent}
+        dropRef={dropRef2}
+        anythingDragging={anythingDragging}
+      ></LayoutDropArea>
     </>
   )
 }
@@ -191,40 +199,50 @@ type LayoutDropAreaProps = {
   anythingDragging: boolean
 }
 function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDropAreaProps) {
-  const [dragging, setDragging, cancel] = useDelayedState<boolean>(false, { delay: 10, delayedValue: true })
+  // const [dragging, setDragging, cancel] = useDelayedState<boolean>(false, { delay: 10, delayedValue: true })
 
-  useEffect(() => {
-    setDragging(anythingDragging)
-    if (anythingDragging !== dragging && !anythingDragging) {
-      cancel(false)
-    }
-  }, [anythingDragging])
+  // useEffect(() => {
+  //   setDragging(anythingDragging)
+  //   if (anythingDragging !== dragging && !anythingDragging) {
+  //     cancel(false)
+  //   }
+  // }, [anythingDragging])
 
   return (
     <Box
       sx={{
         opacity: isOverCurrent ? '1.0' : '0.3',
-        display: dragging ? 'block' : 'none',
+        display: 'block',
       }}
       ref={dropRef}
     >
       <Box
-        className={classnames({ 'is-over-dropzone': isOverCurrent })}
+        className={classnames('is-dropzone', { 'is-over-dropzone': isOverCurrent })}
         sx={{
           display: 'flex',
-          height: '1.5em',
+          border: anythingDragging ? `1px dashed darkgray` : '1px dashed transparent',
+          borderRadius: '5px',
+          boxSizing: 'border-box',
+          // height: '1.5em',
           textAlign: 'center',
           verticalAlign: 'middle',
           margin: (theme) => theme.spacing(1, 2),
+          padding: 1,
         }}
       >
-        <Typography
-          sx={{
-            margin: 'auto',
-          }}
-        >
-          drop here
-        </Typography>
+        {/* <Typography
+              sx={{
+                margin: 'auto',
+            opacity: anythingDragging ? '1.0' : '1',
+                padding: 1
+
+              }}
+          > */}
+        <AddBox
+          color={isOverCurrent ? 'success' : 'info'}
+          sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}
+        ></AddBox>
+        {/* </Typography> */}
       </Box>
     </Box>
   )
