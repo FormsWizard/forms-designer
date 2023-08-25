@@ -45,7 +45,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-formswizard-${{ hashFiles('**/pnpm-lock.json') }}-
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
       - name: Build
         run: pnpm build
       - name: Collect static pages
