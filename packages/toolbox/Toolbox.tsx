@@ -34,27 +34,23 @@ export function Toolbox() {
             }}
           >
             {basicDraggableComponents.map((component, index) => {
-              return (
-                <DragBox
-                  name={component.name}
-                  ToolIcon={component.ToolIcon}
-                  key={component.name}
-                  componentMeta={component}
-                ></DragBox>
-              )
+              return <DragBox
+    name={component.name}
+    ToolIcon={component.ToolIcon}
+    key={component.name}
+    componentMeta={component}
+    />
             })}
           </Box>
         </TabPanel>
         <TabPanel value="2" sx={{ p: 0 }}>
           {advancedDraggableComponents.map((component, index) => {
-            return (
-              <DragBox
-                ToolIcon={component.ToolIcon}
-                name={component.name}
-                key={component.name}
-                componentMeta={component}
-              ></DragBox>
-            )
+            return <DragBox
+    ToolIcon={component.ToolIcon}
+    name={component.name}
+    key={component.name}
+    componentMeta={component}
+    />
           })}
         </TabPanel>
       </TabContext>
