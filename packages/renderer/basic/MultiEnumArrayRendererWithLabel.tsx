@@ -17,7 +17,7 @@ import { MuiCheckbox } from '@jsonforms/material-renderers'
 import { withJsonFormsMultiEnumProps } from '@jsonforms/react'
 
 import { FormControl, FormControlLabel, FormGroup, FormHelperText, Hidden, FormLabel } from '@mui/material'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from 'lodash'
 import React from "react";
 
 export const MaterialEnumArrayWithLabelRenderer = ({
@@ -34,8 +34,8 @@ export const MaterialEnumArrayWithLabelRenderer = ({
   handleChange: _handleChange,
   ...otherProps
 }: ControlProps & OwnPropsOfEnum & DispatchPropsOfMultiEnumControl) => {
-  return (
-    <Hidden xlUp={!visible}>
+  // @ts-ignore
+  return (<Hidden xlUp={!visible}>
       <FormControl component="fieldset">
         <FormLabel component={'legend' as 'label'}>{label}</FormLabel>
         <FormGroup row>

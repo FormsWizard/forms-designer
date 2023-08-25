@@ -1,20 +1,22 @@
 {
   "name": "@formswizard/react-hooks",
   "version": "0.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "tsup index.ts --format esm --dts",
+    "build": "tsup index.ts --format esm,cjs --dts --external react",
+    "dev": "tsup index.ts --format esm,cjs --watch --dts --external react",
     "lint": "eslint \"**/*.ts*\""
   },
   "devDependencies": {
+    "@formswizard/types": "workspace:*",
     "eslint": "^8.45.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^5.1.6",
-    "@formswizard/types": "workspace:*"
+    "react": ">=18"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0",
@@ -24,6 +26,8 @@
   },
   "dependencies": {
     "@formswizard/state": "workspace:*",
-    "@formswizard/utils": "workspace:*"
+    "@formswizard/utils": "workspace:*",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
   }
 }

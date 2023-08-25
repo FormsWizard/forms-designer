@@ -1,5 +1,3 @@
-import React, {useContext} from 'react'
-import { useDrag as useDragHook } from 'react-dnd'
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext} from "@formswizard/react-hooks";
@@ -33,7 +31,7 @@ export const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIco
     []
   )
 
-  return (
+  return <>
     <Card ref={dragRef}>
       <CardActionArea>
         <CardContent>
@@ -56,6 +54,6 @@ export const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIco
         </CardContent>
       </CardActionArea>
     </Card>
-  )
+  </>
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {LabelProps, OwnPropsOfLabel, RankedTester, rankWith, uiTypeIs} from '@jsonforms/core'
-import { withJsonFormsLabelProps } from '@jsonforms/react'
-import { Hidden, Typography, Alert } from '@mui/material'
+import {withJsonFormsLabelProps} from '@jsonforms/react'
+import {Hidden, Typography, Alert} from '@mui/material'
 
 /**
  * Default tester for a label.
@@ -12,13 +12,13 @@ export const materialAlertRendererTester: RankedTester = rankWith(1, uiTypeIs('A
 /**
  * Default renderer for a label.
  */
-export const MaterialAlertRenderer = ({ text, visible }: LabelProps) => {
-  return (
-    <Hidden xsUp={!visible}>
-      <Alert severity="info">
-        <Typography variant="h6">{text}</Typography>
-      </Alert>
-    </Hidden>
+export const MaterialAlertRenderer = ({text, visible}: LabelProps) => {
+  // @ts-ignore
+  return (<Hidden xsUp={!visible}>
+        <Alert severity="info">
+          <Typography variant="h6">{text}</Typography>
+        </Alert>
+      </Hidden>
   )
 }
 

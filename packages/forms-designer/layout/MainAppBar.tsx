@@ -1,32 +1,27 @@
 import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
 
-import Toolbar from '@mui/material/Toolbar'
-
-import {IconButton, Typography, useTheme} from '@mui/material'
+import {IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid} from '@mui/material'
 import { useAppDispatch } from "@formswizard/state"
-import { Box } from '@mui/material'
-import Brightness4Icon from '@mui/icons-material/Brightness4'
-import Brightness7Icon from '@mui/icons-material/Brightness7'
+import { Brightness4, Brightness7} from '@mui/icons-material'
 import { toggleColorMode } from "@formswizard/state"
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 export function MainAppBar() {
   const dispatch = useAppDispatch()
 
   return (
     <AppBar position="fixed"  sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
-        <Grid2 container flex={1} alignItems="center">
-          <Grid2 md={6}>
+        <Grid container flex={1} alignItems="center">
+          <Grid item md={6}>
             <Typography variant="h6" noWrap component="div">
               Forms Designer
             </Typography>
-          </Grid2>
-          <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
+          </Grid>
+          <Grid item md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
             {/*tools?*/}
-          </Grid2>
-          <Grid2
+          </Grid>
+          <Grid
             md={3}
+            item
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
@@ -38,9 +33,9 @@ export function MainAppBar() {
               },
             }}
           >
-            <DarkModeSwitch></DarkModeSwitch>
-          </Grid2>
-        </Grid2>
+            {/*<DarkModeSwitch></DarkModeSwitch>*/}
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   )
@@ -69,7 +64,7 @@ function DarkModeSwitch() {
     >
       {theme.palette.mode} mode
       <IconButton sx={{ ml: 1 }} onClick={handleClicked} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
       </IconButton>
     </Box>
   )

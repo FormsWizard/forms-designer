@@ -1,11 +1,11 @@
-import { DeleteOutline } from '@mui/icons-material'
+import { Delete as DeleteIcon } from '@mui/icons-material'
 import {Fab, useTheme, Zoom} from '@mui/material'
 
-import React, {useCallback, useMemo} from 'react'
+import {Suspense, useCallback, useMemo} from 'react'
 import {useDNDHooksContext} from "@formswizard/react-hooks";
 import {DraggableComponent, removeFieldOrLayout, useAppDispatch} from "@formswizard/state";
 
-export const TrashFAB = () => {
+export const TrashFAB: () => JSX.Element = () => {
   const { useDrop, useDragLayer } = useDNDHooksContext()
   const dispatch = useAppDispatch()
   const theme = useTheme()
@@ -27,7 +27,6 @@ export const TrashFAB = () => {
     //@ts-ignore
     drop: ({ componentMeta }, monitor) => {
       const itemType = monitor.getItemType()
-      console.log('drop', itemType)
       if ( itemType === 'MOVEBOX') {
         handleRemove(componentMeta)
       }
@@ -38,7 +37,7 @@ export const TrashFAB = () => {
     }),
   })
 
-  return (
+  return <>
       <Zoom
           in={isDragging}
           timeout={transitionDuration}
@@ -54,11 +53,12 @@ export const TrashFAB = () => {
               bottom: 16,
               right: 16
             }}
+
             size={isOver ? 'large' : 'medium'}
             aria-label={'delete item'} color={'secondary'}>
-          <DeleteOutline />
+          {"❌"}
         </Fab>
       </Zoom>
-  )
+  </>
 }
 

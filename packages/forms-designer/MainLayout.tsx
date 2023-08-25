@@ -11,7 +11,7 @@ interface OwnProps {
 type Props = OwnProps;
 
 const drawerWidth = 240
-const MainLayout: FunctionComponent<Props> = (props) => {
+export const MainLayout: FunctionComponent<Props> = (props) => {
 
   return (<>
     <MainAppBar />
@@ -38,8 +38,6 @@ const MainLayout: FunctionComponent<Props> = (props) => {
       </Paper>
       <TrashFAB />
     </Container>
-
   </>);
 };
 
-export default MainLayout;

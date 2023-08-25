@@ -1,10 +1,8 @@
 import * as React from 'react'
-import Box from '@mui/material/Box'
 
 import { DragBox } from './DragBox'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
-import { useDrag as useDragHook } from 'react-dnd'
+import { Tab, Box } from '@mui/material'
 import { useCallback } from 'react'
 import {basicDraggableComponents} from "./basicDraggableComponents";
 import {advancedDraggableComponents} from "./advancedDraggableComponents";
@@ -36,27 +34,23 @@ export function Toolbox() {
             }}
           >
             {basicDraggableComponents.map((component, index) => {
-              return (
-                <DragBox
-                  name={component.name}
-                  ToolIcon={component.ToolIcon}
-                  key={component.name}
-                  componentMeta={component}
-                ></DragBox>
-              )
+              return <DragBox
+    name={component.name}
+    ToolIcon={component.ToolIcon}
+    key={component.name}
+    componentMeta={component}
+    />
             })}
           </Box>
         </TabPanel>
         <TabPanel value="2" sx={{ p: 0 }}>
           {advancedDraggableComponents.map((component, index) => {
-            return (
-              <DragBox
-                ToolIcon={component.ToolIcon}
-                name={component.name}
-                key={component.name}
-                componentMeta={component}
-              ></DragBox>
-            )
+            return <DragBox
+    ToolIcon={component.ToolIcon}
+    name={component.name}
+    key={component.name}
+    componentMeta={component}
+    />
           })}
         </TabPanel>
       </TabContext>

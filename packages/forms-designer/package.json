@@ -8,13 +8,16 @@
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
     "generate:component": "turbo gen react-component",
-    "build": "tsup index.tsx --format esm --dts"
+    "clean": "rm -rf dist",
+    "build": "tsup index.tsx --format esm,cjs --dts --external react",
+    "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "react": ">=18"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0",
