@@ -47,7 +47,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
       - name: Build
-        run: pnpm build
+        run: |
+          export NODE_OPTIONS=--max_old_space_size=8193
+          pnpm build
       - name: Collect static pages
         run: pnpm build:pages
       - name: Upload artifact
