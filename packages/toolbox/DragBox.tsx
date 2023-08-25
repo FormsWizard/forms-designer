@@ -1,59 +1,67 @@
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
-import { Stack } from '@mui/system'
-import { useDNDHooksContext} from "@formswizard/react-hooks";
+import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
+import { Stack } from "@mui/system";
+import { useDNDHooksContext } from "@formswizard/react-hooks";
+import { TocOutlined } from "@mui/icons-material";
 
 export type DraggableMeta = {
-  name: string
-  ToolIcon: any
-}
+  name: string;
+  ToolIcon: any;
+};
 
 type DragBoxProps = {
-  name: string
-  img?: string
-  componentMeta: Partial<DraggableMeta>
-  ToolIcon: any
-}
-export const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () => <></>  }: DragBoxProps) => {
-  const { useDrag } = useDNDHooksContext()
+  name: string;
+  img?: string;
+  componentMeta: Partial<DraggableMeta>;
+  ToolIcon: any;
+};
+export const DragBox = ({
+  name = "Eingabefeld",
+  img = "",
+  componentMeta,
+  ToolIcon = () => <></>,
+}: DragBoxProps) => {
+  const { useDrag } = useDNDHooksContext();
   const [, dragRef] = useDrag(
     () => ({
-      type: 'DRAGBOX',
+      type: "DRAGBOX",
       item: { componentMeta },
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
       }),
       end: (item, monitor) => {
-        const didDrop = monitor.didDrop()
+        const didDrop = monitor.didDrop();
         if (didDrop) {
         }
       },
     }),
     []
-  )
+  );
 
-  return <>
-    <Card ref={dragRef}>
-      <CardActionArea>
-        <CardContent>
-          <Stack
-            direction="row"
-            alignItems="center"
-            gap={2}
-            sx={{
-              '& .MuiSvgIcon-root': {
-                // fontSize: '2rem',
-                color: 'secondary.dark',
-              },
-            }}
-          >
-            <ToolIcon></ToolIcon>
-            <Typography gutterBottom variant="subtitle1">
-              {name || ''}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  </>
-}
-
+  return (
+    <>
+      <Card ref={dragRef}>
+        <CardActionArea>
+          <CardContent>
+            <Stack
+              direction="row"
+              alignItems="center"
+              gap={2}
+              sx={{
+                "& .MuiSvgIcon-root": {
+                  // fontSize: '2rem',
+                  color: "secondary.dark",
+                },
+              }}
+            >
+              {/* crashes on next build. TODO find out why */}
+              {/* <ToolIcon></ToolIcon> */}
+              <Typography gutterBottom variant="subtitle1">
+                {name || ""}
+              </Typography>
+            </Stack>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </>
+  );
+};
