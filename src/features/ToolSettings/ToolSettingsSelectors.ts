@@ -22,14 +22,3 @@ const selectSelectedElementJsonSchema = createSelector(
 )
 
 export { selectSelectedElementJsonSchema }
-
-function getJsonSchemaByPath(jsonSchema, path) {
-  const pathArray = path.split('.')
-  const selectedElement = pathArray.reduce((prev, key) => {
-    if (prev.type === 'object' && prev.properties && prev.properties[key]) {
-      return prev.properties[key]
-    }
-    return null
-  }, jsonSchema)
-  return selectedElement
-}

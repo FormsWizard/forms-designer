@@ -252,7 +252,7 @@ export const jsonFormsEditSlice = createSlice({
         return
       }
       state.selectedElementKey = null
-      state.editMode = false
+
       state.jsonSchema = jsonSchema
       state.uiSchema = uiSchema
     },
@@ -390,8 +390,8 @@ export const jsonFormsEditSlice = createSlice({
       // this is the move source
       const { path: sourcePath } = draggableMeta.uiSchema as any
       const { index: sourceIndex, parentPath: sourceParentPath } = getIndexAndParentPathOfUISchemaElement(sourcePath)
-      if(child.path === sourcePath) {
-        return 
+      if (child.path === sourcePath) {
+        return
       }
       const targetIndex = index + (placeBefore ? 0 : 1)
       // const sourceIndex = getIndexFromPath(sourcePath)

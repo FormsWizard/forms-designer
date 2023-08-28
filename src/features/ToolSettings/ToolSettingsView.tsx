@@ -7,8 +7,6 @@ import { selectSelectedElementJsonSchema } from '../wizard/WizardSliceSelectors'
 import useToolSettings from './useToolSettings'
 
 function ToolSettings() {
-  const selectedElementJsonSchema = useSelector(selectSelectedElementJsonSchema)
-  const UIElementFromSelection = useSelector(selectUIElementFromSelection)
   const { handleChange, toolSettingsJsonSchema, tooldataBuffer } = useToolSettings()
 
   return (
