@@ -9,6 +9,7 @@
     "build": "tsup index.tsx --format esm,cjs --dts --external react",
     "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react",
     "lint": "eslint \"**/*.ts*\"",
+    "lint-fix": "eslint --fix \"**/*.ts*\"",
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {

@@ -4,7 +4,8 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "lint-fix": "eslint --fix \"**/*.ts*\""
   },
   "devDependencies": {
     "@types/react": "^18.2.0",

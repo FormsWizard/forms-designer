@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsup index.ts --format esm,cjs --dts --external react",
     "dev": "tsup index.ts --format esm,cjs --watch --dts --external react",
-    "lint": "eslint \"**/*.ts*\""
+    "lint": "eslint \"**/*.ts*\"",
+    "lint-fix": "eslint --fix \"**/*.ts*\""
   },
   "devDependencies": {
     "@formswizard/types": "workspace:*",
