@@ -12,8 +12,7 @@ import {
   scopeToPathSegments,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
-} from '@formswizard/utils'
-import { deeplyRemoveNestedProperty, deeplyRenameNestedProperty, deeplyUpdateNestedSchema } from '@formswizard/utils'
+ deeplyRemoveNestedProperty, deeplyRenameNestedProperty, deeplyUpdateNestedSchema , collectSchemaGarbage } from '@formswizard/utils'
 import {
   DraggableComponent,
   DraggableUISchemaElement,
@@ -23,7 +22,6 @@ import {
 import { exampleInitialState, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
 import { findLastIndex, last } from 'lodash'
-import { collectSchemaGarbage } from '@formswizard/utils'
 
 // export type DraggableElement = DraggableComponent | DraggableUISchemaElement
 
