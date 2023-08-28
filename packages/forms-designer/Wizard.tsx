@@ -3,13 +3,22 @@ import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'
 import { selectJsonSchema, selectUiSchema, useAppSelector } from '@formswizard/state'
 import { extendUiSchemaWithPath } from '@formswizard/utils'
-import { basicRenderer, verticalLayoutTester, VerticalLayoutWithDropZoneRenderer } from '@formswizard/renderer'
+import {
+  basicRenderer,
+  horizontalLayoutTester, HorizontalLayoutWithDropZoneRenderer,
+  verticalLayoutTester,
+  VerticalLayoutWithDropZoneRenderer
+} from '@formswizard/renderer'
 import { JsonFormsRendererRegistryEntry } from '@jsonforms/core'
 
-const additionalRenderers = [
+export const additionalRenderers = [
   {
     tester: verticalLayoutTester,
     renderer: VerticalLayoutWithDropZoneRenderer,
+  },
+  {
+    tester: horizontalLayoutTester,
+    renderer: HorizontalLayoutWithDropZoneRenderer,
   },
 ]
 
