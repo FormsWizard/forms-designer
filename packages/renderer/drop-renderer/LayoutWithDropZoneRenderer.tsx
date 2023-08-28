@@ -1,11 +1,9 @@
 import type { UISchemaElement } from '@jsonforms/core'
-import { getAjv, OwnPropsOfRenderer } from '@jsonforms/core'
-import { useJsonForms } from '@jsonforms/react'
+import { OwnPropsOfRenderer } from '@jsonforms/core'
 import { ArrowForward } from '@mui/icons-material'
 import { Box, Grid } from '@mui/material'
-import Ajv from 'ajv'
 
-import React, { ComponentType } from 'react'
+import React, {memo} from 'react'
 
 import LayoutElement from './LayoutElement'
 import LayoutPlaceholder from './LayoutPlaceholder'
@@ -58,18 +56,4 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
     )
   }
 }
-export const LayoutWithDropZoneRenderer = React.memo(MaterialLayoutRendererComponent)
-
-export interface AjvProps {
-  ajv: Ajv
-}
-
-export const withAjvProps =
-  <P extends {}>(Component: ComponentType<AjvProps & P>) =>
-  (props: P) => {
-    const ctx = useJsonForms()
-    const ajv = getAjv({ jsonforms: { ...ctx } })
-
-    // @ts-ignore
-    return <Component {...props} ajv={ajv} />
-  }
+export const LayoutWithDropZoneRenderer = memo(MaterialLayoutRendererComponent)

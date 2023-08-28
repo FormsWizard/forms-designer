@@ -1,9 +1,8 @@
 import * as React from 'react'
 
 import { IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid } from '@mui/material'
-import { useAppDispatch } from '@formswizard/state'
+import { useAppDispatch , toggleColorMode } from '@formswizard/state'
 import { Brightness4, Brightness7 } from '@mui/icons-material'
-import { toggleColorMode } from '@formswizard/state'
 export function MainAppBar() {
   const dispatch = useAppDispatch()
 

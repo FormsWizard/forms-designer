@@ -2,8 +2,8 @@ import React, { createElement } from 'react'
 import { Card, CardActionArea, CardContent, Typography, Icon } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
-import { TocOutlined } from '@mui/icons-material'
 import { DraggableMeta } from '@formswizard/types'
+/*eslint import/namespace: ['error', { allowComputed: true }]*/
 import * as MuiIcons from '@mui/icons-material'
 type DragBoxProps = {
   name: string

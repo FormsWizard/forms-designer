@@ -84,6 +84,10 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
         if (monitor.didDrop()) return
+        if(!componentMeta) {
+          console.warn('componentMeta is undefined')
+          return
+        }
         if (monitor.getItemType() === 'MOVEBOX') {
           handleMove(componentMeta)
         } else {
@@ -96,7 +100,7 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
           const { type, scope, ...rest } = componentMeta?.uiSchema || {}
           const draggableMeta = {
             ...componentMeta,
-            name: componentMeta.name ? componentMeta.name.split('.').pop() : 'layout',
+            name: componentMeta?.name ? componentMeta.name.split('.').pop() : 'layout',
             uiSchema: rest,
           }
           setDraggedMeta(draggableMeta)
@@ -130,7 +134,7 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
           const { type, scope, ...rest } = componentMeta?.uiSchema || {}
           const draggableMeta = {
             ...componentMeta,
-            name: componentMeta.name ? componentMeta.name.split('.').pop() : 'layout',
+            name: componentMeta?.name ? componentMeta.name.split('.').pop() : 'layout',
             uiSchema: rest,
           }
           setDraggedMeta(draggableMeta)

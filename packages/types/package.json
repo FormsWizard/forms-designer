@@ -5,7 +5,10 @@
   "license": "MIT",
   "scripts": {
     "type-check": "tsc",
-    "build": "tsup index.ts --format esm,cjs --dts"
+
+    "build": "tsup index.ts --format esm,cjs --dts",
+    "lint-fix": "eslint --fix \"**/*.ts*\""
+
   },
   "devDependencies": {
     "@jsonforms/core": "^3.1.0",
