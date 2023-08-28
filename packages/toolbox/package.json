@@ -13,6 +13,7 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
+    "@formswizard/types": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",

@@ -1,20 +1,22 @@
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
+import React, { createElement } from 'react'
+import { Card, CardActionArea, CardContent, Typography, Icon } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
 import { TocOutlined } from '@mui/icons-material'
-
-export type DraggableMeta = {
-  name: string
-  ToolIcon: any
-}
-
+import { DraggableMeta } from '@formswizard/types'
+import * as MuiIcons from '@mui/icons-material'
 type DragBoxProps = {
   name: string
   img?: string
   componentMeta: Partial<DraggableMeta>
-  ToolIcon: any
+  ToolIconName?: string
 }
-export const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIcon = () => <></> }: DragBoxProps) => {
+export const DragBox = ({
+  name = 'Eingabefeld',
+  img = '',
+  componentMeta,
+  ToolIconName = 'TocOutlined',
+}: DragBoxProps) => {
   const { useDrag } = useDNDHooksContext()
   const [, dragRef] = useDrag(
     () => ({
@@ -49,7 +51,8 @@ export const DragBox = ({ name = 'Eingabefeld', img = '', componentMeta, ToolIco
               }}
             >
               {/* crashes on next build. TODO find out why */}
-              {/* <ToolIcon></ToolIcon> */}
+              {createElement(MuiIcons[ToolIconName])}
+
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
               </Typography>

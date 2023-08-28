@@ -1,23 +1,10 @@
-import { DraggableElement } from '@formswizard/state'
-import {
-  TextFields,
-  DateRange,
-  CheckBox,
-  ShortText,
-  RadioButtonChecked,
-  Tab,
-  EditAttributes,
-  ArrowRightAlt,
-  Label,
-  ArrowDownward,
-  Info,
-} from '@mui/icons-material'
 import { updateScopeOfUISchemaElement } from '@formswizard/utils'
+import { DraggableElement } from '@formswizard/types'
 
 export const basicDraggableComponents: DraggableElement[] = [
   {
     name: 'Label',
-    ToolIcon: Label,
+    ToolIconName: 'Label',
     jsonSchemaElement: {},
     uiSchema: {
       type: 'Label',
@@ -28,7 +15,7 @@ export const basicDraggableComponents: DraggableElement[] = [
 
   {
     name: 'Alert',
-    ToolIcon: Info,
+    ToolIconName: 'Info',
     jsonSchemaElement: {},
     uiSchema: {
       type: 'Alert',
@@ -38,14 +25,14 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Textfeld',
-    ToolIcon: TextFields,
+    ToolIconName: 'TextFields',
     jsonSchemaElement: {
       type: 'string',
     },
   },
   {
     name: 'Datumsfeld',
-    ToolIcon: DateRange,
+    ToolIconName: 'DateRange',
     jsonSchemaElement: {
       type: 'string',
       format: 'date',
@@ -53,7 +40,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Datumszeitfeld',
-    ToolIcon: DateRange,
+    ToolIconName: 'DateRange',
     jsonSchemaElement: {
       type: 'string',
       format: 'date-time',
@@ -61,14 +48,14 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Checkbox',
-    ToolIcon: CheckBox,
+    ToolIconName: 'CheckBox',
     jsonSchemaElement: {
       type: 'boolean',
     },
   },
   {
     name: 'Mehrzeiliges Textfeld',
-    ToolIcon: ShortText,
+    ToolIconName: 'ShortText',
     jsonSchemaElement: {
       type: 'string',
     },
@@ -81,7 +68,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Radio Buttons',
-    ToolIcon: RadioButtonChecked,
+    ToolIconName: 'RadioButtonChecked',
     jsonSchemaElement: {
       type: 'string',
       enum: ['One', 'Two', 'Three'],
@@ -95,7 +82,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Multiselect',
-    ToolIcon: EditAttributes,
+    ToolIconName: 'EditAttributes',
     jsonSchemaElement: {
       type: 'array',
       uniqueItems: true,
@@ -114,7 +101,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'List of Objects',
-    ToolIcon: EditAttributes,
+    ToolIconName: 'EditAttributes',
     jsonSchemaElement: {
       type: 'array',
       items: {
@@ -139,7 +126,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'horizontales layout',
-    ToolIcon: ArrowRightAlt,
+    ToolIconName: 'ArrowRightAlt',
     uiSchema: {
       type: 'HorizontalLayout',
       //@ts-ignore
@@ -148,7 +135,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'vertikales layout',
-    ToolIcon: ArrowDownward,
+    ToolIconName: 'ArrowDownward',
     uiSchema: {
       type: 'HorizontalLayout',
       //@ts-ignore
@@ -159,7 +146,7 @@ export const basicDraggableComponents: DraggableElement[] = [
 
   {
     name: 'gruppe',
-    ToolIcon: Tab,
+    ToolIconName: 'Tab',
     jsonSchemaElement: {
       type: 'object',
       properties: {},
