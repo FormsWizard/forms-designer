@@ -193,14 +193,11 @@ const getUiSchemaWithScope: (
   draggableComponent: DraggableComponent | DraggableUISchemaElement,
   deepestGroupPath: string[],
   newKey: string
-) => UISchemaElement | undefined = (draggableComponent, deepestGroupPath, newKey) => {
+) => UISchemaElement = (draggableComponent, deepestGroupPath, newKey) => {
   const { name, uiSchema } = draggableComponent
-
-  if (!uiSchema) return undefined
-
   const rootScope = pathSegmentsToScope([...deepestGroupPath, newKey])
   const originalScope = pathSegmentsToScope([...deepestGroupPath, draggableComponent.name])
-  const scopedUiSchema = updateScopeOfUISchemaElement(originalScope, rootScope, uiSchema)
+  const scopedUiSchema = uiSchema && updateScopeOfUISchemaElement(originalScope, rootScope, uiSchema)
   return {
     type: 'Control',
     ...(scopedUiSchema || {}),
@@ -351,7 +348,7 @@ export const jsonFormsEditSlice = createSlice({
         console.error('cannot get the index of the current ui element, dropped on, the path is', path)
         return
       }
-      let uiSchema = draggableMeta.uiSchema
+      let uiSchema = draggableMeta.uiSchema || { type: 'Control' }
       if (isDraggableComponent(draggableMeta)) {
         // TODO scope is not set correctly
         const deepestGroupPath = getDeepestGroupPath(child.structurePath, state.uiSchema)
@@ -368,13 +365,14 @@ export const jsonFormsEditSlice = createSlice({
           newKey = `${draggableMeta.name}_${i}`
         }
         uiSchema = getUiSchemaWithScope(draggableMeta, deepestGroupPath, newKey)
-        state.jsonSchema = deeplySetNestedProperty(
-          state.jsonSchema,
-          deepestGroupPath,
-          newKey,
-          draggableMeta.jsonSchemaElement,
-          true
-        )
+        if(draggableMeta.jsonSchemaElement && Object.keys(draggableMeta.jsonSchemaElement).length > 0)
+          state.jsonSchema = deeplySetNestedProperty(
+            state.jsonSchema,
+            deepestGroupPath,
+            newKey,
+            draggableMeta.jsonSchemaElement,
+            true
+          )
       }
       if (oldUISchemaElements && uiSchema) {
         oldUISchemaElements.splice(targetIndex, 0, uiSchema)
