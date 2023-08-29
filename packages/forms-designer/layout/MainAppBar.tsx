@@ -1,26 +1,34 @@
 import * as React from 'react'
 
-import { IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid } from '@mui/material'
-import { useAppDispatch , toggleColorMode } from '@formswizard/state'
+import { IconButton, Typography, useTheme, AppBar, Toolbar, Box, Grid, Switch } from '@mui/material'
+import {
+  useAppDispatch,
+  toggleColorMode,
+  togglePreviewModus,
+  selectPreviewModus,
+  useAppSelector,
+} from '@formswizard/state'
 import { Brightness4, Brightness7 } from '@mui/icons-material'
+import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 export function MainAppBar() {
   const dispatch = useAppDispatch()
-
+  const previewModus = useAppSelector(selectPreviewModus)
+  const handleTogglePreview = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(togglePreviewModus())
+  }
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
-        <Grid container flex={1} alignItems="center">
-          <Grid item md={6}>
+        <Grid2 container flex={1} alignItems="center">
+          <Grid2 md={6}></Grid2>
+          <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
             <Typography variant="h6" noWrap component="div">
-              Forms Designer
+              preview
             </Typography>
-          </Grid>
-          <Grid item md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
-            {/*tools?*/}
-          </Grid>
-          <Grid
+            <Switch checked={previewModus} onChange={handleTogglePreview} />
+          </Grid2>
+          <Grid2
             md={3}
-            item
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
@@ -32,9 +40,11 @@ export function MainAppBar() {
               },
             }}
           >
-            {/*<DarkModeSwitch></DarkModeSwitch>*/}
-          </Grid>
-        </Grid>
+            <DarkModeSwitch></DarkModeSwitch>
+            {/* <TemplateModalButton>Templates</TemplateModalButton> */}
+            {/* <LanguageSelector></LanguageSelector> */}
+          </Grid2>
+        </Grid2>
       </Toolbar>
     </AppBar>
   )

@@ -6,24 +6,24 @@ import { RootState } from '../store'
 import { ScopableUISchemaElement } from '@formswizard/types'
 
 export type AppBarState = {
-  editMode: boolean
+  previewModus: boolean
   selectedLanguage: string
   themeMode: PaletteMode | string
 }
 
-export const getEditMode = (state: RootState) => state.AppBar.editMode
-export const getSelectedLanguage = (state: RootState) => state.AppBar.selectedLanguage
+export const selectPreviewModus = (state: RootState) => state.AppBar.previewModus
+export const selectSelectedLanguage = (state: RootState) => state.AppBar.selectedLanguage
 let defaultThemeMode = 'light'
 /*if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   defaultThemeMode = 'dark'
 }*/
 export const appBarSlice = createSlice({
-  name: 'jsonFormEdit',
-  initialState: { editMode: false, selectedLanguage: 'de', themeMode: defaultThemeMode },
+  name: 'appbar',
+  initialState: { previewModus: false, selectedLanguage: 'de', themeMode: defaultThemeMode },
 
   reducers: {
-    toggleEditMode: (state: AppBarState) => {
-      state.editMode = !state.editMode
+    togglePreviewModus: (state: AppBarState) => {
+      state.previewModus = !state.previewModus
     },
     changeSelectedLanguage: (state: AppBarState, action: PayloadAction<string>) => {
       state.selectedLanguage = action.payload
@@ -34,6 +34,6 @@ export const appBarSlice = createSlice({
   },
 })
 
-export const { toggleEditMode, changeSelectedLanguage, toggleColorMode } = appBarSlice.actions
+export const { togglePreviewModus, changeSelectedLanguage, toggleColorMode } = appBarSlice.actions
 
 export const appBarReducer = appBarSlice.reducer
