@@ -20,7 +20,7 @@ export function Toolbox() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <TabList onChange={handleChange} aria-label="switch between tools and templates">
           <Tab label="Tools" value="1" />
-          <Tab label="Templates" value="2" />
+          <Tab label="Blocks" value="2" />
         </TabList>
       </Box>
       <TabPanel value="1" sx={{ p: 0 }}>
