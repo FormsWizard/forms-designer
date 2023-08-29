@@ -1,8 +1,7 @@
-import {
-  MaterialEnumArrayWithLabelRenderer,
+import MaterialEnumArrayWithLabelRendererWithProps, {
   materialEnumArrayWithLabelRendererTester,
 } from './MultiEnumArrayRendererWithLabel'
-import { MaterialAlertRenderer, materialAlertRendererTester } from './MaterialAlertRenderer'
+import MaterialAlertRendererWithProps, { materialAlertRendererTester } from './MaterialAlertRenderer'
 
 export * from './MaterialAlertRenderer'
 export * from './MultiEnumArrayRendererWithLabel'
@@ -10,10 +9,10 @@ export * from './MultiEnumArrayRendererWithLabel'
 export const basicRenderer = [
   {
     tester: materialEnumArrayWithLabelRendererTester,
-    renderer: MaterialEnumArrayWithLabelRenderer,
+    renderer: MaterialEnumArrayWithLabelRendererWithProps,
   },
   {
     tester: materialAlertRendererTester,
-    renderer: MaterialAlertRenderer,
+    renderer: MaterialAlertRendererWithProps,
   },
 ]
