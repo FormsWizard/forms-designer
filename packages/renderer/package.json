@@ -16,8 +16,8 @@
     "@formswizard/types": "workspace:*",
     "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*",
+    "@formswizard/designer-eslint-config": "workspace:*",
+    "@formswizard/designer-tsconfig": "workspace:*",
     "typescript": "^4.5.2",
     "react": ">=18"
   },

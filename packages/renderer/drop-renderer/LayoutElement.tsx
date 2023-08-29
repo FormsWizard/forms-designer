@@ -234,11 +234,8 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
 
               }}
           > */}
-        <AddBox
-          color={isOverCurrent ? 'success' : 'info'}
-          sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}
-        ></AddBox>
-        {/* </Typography> */}
+
+        <Typography variant={'h4'} component={'span'}>+</Typography>
       </Box>
     </Box>
   )

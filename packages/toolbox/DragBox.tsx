@@ -50,8 +50,8 @@ export const DragBox = ({
                 },
               }}
             >
-              {/* crashes on next build. TODO find out why */}
-              {createElement(MuiIcons[ToolIconName])}
+              {/* crashes on next build or other restrictive dts-build because of TS7053 */}
+              {createElement((MuiIcons as any)[ToolIconName])}
 
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
