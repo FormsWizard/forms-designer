@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useRef } from 'react'
 import { Box, Button, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 import { Wizard } from './Wizard'
 import { Toolbox } from '@formswizard/toolbox'
@@ -6,6 +6,7 @@ import { FieldSettingsView } from '@formswizard/fieldsettings'
 import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
 import { selectPreviewModus, togglePreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
+import useAutoDeselectOnOutsideClick from './useAutoDeselectOnOutsideClick'
 
 interface OwnProps {}
 
@@ -13,15 +14,17 @@ type Props = OwnProps
 
 const drawerWidth = 240
 export const MainLayout: FunctionComponent<Props> = (props) => {
+  const wizardPaperRef = useRef<null | HTMLDivElement>(null)
   const dispatch = useAppDispatch()
   const previewModus = useAppSelector(selectPreviewModus)
   const handleTogglePreview = (event: any) => {
     dispatch(togglePreviewModus())
   }
+  const { handleClickOutside } = useAutoDeselectOnOutsideClick(wizardPaperRef)
   return (
     <>
-      <MainAppBar />
-      <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, minHeight: '85vh' }}>
+      <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, minHeight: '100vh' }} onClick={handleClickOutside}>
+        <MainAppBar />
         {previewModus && (
           <Button color="warning" onClick={handleTogglePreview} size="large">
             <span style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}>disable preview mode</span>
@@ -45,7 +48,7 @@ export const MainLayout: FunctionComponent<Props> = (props) => {
         </Drawer>
         <Container maxWidth="md">
           <Toolbar />
-          <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
+          <Paper sx={{ p: 4, m: 4 }} elevation={12} square ref={wizardPaperRef}>
             <Wizard />
           </Paper>
           <TrashFAB />
