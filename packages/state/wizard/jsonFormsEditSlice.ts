@@ -31,6 +31,7 @@ import { findLastIndex, last } from 'lodash'
 
 export const isDraggableComponent = (element: any): element is DraggableComponent =>
   element.name && element.jsonSchemaElement
+export const isScopableUISchemaElement = (element: any): element is ScopableUISchemaElement => element.scope
 export const isDraggableUISchemaElement = (element: any): element is DraggableUISchemaElement => element.uiSchema
 export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSchema
 
@@ -445,6 +446,7 @@ export const jsonFormsEditSlice = createSlice({
 export const {
   insertControl,
   selectElement,
+  selectPath,
   renameField,
   removeFieldOrLayout,
   removeField,
@@ -468,34 +470,28 @@ function getJsonSchemaByPath(jsonSchema, path) {
   return selectedElement
 }
 
-//@ts-ignore
-// export const selectUIElementFromSelection = createSelector(
-//   selectSelectedPath,
-//   selectUiSchema,
-//   (selectedPath, uiSchema) => {
-//     if (!selectedPath) return undefined
-//     // if type is layout name is actually an index
-//     if (selectedPath.includes('-')) {
-//       const [UiElementType, UiElementName] = selectedPath.split('-')
-//       return undefined
-//     }
-//     return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath)))
-//   }
-// )
+export const selectUIElementFromSelection: (state: RootState) => UISchemaElement | ScopableUISchemaElement | null =
+  createSelector(selectSelectedPath, selectUiSchema, (selectedPath, uiSchema) => {
+    if (!selectedPath) return null
+    // if type is layout name is actually an index
+    if (selectedPath.includes('-')) {
+      const [UiElementType, UiElementName] = selectedPath.split('-')
+      return null
+    }
+    return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath))) as
+      | UISchemaElement
+      | ScopableUISchemaElement
+  })
 
-// //@ts-ignore
-// const selectSelectedElementJsonSchema = createSelector(
-//   selectJsonSchema,
-//   selectUIElementFromSelection,
-//   (jsonSchema, selectedUiSchema) => {
-//     // @ts-ignore
-//     if (!selectedUiSchema || !selectedUiSchema.scope) {
-//       return null
-//     }
-//     const selectedElement = resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
+export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema | null = createSelector(
+  selectJsonSchema,
+  selectUIElementFromSelection,
+  (jsonSchema, selectedUiSchema) => {
+    if (!selectedUiSchema || !isScopableUISchemaElement(selectedUiSchema) || !selectedUiSchema.scope) {
+      return null
+    }
+    console.log({ jsonSchema, scope: selectedUiSchema.scope })
 
-//     return selectedElement
-//   }
-// )
-
-// export { selectSelectedElementJsonSchema }
+    return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
+  }
+)
