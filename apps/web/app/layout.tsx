@@ -1,7 +1,11 @@
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+import {WizardProvider} from "@formswizard/forms-designer";
+
+export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+      <WizardProvider>
+        <html lang="en">
+        <body>{children}</body>
+        </html>
+      </WizardProvider>
   )
 }
