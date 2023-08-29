@@ -14,8 +14,8 @@
   "devDependencies": {
     "@formswizard/types": "workspace:*",
     "eslint": "^8.45.0",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*",
+    "@formswizard/designer-eslint-config": "workspace:*",
+    "@formswizard/designer-tsconfig": "workspace:*",
     "typescript": "^5.1.6",
     "react": ">=18"
   },
