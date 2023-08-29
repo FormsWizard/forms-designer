@@ -14,10 +14,10 @@
   "devDependencies": {
     "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
-    "react": ">=18",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "@formswizard/designer-eslint-config": "workspace:*",
+    "@formswizard/designer-tsconfig": "workspace:*",
+    "typescript": "^4.5.2",
+    "react": ">=18"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0"
