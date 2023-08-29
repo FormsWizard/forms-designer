@@ -12,32 +12,32 @@ import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
 import { Box, Grid, IconButton, Typography } from '@mui/material'
 import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector, selectElement, selectSelectedElementKey, selectPath } from '@formswizard/state'
-import { AddBox, Delete } from '@mui/icons-material'
+import { AddBox } from '@mui/icons-material'
 import classnames from 'classnames'
 import { useDelayedState } from '../hooks'
 import { useDNDHooksContext, useDragTarget, useDropTarget } from '@formswizard/react-hooks'
 
-export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
-const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
-  return (
-    <>
-      {editMode ? (
-        <Grid container>
-          <Grid item xs={11}>
-            {children}
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton onClick={handleRemove}>
-              <Delete></Delete>
-            </IconButton>
-          </Grid>
-        </Grid>
-      ) : (
-        children
-      )}
-    </>
-  )
-}
+// export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
+// const RemoveWrapper: FC<RemoveWrapperProps> = ({ editMode, handleRemove, children }) => {
+//   return (
+//     <>
+//       {editMode ? (
+//         <Grid container>
+//           <Grid item xs={11}>
+//             {children}
+//           </Grid>
+//           <Grid item xs={1}>
+//             <IconButton onClick={handleRemove}>
+//               <Delete></Delete>
+//             </IconButton>
+//           </Grid>
+//         </Grid>
+//       ) : (
+//         children
+//       )}
+//     </>
+//   )
+// }
 
 type LayoutElementProps = {
   index: number
@@ -235,7 +235,11 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
               }}
           > */}
 
-        <Typography variant={'h4'} component={'span'}>+</Typography>
+        {/* <AddBox
+          color={isOverCurrent ? 'success' : 'info'}
+          sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}
+        ></AddBox> */}
+        <Box sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}>+</Box>
       </Box>
     </Box>
   )
