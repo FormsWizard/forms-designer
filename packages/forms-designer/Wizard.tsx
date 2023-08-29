@@ -11,7 +11,7 @@ import {
 } from '@formswizard/renderer'
 import { JsonFormsRendererRegistryEntry } from '@jsonforms/core'
 
-export const additionalRenderers = [
+const additionalRenderers = [
   {
     tester: verticalLayoutTester,
     renderer: VerticalLayoutWithDropZoneRenderer,
