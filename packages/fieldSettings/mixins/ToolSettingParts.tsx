@@ -8,7 +8,6 @@ const TitlePart = {
   },
   mapAddonDataToWizardSchema: null,
   mapWizardToAddonData: (previousData, wizardSchema: JsonSchema7, uiSchema: any) => {
-    console.log('TitlePart.mapWizardToAddonData', previousData, wizardSchema, uiSchema)
     return {
       ...previousData,
       label: uiSchema.label,

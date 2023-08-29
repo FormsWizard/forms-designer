@@ -490,7 +490,6 @@ export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema |
     if (!selectedUiSchema || !isScopableUISchemaElement(selectedUiSchema) || !selectedUiSchema.scope) {
       return null
     }
-    console.log({ jsonSchema, scope: selectedUiSchema.scope })
 
     return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
   }

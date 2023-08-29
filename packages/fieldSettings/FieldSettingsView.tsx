@@ -6,7 +6,7 @@ import { Box, Container, Drawer, Paper, Toolbar, Typography } from '@mui/materia
 
 export function FieldSettingsView() {
   const { handleChange, toolSettingsJsonSchema, tooldataBuffer } = useToolSettings()
-  console.log({ toolSettingsJsonSchema, tooldataBuffer })
+
   return (
     <>
       <Toolbar>

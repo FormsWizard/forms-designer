@@ -22,8 +22,6 @@ function useToolSettings() {
   const selectedElementJsonSchema = useAppSelector(selectSelectedElementJsonSchema)
   const prevSelectedKey = useRef(null)
 
-  console.log({ UIElementFromSelection, selectedElementJsonSchema })
-
   const toolSettings = useMemo(
     () =>
       UIElementFromSelection
@@ -69,7 +67,7 @@ function useToolSettings() {
       if (!toolSettings || !UIElementFromSelection || !selectedPath) return
       const updatedJsonSchema = toolSettings.mapToolDataToWizardSchema(data, selectedElementJsonSchema ?? {})
       const updatedUIschema = toolSettings.mapToolDataToWizardUischema(data, UIElementFromSelection)
-      console.log('compute mixins')
+
       const ToolsettingAddonsSchemaMapper = toolSettings.toolSettingsMixins
         .map((t) => t.mapAddonDataToWizardSchema)
         .filter(Boolean)
@@ -103,7 +101,6 @@ function useToolSettings() {
     prevSelectedKey.current = selectedPath
   }, [getToolData, selectedPath])
 
-  console.log({ handleChange, uiSchema: {}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer })
   return { handleChange, uiSchema: {}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer }
 }
 
