@@ -1,0 +1,43 @@
+{
+  "name": "@formswizard/fieldsettings",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsup index.tsx --format esm,cjs --dts --external react",
+    "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react",
+    "lint": "eslint \"**/*.ts*\"",
+    "lint-fix": "eslint --fix \"**/*.ts*\"",
+    "generate:component": "turbo gen react-component"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.197",
+    "@formswizard/types": "workspace:*",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.5.2",
+    "react": ">=18"
+  },
+  "peerDependencies": {
+    "@jsonforms/core": "^3.1.0",
+    "@jsonforms/react": "^3.1.0",
+    "@jsonforms/material-renderers": "^3.1.0",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/lab": "5.0.0-alpha.137",
+    "@mui/material": "^5.14.2",
+    "react": "^16.9.0 || ^17.0.0 || ^18",
+    "react-dnd": "^16.0.1",
+    "react-redux": "^8.1.1"
+  },
+  "dependencies": {
+    "@formswizard/react-hooks": "workspace:*",
+    "@formswizard/state": "workspace:*",
+    "@formswizard/utils": "workspace:*",
+    "@mui/system": "^5.14.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
+  }
+}

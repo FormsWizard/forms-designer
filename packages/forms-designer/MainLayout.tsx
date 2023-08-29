@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react'
-import { Container, Drawer, Paper, Toolbar } from '@mui/material'
+import { Box, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 import { Wizard } from './Wizard'
 import { Toolbox } from '@formswizard/toolbox'
+import { FieldSettingsView } from '@formswizard/fieldsettings'
 import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
+import { getpreviewModus, useAppDispatch } from '@formswizard/state'
 
 interface OwnProps {}
 
@@ -37,6 +39,23 @@ export const MainLayout: FunctionComponent<Props> = (props) => {
         </Paper>
         <TrashFAB />
       </Container>
+      <Drawer
+        variant="persistent"
+        anchor="right"
+        open
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          [`& .MuiDrawer-paper`]: {
+            width: drawerWidth,
+            boxSizing: 'border-box',
+          },
+        }}
+      >
+        <Toolbar></Toolbar>
+
+        <FieldSettingsView></FieldSettingsView>
+      </Drawer>
     </>
   )
 }
