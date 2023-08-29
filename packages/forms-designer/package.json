@@ -42,6 +42,7 @@
     "@formswizard/renderer": "workspace:*",
     "@formswizard/state": "workspace:*",
     "@formswizard/toolbox": "workspace:*",
-    "@formswizard/utils": "workspace:*"
+    "@formswizard/utils": "workspace:*",
+    "@formswizard/fieldsettings": "workspace:*"
   }
 }
