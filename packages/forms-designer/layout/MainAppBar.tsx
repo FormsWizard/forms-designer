@@ -41,7 +41,7 @@ export function MainAppBar() {
               },
             }}
           >
-            <DarkModeSwitch></DarkModeSwitch>
+            {/* <DarkModeSwitch></DarkModeSwitch> */}
             {/* <TemplateModalButton>Templates</TemplateModalButton> */}
             {/* <LanguageSelector></LanguageSelector> */}
           </Grid>
