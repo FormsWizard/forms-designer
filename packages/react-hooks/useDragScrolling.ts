@@ -1,12 +1,17 @@
-import { useAppDispatch, useAppSelector } from '@formswizard/state'
 import React, { useEffect } from 'react'
-import { useDragDropManager } from 'react-dnd'
+import { selectPreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
 
-function useDragScrolling() {
+import { useScroll } from './useScroll'
+import { useDNDHooksContext } from './DNDHooksContext'
+
+export function useDragScrolling() {
+  const { useDragDropManager } = useDNDHooksContext()
+  const { updatePosition } = useScroll()
+
   const dragDropManager = useDragDropManager()
   const monitor = dragDropManager.getMonitor()
 
-  const previewModus = useAppSelector(getPreviewModus)
+  //   const previewModus = useAppSelector(selectPreviewModus)
 
   useEffect(() => {
     const unsubscribe = monitor.subscribeToOffsetChange(() => {
@@ -16,5 +21,3 @@ function useDragScrolling() {
     return unsubscribe
   }, [monitor, updatePosition])
 }
-
-export default useDragScrolling

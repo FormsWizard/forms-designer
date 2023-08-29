@@ -24,10 +24,10 @@ function getScrollDirection({
   return 0
 }
 
-export const useScroll = (ref: RefObject<HTMLElement | null>) => {
+export const useScroll = () => {
   const [position, setPosition] = useState<number>(window.innerHeight / 2)
 
-  const scrollTimer = useRef<null | Timeout>(null)
+  const scrollTimer = useRef<null | number>(null)
 
   const scrollSpeed = 5
 
@@ -38,8 +38,6 @@ export const useScroll = (ref: RefObject<HTMLElement | null>) => {
   })
 
   useEffect(() => {
-    // const ref = document.getElementById('wizard')
-
     if (direction !== 0) {
       scrollTimer.current = setInterval(() => {
         window.scrollBy(0, scrollSpeed * direction)
@@ -50,7 +48,7 @@ export const useScroll = (ref: RefObject<HTMLElement | null>) => {
         clearInterval(scrollTimer.current)
       }
     }
-  }, [direction, ref, scrollSpeed])
+  }, [direction, scrollSpeed])
 
   return { updatePosition: setPosition } as const
 }

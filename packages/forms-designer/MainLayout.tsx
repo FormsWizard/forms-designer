@@ -1,10 +1,11 @@
 import React, { FunctionComponent } from 'react'
-import { Box, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
+import { Box, Button, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 import { Wizard } from './Wizard'
 import { Toolbox } from '@formswizard/toolbox'
 import { FieldSettingsView } from '@formswizard/fieldsettings'
 import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
+import { selectPreviewModus, togglePreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
 
 interface OwnProps {}
 
@@ -12,49 +13,61 @@ type Props = OwnProps
 
 const drawerWidth = 240
 export const MainLayout: FunctionComponent<Props> = (props) => {
+  const dispatch = useAppDispatch()
+  const previewModus = useAppSelector(selectPreviewModus)
+  const handleTogglePreview = (event: any) => {
+    dispatch(togglePreviewModus())
+  }
   return (
     <>
       <MainAppBar />
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        open
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
+      <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, minHeight: '85vh' }}>
+        {previewModus && (
+          <Button color="warning" onClick={handleTogglePreview} size="large">
+            <span style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}>disable preview mode</span>
+          </Button>
+        )}
+        <Drawer
+          variant="persistent"
+          anchor="left"
+          open={!previewModus}
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <Toolbar />
-        <Toolbox />
-      </Drawer>
-      <Container maxWidth="md">
-        <Toolbar />
-        <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
-          <Wizard />
-        </Paper>
-        <TrashFAB />
-      </Container>
-      <Drawer
-        variant="persistent"
-        anchor="right"
-        open
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Toolbar />
+          <Toolbox />
+        </Drawer>
+        <Container maxWidth="md">
+          <Toolbar />
+          <Paper sx={{ p: 4, m: 4 }} elevation={12} square>
+            <Wizard />
+          </Paper>
+          <TrashFAB />
+        </Container>
+        <Drawer
+          variant="persistent"
+          anchor="right"
+          open
+          sx={{
             width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-      >
-        <Toolbar></Toolbar>
+            flexShrink: 0,
+            [`& .MuiDrawer-paper`]: {
+              width: drawerWidth,
+              boxSizing: 'border-box',
+            },
+          }}
+        >
+          <Toolbar></Toolbar>
 
-        <FieldSettingsView></FieldSettingsView>
-      </Drawer>
+          <FieldSettingsView></FieldSettingsView>
+        </Drawer>
+      </Box>
     </>
   )
 }

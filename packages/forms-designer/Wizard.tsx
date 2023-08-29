@@ -11,6 +11,7 @@ import {
   VerticalLayoutWithDropZoneRenderer,
 } from '@formswizard/renderer'
 import { JsonFormsRendererRegistryEntry } from '@jsonforms/core'
+import { useDragScrolling } from '@formswizard/react-hooks'
 import { Box } from '@mui/material'
 
 const additionalRenderers = [
@@ -34,7 +35,7 @@ export function Wizard() {
   const uiSchema = useAppSelector(selectUiSchema)
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
   const previewModus = useAppSelector(selectPreviewModus)
-
+  useDragScrolling()
   return (
     <Box>
       <JsonForms

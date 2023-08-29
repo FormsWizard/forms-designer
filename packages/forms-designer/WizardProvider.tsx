@@ -3,7 +3,7 @@
 import React from 'react'
 import { makeStore } from '@formswizard/state'
 import { Provider } from 'react-redux'
-import { DndProvider, useDrag, useDrop, useDragLayer } from 'react-dnd'
+import { DndProvider, useDrag, useDrop, useDragLayer, useDragDropManager } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DNDHooksContext } from '@formswizard/react-hooks'
 import { CssBaseline, ThemeProvider } from '@mui/material'
@@ -25,7 +25,7 @@ export function WizardProvider({ children }: WizardProviderProps) {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <DndProvider backend={HTML5Backend}>
-            <DNDHooksContext.Provider value={{ useDrag, useDrop, useDragLayer }}>
+            <DNDHooksContext.Provider value={{ useDrag, useDrop, useDragLayer, useDragDropManager }}>
               <CssBaseline />
               {children}
             </DNDHooksContext.Provider>
