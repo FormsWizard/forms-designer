@@ -457,9 +457,9 @@ export const {
 
 export const jsonFormsEditReducer = jsonFormsEditSlice.reducer
 
-function getJsonSchemaByPath(jsonSchema, path) {
+function getJsonSchemaByPath(jsonSchema: JsonSchema, path: any) {
   const pathArray = path.split('.')
-  const selectedElement = pathArray.reduce((prev, key) => {
+  const selectedElement = pathArray.reduce((prev: any, key: any) => {
     if (prev?.type === 'object' && prev.properties && prev.properties[key]) {
       return prev.properties[key]
     }
