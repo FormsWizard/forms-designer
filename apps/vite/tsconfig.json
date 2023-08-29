@@ -1,4 +1,4 @@
 {
-  "extends": "tsconfig/vite.json",
+  "extends": "@formswizard/designer-tsconfig/vite.json",
   "include": ["src"]
 }

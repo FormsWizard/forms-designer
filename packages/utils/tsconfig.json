@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/react-library.json",
+  "extends": "@formswizard/designer-tsconfig/react-library.json",
   "compilerOptions": {
     "lib": ["esnext", "dom"],
   },
