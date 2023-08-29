@@ -3,7 +3,7 @@
 import React from 'react'
 import { makeStore } from '@formswizard/state'
 import { Provider } from 'react-redux'
-import { DndProvider , useDrag, useDrop, useDragLayer } from 'react-dnd'
+import { DndProvider, useDrag, useDrop, useDragLayer } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DNDHooksContext } from '@formswizard/react-hooks'
 import { CssBaseline, ThemeProvider } from '@mui/material'

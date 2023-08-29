@@ -84,7 +84,7 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
       //@ts-ignore
       drop: ({ componentMeta }, monitor) => {
         if (monitor.didDrop()) return
-        if(!componentMeta) {
+        if (!componentMeta) {
           console.warn('componentMeta is undefined')
           return
         }
