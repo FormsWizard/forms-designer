@@ -15,9 +15,9 @@
   "devDependencies": {
     "@types/lodash": "^4.14.197",
     "@formswizard/types": "workspace:*",
+    "eslint": "^7.32.0",
     "@formswizard/designer-eslint-config": "workspace:*",
     "@formswizard/designer-tsconfig": "workspace:*",
-    "tsconfig": "workspace:*",
     "typescript": "^4.5.2",
     "react": ">=18"
   },
