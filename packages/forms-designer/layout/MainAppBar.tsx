@@ -9,7 +9,7 @@ import {
   useAppSelector,
 } from '@formswizard/state'
 import { Brightness4, Brightness7 } from '@mui/icons-material'
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+
 export function MainAppBar() {
   const dispatch = useAppDispatch()
   const previewModus = useAppSelector(selectPreviewModus)
@@ -19,15 +19,16 @@ export function MainAppBar() {
   return (
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
-        <Grid2 container flex={1} alignItems="center">
-          <Grid2 md={6}></Grid2>
-          <Grid2 md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
+        <Grid container flex={1} alignItems="center">
+          <Grid item md={6}></Grid>
+          <Grid item md={3} sx={{ flexWrap: 'nowrap', display: 'flex' }}>
             <Typography variant="h6" noWrap component="div">
               preview
             </Typography>
             <Switch checked={previewModus} onChange={handleTogglePreview} />
-          </Grid2>
-          <Grid2
+          </Grid>
+          <Grid
+            item
             md={3}
             sx={{
               display: 'flex',
@@ -43,8 +44,8 @@ export function MainAppBar() {
             <DarkModeSwitch></DarkModeSwitch>
             {/* <TemplateModalButton>Templates</TemplateModalButton> */}
             {/* <LanguageSelector></LanguageSelector> */}
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   )

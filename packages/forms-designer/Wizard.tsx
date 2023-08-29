@@ -1,13 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'
-import {
-  selectJsonSchema,
-  selectUiSchema,
-  useAppSelector,
-  getpreviewModus,
-  selectPreviewModus,
-} from '@formswizard/state'
+import { selectJsonSchema, selectUiSchema, useAppSelector, selectPreviewModus } from '@formswizard/state'
 import { extendUiSchemaWithPath } from '@formswizard/utils'
 import {
   basicRenderer,

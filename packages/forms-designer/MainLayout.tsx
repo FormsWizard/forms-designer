@@ -5,7 +5,6 @@ import { Toolbox } from '@formswizard/toolbox'
 import { FieldSettingsView } from '@formswizard/fieldsettings'
 import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
-import { getpreviewModus, useAppDispatch } from '@formswizard/state'
 
 interface OwnProps {}
 
