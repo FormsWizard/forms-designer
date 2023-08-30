@@ -8,7 +8,7 @@ import {
   selectPreviewModus,
   useAppSelector,
 } from '@formswizard/state'
-import { Brightness4, Brightness7 } from '@mui/icons-material'
+import * as Icons from '@mui/icons-material'
 
 export function MainAppBar() {
   const dispatch = useAppDispatch()
@@ -73,7 +73,7 @@ function DarkModeSwitch() {
     >
       {theme.palette.mode} mode
       <IconButton sx={{ ml: 1 }} onClick={handleClicked} color="inherit">
-        {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+        {theme.palette.mode === 'dark' ? <Icons.Brightness7 /> : <Icons.Brightness4 />}
       </IconButton>
     </Box>
   )
