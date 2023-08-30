@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
-  // This tells ESLint to load the config from the package `@formswizard/designer-eslint-config`
-  extends: ["custom"],
+  // This tells ESLint to load the config from the package `eslint-config-formsdesigner`
+  extends: ["formsdesigner"],
   settings: {
     next: {
       rootDir: ["apps/*/"],

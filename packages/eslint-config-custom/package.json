@@ -1,5 +1,5 @@
 {
-  "name": "@formswizard/designer-eslint-config",
+  "name": "eslint-config-formsdesigner",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",

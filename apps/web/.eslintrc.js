@@ -1,5 +1,5 @@
 module.exports = {
   root: true,
-  extends: ["custom"],
+  extends: ["formsdesigner"],
   "rules": { "@next/next/no-document-import-in-page": "off" }
 };
