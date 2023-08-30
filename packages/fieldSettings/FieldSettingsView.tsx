@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'
-import useToolSettings from './useFieldSettings'
+import { useToolSettings } from './useFieldSettings'
 import { Box, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 
 export function FieldSettingsView() {

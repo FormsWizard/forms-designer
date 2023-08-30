@@ -1,4 +1,3 @@
-import { isEqual } from 'lodash'
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 
 import {
@@ -10,10 +9,9 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '@formswizard/state'
-import SelectToolSettings from './settings/SelectToolSettings'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
 
-function useToolSettings() {
+export function useToolSettings() {
   const dispatch = useAppDispatch()
   const [tooldataBuffer, setToolDataBuffer] = useState({})
   const selectedKey = useAppSelector(selectSelectedElementKey)
@@ -104,4 +102,3 @@ function useToolSettings() {
   return { handleChange, uiSchema: {}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer }
 }
 
-export default useToolSettings
