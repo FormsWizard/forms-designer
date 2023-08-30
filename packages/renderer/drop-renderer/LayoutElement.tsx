@@ -159,14 +159,14 @@ const LayoutElement = ({
             ' > *': {
               flexGrow: 1,
             },
-            ':hover': {
-              backgroundColor: (theme) =>
-                theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
-              transition: (theme) =>
+            transition: (theme) =>
                 theme.transitions.create(['background-color', 'color'], {
                   duration: theme.transitions.duration.short,
                 }),
-            },
+            /*':hover': {
+              backgroundColor: (theme) =>
+                theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
+            },*/
           }}
           ref={dragRef}
         >
