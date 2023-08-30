@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState, useRef, RefObject } from 'react'
 
 const BOUND_HEIGHT_BOT = 250
@@ -25,7 +26,13 @@ function getScrollDirection({
 }
 
 export const useScroll = () => {
-  const [position, setPosition] = useState<number>(window.innerHeight / 2)
+  const [position, setPosition] = useState<number>(0)
+  const [bounds, setBounds] = useState<number[]>([0, 900])
+
+  useEffect(() => {
+    setBounds([0, window.innerHeight])
+    setPosition(window.innerHeight / 2)
+  }, [])
 
   const scrollTimer = useRef<null | number>(null)
 
@@ -33,8 +40,8 @@ export const useScroll = () => {
 
   const direction = getScrollDirection({
     position,
-    upperBounds: 0,
-    lowerBounds: window.innerHeight,
+    upperBounds: bounds[0],
+    lowerBounds: bounds[1],
   })
 
   useEffect(() => {
