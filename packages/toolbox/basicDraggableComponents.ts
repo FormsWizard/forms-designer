@@ -137,7 +137,7 @@ export const basicDraggableComponents: DraggableElement[] = [
     name: 'vertikales layout',
     ToolIconName: 'ArrowDownward',
     uiSchema: {
-      type: 'HorizontalLayout',
+      type: 'VerticalLayout',
       //@ts-ignore
       label: 'Vertikales Layout',
       elements: [],
