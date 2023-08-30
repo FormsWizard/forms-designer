@@ -1,3 +1,4 @@
+'use client'
 import React, { FunctionComponent, useRef } from 'react'
 import { Box, Button, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 import { Wizard } from './Wizard'

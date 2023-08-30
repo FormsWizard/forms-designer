@@ -1,3 +1,4 @@
+'use client'
 import React, { useCallback, useMemo, useState } from 'react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'

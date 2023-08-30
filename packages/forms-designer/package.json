@@ -1,7 +1,7 @@
 {
   "name": "@formswizard/forms-designer",
   "version": "0.0.0",
-  "main": "./dist/index.js",
+  "main": "./index.tsx",
   "types": "./dist/index.d.ts",
   "type": "module",
   "license": "MIT",
