@@ -5,6 +5,7 @@ import { Box, Stack } from '@mui/system'
 import { useAppDispatch, useAppSelector } from '@formswizard/state'
 import { DragBox } from './DragBox'
 import { addBuildingBlock } from '@formswizard/state'
+import { useDNDHooksContext } from '@formswizard/react-hooks'
 
 
 
@@ -12,6 +13,8 @@ function BuildingBlocks() {
   const buildingBlocks = useAppSelector((state) => state.buildingBlocks.blocks)
   const jsonSchema = useAppSelector((state) => state.jsonFormsEdit.jsonSchema)
   const dispatch = useAppDispatch()
+  const { useDrop } = useDNDHooksContext()
+   
   const [{ isActive }, drop] = useDrop(
     () => ({
       accept: 'MOVEBOX',
