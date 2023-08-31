@@ -1,4 +1,4 @@
-import { JsonSchema, resolveSchema, UISchemaElement } from '@jsonforms/core'
+import {JsonSchema, JsonSchema7, resolveSchema, UISchemaElement} from '@jsonforms/core'
 import { cloneDeep } from 'lodash'
 import { getAllScopesInSchema } from './uiSchemaHelpers'
 
@@ -12,9 +12,8 @@ export function collectSchemaGarbage(jsonschema: JsonSchema, uiSchema: UISchemaE
   })
 
   for (let scope of scopes) {
-    let resolved = resolveSchema(marked, scope, marked)
-    //@ts-ignore
-    delete resolved.toBeDeleted
+    let resolved = resolveSchema(marked, scope, marked) as JsonSchema7 & { toBeDeleted?: boolean } | undefined
+    if(resolved?.toBeDeleted) delete resolved.toBeDeleted
   }
   traverseDelete(marked)
   return marked
