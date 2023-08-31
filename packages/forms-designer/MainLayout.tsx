@@ -7,16 +7,20 @@ import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
 import { selectPreviewModus, togglePreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
 import useAutoDeselectOnOutsideClick from './useAutoDeselectOnOutsideClick'
+import {useToolSettings} from "@formswizard/fieldsettings";
 
-interface OwnProps {}
+interface OwnProps {
+  appBar?: React.ReactNode
+}
 
 type Props = OwnProps
 
 const drawerWidth = 240
-export const MainLayout: FunctionComponent<Props> = (props) => {
+export const MainLayout: FunctionComponent<Props> = ({appBar}) => {
   const wizardPaperRef = useRef<null | HTMLDivElement>(null)
   const dispatch = useAppDispatch()
   const previewModus = useAppSelector(selectPreviewModus)
+  const {  selectedKey } = useToolSettings()
   const handleTogglePreview = (event: any) => {
     dispatch(togglePreviewModus())
   }
@@ -24,7 +28,7 @@ export const MainLayout: FunctionComponent<Props> = (props) => {
   return (
     <>
       <Box component={'main'} sx={{ display: 'flex', flexGrow: 1, minHeight: '100vh' }} onClick={handleClickOutside}>
-        <MainAppBar />
+        {appBar || <MainAppBar />}
         {previewModus && (
           <Button color="warning" onClick={handleTogglePreview} size="large">
             <span style={{ writingMode: 'vertical-rl', textOrientation: 'upright' }}>disable preview mode</span>
@@ -56,7 +60,7 @@ export const MainLayout: FunctionComponent<Props> = (props) => {
         <Drawer
           variant="persistent"
           anchor="right"
-          open
+          open={Boolean(selectedKey)}
           sx={{
             width: drawerWidth,
             flexShrink: 0,
