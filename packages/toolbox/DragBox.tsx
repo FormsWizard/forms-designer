@@ -1,28 +1,10 @@
-
+import React, { createElement } from 'react'
 import { Card, CardActionArea, CardContent, Typography, Icon } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
 import { DraggableMeta } from '@formswizard/types'
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
-import { ArrowDownward, Tab, ArrowRightAlt, CheckBox, DateRange, EditAttributes, Info, Label, RadioButtonChecked, ShortText, TextFields, Person } from '@mui/icons-material'
-
-
-
-const nameIconMap = {
-  Info: () => <Info></Info>,
-  Label: () => <Label></Label>,
-  TextFields: () => <TextFields></TextFields>,
-  DateRange: () => <DateRange></DateRange>,
-  Checkbox: () => <CheckBox></CheckBox>,
-  ShortText: () => <ShortText></ShortText>,
-  RadioButtonChecked: () => <RadioButtonChecked></RadioButtonChecked>,
-  EditAttributes: () => <EditAttributes></EditAttributes>,
-  ArrowRightAlt: () => <ArrowRightAlt></ArrowRightAlt>,
-  ArrowDownward: () => <ArrowDownward></ArrowDownward>,
-  Tab: () => <Tab></Tab>,
-  Person: () => <Person></Person>,
-  CheckBox: () =>  <CheckBox></CheckBox>
-}
+import * as MuiIcons from '@mui/icons-material'
 
 
 
@@ -56,8 +38,6 @@ export const DragBox = ({
     []
   )
 
-  
-  
   return (
     <>
       <Card ref={dragRef}>
@@ -75,7 +55,7 @@ export const DragBox = ({
               }}
             >
               {/* crashes on next build or other restrictive dts-build because of TS7053 */}
-              {typeof nameIconMap[ToolIconName] === "function" && nameIconMap[ToolIconName]()}
+              {createElement((MuiIcons as any)[ToolIconName])}
 
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
