@@ -9,12 +9,10 @@ import {
   Resolve,
 } from '@jsonforms/core'
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
-import { Box, Grid, IconButton, Typography } from '@mui/material'
-import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect, useMemo } from 'react'
+import { Box, Grid } from '@mui/material'
+import React, { useCallback, useMemo } from 'react'
 import { useAppDispatch, useAppSelector, selectElement, selectSelectedElementKey, selectPath } from '@formswizard/state'
-import { AddBox } from '@mui/icons-material'
 import classnames from 'classnames'
-import { useDelayedState } from '../hooks'
 import { useDNDHooksContext, useDragTarget, useDropTarget } from '@formswizard/react-hooks'
 
 // export type RemoveWrapperProps = { editMode: boolean; handleRemove: MouseEventHandler; children: ReactNode }
@@ -208,7 +206,6 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
     <Box
       sx={{
         opacity: isOverCurrent ? '1.0' : '0.3',
-        display: 'block',
       }}
       ref={dropRef}
     >
@@ -217,29 +214,23 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
         sx={{
           display: 'flex',
           border: anythingDragging ? `1px dashed darkgray` : '1px dashed transparent',
-          borderRadius: '5px',
+          borderRadius: '2px',
           boxSizing: 'border-box',
           // height: '1.5em',
           textAlign: 'center',
           verticalAlign: 'middle',
           margin: (theme) => theme.spacing(1, 2),
-          padding: 1,
+          transition: (theme) => theme.transitions.create(["border"], {
+            duration: theme.transitions.duration.short
+          })
         }}
       >
-        {/* <Typography
-              sx={{
-                margin: 'auto',
-            opacity: anythingDragging ? '1.0' : '1',
-                padding: 1
-
-              }}
-          > */}
-
-        {/* <AddBox
-          color={isOverCurrent ? 'success' : 'info'}
-          sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}
-        ></AddBox> */}
-        <Box sx={{ opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em' }}>+</Box>
+        <Box sx={{
+          opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em',
+          transition: (theme) => theme.transitions.create(["opacity"], {
+            duration: theme.transitions.duration.standard
+          })
+        }}>+</Box>
       </Box>
     </Box>
   )
