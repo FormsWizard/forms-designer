@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+
 import { Card, CardActionArea, CardContent, Typography, Icon } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
@@ -8,20 +8,20 @@ import { ArrowDownward, Tab, ArrowRightAlt, CheckBox, DateRange, EditAttributes,
 
 
 
-
 const nameIconMap = {
-  Info: Info,
-  Label: Label,
-  TextFields: TextFields,
-  DateRange: DateRange,
-  Checkbox: CheckBox,
-  ShortText: ShortText,
-  RadioButtonChecked: RadioButtonChecked,
-  EditAttributes: EditAttributes,
-  ArrowRightAlt: ArrowRightAlt,
-  ArrowDownward: ArrowDownward,
-  Tab: Tab,
-  Person: Person,
+  Info: () => <Info></Info>,
+  Label: () => <Label></Label>,
+  TextFields: () => <TextFields></TextFields>,
+  DateRange: () => <DateRange></DateRange>,
+  Checkbox: () => <CheckBox></CheckBox>,
+  ShortText: () => <ShortText></ShortText>,
+  RadioButtonChecked: () => <RadioButtonChecked></RadioButtonChecked>,
+  EditAttributes: () => <EditAttributes></EditAttributes>,
+  ArrowRightAlt: () => <ArrowRightAlt></ArrowRightAlt>,
+  ArrowDownward: () => <ArrowDownward></ArrowDownward>,
+  Tab: () => <Tab></Tab>,
+  Person: () => <Person></Person>,
+  CheckBox: () =>  <CheckBox></CheckBox>
 }
 
 
@@ -56,6 +56,8 @@ export const DragBox = ({
     []
   )
 
+  
+  
   return (
     <>
       <Card ref={dragRef}>
@@ -73,7 +75,7 @@ export const DragBox = ({
               }}
             >
               {/* crashes on next build or other restrictive dts-build because of TS7053 */}
-              {nameIconMap[ToolIconName]}
+              {typeof nameIconMap[ToolIconName] === "function" && nameIconMap[ToolIconName]()}
 
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
