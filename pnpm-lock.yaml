@@ -8,15 +8,15 @@ importers:
 
   .:
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:packages/eslint-config-custom
       '@turbo/gen':
         specifier: ^1.10.7
         version: 1.10.7(@types/node@17.0.45)(typescript@4.9.5)
       eslint:
         specifier: ^8.44.0
         version: 8.44.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:packages/eslint-config-custom
       prettier:
         specifier: ^3.0.0
         version: 3.0.0
@@ -38,9 +38,6 @@ importers:
       '@formswizard/forms-designer':
         specifier: workspace:*
         version: link:../../packages/forms-designer
-      '@formswizard/renderer':
-        specifier: workspace:*
-        version: link:../../packages/renderer
       '@jsonforms/material-renderers':
         specifier: ^3.1.0
         version: 3.1.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@jsonforms/core@3.1.0)(@jsonforms/react@3.1.0)(@mui/icons-material@5.14.1)(@mui/material@5.14.2)(@mui/x-date-pickers@6.10.0)
@@ -260,9 +257,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -278,6 +272,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
       typescript:
         specifier: ^4.9.4
         version: 4.9.5
@@ -351,9 +348,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.3)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../../packages/eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
@@ -366,8 +360,45 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.0
         version: 18.2.3
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../../packages/eslint-config-custom
       typescript:
         specifier: ^4.5.3
+        version: 4.9.5
+
+  packages/basic-renderer:
+    dependencies:
+      '@jsonforms/core':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@jsonforms/material-renderers':
+        specifier: ^3.1.0
+        version: 3.1.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@jsonforms/core@3.1.0)(@jsonforms/react@3.1.0)(@mui/icons-material@5.14.1)(@mui/material@5.14.2)(@mui/x-date-pickers@6.10.0)
+      '@jsonforms/react':
+        specifier: ^3.1.0
+        version: 3.1.0(@jsonforms/core@3.1.0)(react@18.2.0)
+      '@mui/icons-material':
+        specifier: ^5.14.1
+        version: 5.14.1(@mui/material@5.14.2)(@types/react@18.2.20)(react@18.2.0)
+      '@mui/material':
+        specifier: ^5.14.2
+        version: 5.14.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
+      '@types/react':
+        specifier: ^18.2.20
+        version: 18.2.20
+      '@types/react-dom':
+        specifier: ^18.2.7
+        version: 18.2.7
+    devDependencies:
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      react:
+        specifier: '>=18'
+        version: 18.2.0
+      typescript:
+        specifier: ^4.5.2
         version: 4.9.5
 
   packages/eslint-config-custom:
@@ -430,9 +461,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -445,6 +473,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -460,15 +491,18 @@ importers:
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.17)(react@18.2.0)
+      '@formswizard/designer-basic-renderer':
+        specifier: workspace:*
+        version: link:../basic-renderer
+      '@formswizard/designer-renderer':
+        specifier: workspace:*
+        version: link:../renderer
       '@formswizard/fieldsettings':
         specifier: workspace:*
         version: link:../fieldSettings
       '@formswizard/react-hooks':
         specifier: workspace:*
         version: link:../react-hooks
-      '@formswizard/renderer':
-        specifier: workspace:*
-        version: link:../renderer
       '@formswizard/state':
         specifier: workspace:*
         version: link:../state
@@ -512,9 +546,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.3)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -524,6 +555,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -561,9 +595,6 @@ importers:
         specifier: ^16.0.1
         version: 16.0.1(@types/node@17.0.45)(@types/react@18.2.20)(react@18.2.0)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -573,6 +604,9 @@ importers:
       eslint:
         specifier: ^8.45.0
         version: 8.45.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -582,6 +616,9 @@ importers:
 
   packages/renderer:
     dependencies:
+      '@formswizard/designer-basic-renderer':
+        specifier: workspace
+        version: link:../basic-renderer
       '@formswizard/react-hooks':
         specifier: workspace:*
         version: link:../react-hooks
@@ -628,9 +665,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -643,6 +677,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -674,9 +711,6 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -692,6 +726,9 @@ importers:
       eslint:
         specifier: ^8.45.0
         version: 8.45.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -711,15 +748,15 @@ importers:
         specifier: ^5.14.0
         version: 5.14.0(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -766,9 +803,6 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(@types/react-dom@18.2.7)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -778,6 +812,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -789,9 +826,6 @@ importers:
 
   packages/types:
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -801,6 +835,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       typescript:
         specifier: ^4.5.2
         version: 4.9.5
@@ -814,9 +851,6 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
-      'eslint-config-formsdesigner':
-        specifier: workspace:*
-        version: link:../eslint-config-custom
       '@formswizard/designer-tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -826,6 +860,9 @@ importers:
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
       react:
         specifier: '>=18'
         version: 18.2.0

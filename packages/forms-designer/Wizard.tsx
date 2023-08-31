@@ -3,13 +3,13 @@ import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'
 import { selectJsonSchema, selectUiSchema, useAppSelector, selectPreviewModus } from '@formswizard/state'
 import { extendUiSchemaWithPath } from '@formswizard/utils'
+import { basicRenderer } from '@formswizard/designer-basic-renderer'
 import {
-  basicRenderer,
   horizontalLayoutTester,
   HorizontalLayoutWithDropZoneRenderer,
   verticalLayoutTester,
   VerticalLayoutWithDropZoneRenderer,
-} from '@formswizard/renderer'
+} from '@formswizard/designer-renderer'
 import { JsonFormsRendererRegistryEntry } from '@jsonforms/core'
 import { useDragScrolling } from '@formswizard/react-hooks'
 import { Box } from '@mui/material'
