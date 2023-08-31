@@ -31,6 +31,14 @@ export const basicDraggableComponents: DraggableElement[] = [
     },
   },
   {
+    name: 'Number',
+    ToolIconName: 'Numbers', 
+    jsonSchemaElement: {
+      type: 'integer',
+    },
+  },
+
+  {
     name: 'Datumsfeld',
     ToolIconName: 'DateRange',
     jsonSchemaElement: {
