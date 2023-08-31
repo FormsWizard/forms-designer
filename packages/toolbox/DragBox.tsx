@@ -4,7 +4,7 @@ import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
 import { DraggableMeta } from '@formswizard/types'
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
-import * as MuiIcons from '@mui/icons-material'
+// import * as MuiIcons from '@mui/icons-material'
 type DragBoxProps = {
   name: string
   img?: string
@@ -51,7 +51,7 @@ export const DragBox = ({
               }}
             >
               {/* crashes on next build or other restrictive dts-build because of TS7053 */}
-              {createElement((MuiIcons as any)[ToolIconName])}
+              {/* {createElement((MuiIcons as any)[ToolIconName])} */}
 
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
