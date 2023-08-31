@@ -10,8 +10,18 @@ import {
   useAppSelector,
 } from '@formswizard/state'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
+import {JsonSchema7, UISchemaElement} from "@jsonforms/core";
 
-export function useToolSettings() {
+export type ToolSettingsDefinition ={
+  setToolDataBuffer:
+      (value: (((prevState: any) => any) | any)) => void;
+  selectedKey?: string | null;
+  toolSettingsJsonSchema: JsonSchema7 | null;
+  handleChange: (event) => void;
+  tooldataBuffer: any;
+  uiSchema: UISchemaElement,
+}
+export function useToolSettings(): ToolSettingsDefinition {
   const dispatch = useAppDispatch()
   const [tooldataBuffer, setToolDataBuffer] = useState({})
   const selectedKey = useAppSelector(selectSelectedElementKey)
@@ -99,6 +109,6 @@ export function useToolSettings() {
     prevSelectedKey.current = selectedPath
   }, [getToolData, selectedPath])
 
-  return { handleChange, uiSchema: {}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer }
+  return { handleChange, uiSchema: { type: 'Control'}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer, selectedKey }
 }
 
