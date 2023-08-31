@@ -89,62 +89,63 @@ const VerticalArrow = ({size = 10}: { size?: number }) => {
 
 const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => {
   const {visible, elements, schema, path, enabled, direction, renderers, cells, uischema} = props
-  if (elements.length === 0) {
-    // @ts-ignore
-    return (
-        <LayoutPlaceholder
-            direction={direction}
-            child={uischema}
-            path={path || ''}
-            elements={elements}
-            layoutRendererProps={props}
-        />
-    )
-  } else {
-    const size = 6
-    return (
-        <Box sx={{display: visible !== false ? 'block' : 'none'}}>
-          <Grid container direction={direction === 'row' ? 'column' : 'row'} alignItems={'stretch'}>
-            <Grid item flex={0}>
-              <div
-                  style={{height: direction === 'row' ? `${size}px` : '100%', width: direction === 'row' ? '100%' : `${size}px`}}>
-                {direction === 'row' ? <HorizontalArrow size={size}/> : <VerticalArrow size={size}/>}
-              </div>
-            </Grid>
-            <Grid item flex={1}>
-              <Grid
-                  container direction={direction} spacing={direction === 'row' ? 0 : 0}
-                  sx={{
-                    '&:hover': {
-                      outline: theme => `1px dashed ${theme.palette.primary.main}`,
-                    }
-                  }}
+  const size = 6
+  return (
+      <Box sx={{display: visible !== false ? 'block' : 'none'}}>
+        <Grid container
+              direction={direction === 'row' ? 'column' : 'row'}
+              alignItems={'stretch'}>
+          <Grid item flex={0}>
+            <div
+                style={{
+                  height: direction === 'row' ? `${size}px` : '100%',
+                  width: direction === 'row' ? '100%' : `${size}px`
+                }}>
+              {direction === 'row' ? <HorizontalArrow size={size}/> : <VerticalArrow size={size}/>}
+            </div>
+          </Grid>
+          <Grid item flex={1}>
+            <Grid
+                container
+                direction={direction}
+                spacing={0}
+                sx={{
+                  alignItems: 'stretch',
+                  '&:hover': {
+                    outline: theme => `1px dashed ${theme.palette.primary.main}`,
+                  }
+                }}
 
-              >
-                {elements.map((element, index) => (
-                    <LayoutElement
-                        direction={direction}
-                        key={(path || '') + index}
-                        index={index}
-                        // @ts-ignore
-                        schema={schema}
-                        // @ts-ignore
-                        visible={visible}
-                        // @ts-ignore
-                        path={path}
-                        // @ts-ignore
-                        enabled={enabled}
-                        element={element}
-                        parent={elements}
-                        cells={cells}
-                        renderers={renderers}
-                    />
-                ))}
-              </Grid>
+            >
+              {(elements.length === 0) ? <LayoutPlaceholder
+                  direction={direction}
+                  child={uischema}
+                  path={path || ''}
+                  elements={elements}
+                  layoutRendererProps={props}
+              /> : elements.map((element, index) => (
+                  <LayoutElement
+                      direction={direction}
+                      key={(path || '') + index}
+                      index={index}
+                      // @ts-ignore
+                      schema={schema}
+                      // @ts-ignore
+                      visible={visible}
+                      // @ts-ignore
+                      path={path}
+                      // @ts-ignore
+                      enabled={enabled}
+                      element={element}
+                      parent={elements}
+                      cells={cells}
+                      renderers={renderers}
+                  />
+              ))}
             </Grid>
           </Grid>
-        </Box>
-    )
-  }
+        </Grid>
+      </Box>
+  )
 }
 export const LayoutWithDropZoneRenderer = memo(MaterialLayoutRendererComponent)
