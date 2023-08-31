@@ -287,13 +287,28 @@ export const jsonFormsEditSlice = createSlice({
       // and the path of the uiSchema element to remove the uiSchema part
       const { uiSchema } = action.payload.componentMeta
       const { path, scope } = uiSchema as any
-      if (path) {
-        state.uiSchema = removeUISchemaElement(scope, state.uiSchema)
+      if(!path) {
+        console.log("only elements with path are removeable ")
+        return
       }
-      if (scope) {
-        state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegmentsToPath(scopeToPathSegments(scope)))
+      const   pathSegments = pathToPathSegments(path)
+      const parent = getParentUISchemaElements(path, state.uiSchema)
+      const elIndex = parseInt(pathSegments[pathSegments.length - 1])
+
+      if(path === state.selectedPath) {
+        state.selectedPath = undefined;
+        state.selectedElementKey = undefined
       }
-      // state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
+
+      
+      if (parent) {
+        parent.splice(elIndex, 1)
+        // state.uiSchema = removeUISchemaElement(scope, state.uiSchema)
+      }
+      // if (scope) {
+      //   state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegmentsToPath(scopeToPathSegments(scope)))
+      // }
+      //  state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session

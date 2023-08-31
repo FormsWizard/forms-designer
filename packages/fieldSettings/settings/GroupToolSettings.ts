@@ -1,13 +1,13 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
 import { ToolSetting } from '../ToolSettingType'
 
-const JsonSchema = {
+const FieldSchema = {
   type: 'object',
   properties: {},
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
+const mapWizardSchemaToToolData = (wizardSchema: JsonSchema | null, uiSchema: any) => {
   return {}
 }
 
@@ -18,7 +18,7 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     ...wizardUiSchema,
   }
 }
-const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
+const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema) => {
   return {
     ...wizardSchema,
   }
@@ -28,10 +28,10 @@ const GroupToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  JsonSchema,
-  isTool: (jsonSchema: JsonSchema7, uiSchema) =>
+  JsonSchema:FieldSchema,
+  isTool: (jsonSchema: JsonSchema | null, uiSchema) =>
     //@ts-ignore
-    !!uiSchema && uiSchema.type === 'Group',
+    !!uiSchema && uiSchema?.type === 'Group',
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default GroupToolSettings

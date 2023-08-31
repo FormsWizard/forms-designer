@@ -103,11 +103,11 @@ export function useToolSettings(): ToolSettingsDefinition {
   )
 
   useEffect(() => {
-    if (prevSelectedKey.current === selectedPath) return
+    if (prevSelectedKey.current === selectedPath)  return
     setToolDataBuffer(getToolData())
     //@ts-ignore
     prevSelectedKey.current = selectedPath
-  }, [getToolData, selectedPath])
+  }, [getToolData, selectedPath, tooldataBuffer])
 
   return { handleChange, uiSchema: { type: 'Control'}, toolSettingsJsonSchema, tooldataBuffer, setToolDataBuffer, selectedKey }
 }
