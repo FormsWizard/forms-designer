@@ -1,13 +1,13 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
 import { ToolSetting } from '../ToolSettingType'
 
 const JsonSchema = {
   type: 'object',
-  properties: {},
+  properties: {}
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
+const mapWizardSchemaToToolData = () => {
   return {}
 }
 
@@ -18,9 +18,24 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     ...wizardUiSchema,
   }
 }
-const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
+const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema | null) => {
+  // console.log(wizardSchema)
+  // const regexMap = {
+  //   "phone number": "^[0-9]{10,15}$"
+  // }
+  // let props = {} as any
+  // if(toolData.forceFormat === "email") {
+  //   props.format = "email"
+  // } else {
+  //   props.format = undefined
+  // }
+  // if(regexMap[toolData.forceFormat]) {
+  //   props.pattern = regexMap[toolData.forceFormat]
+  // } else {
+  //   props.pattern = undefined
+  // }
   return {
-    ...wizardSchema,
+    ...wizardSchema
   }
 }
 
@@ -29,7 +44,7 @@ const TextfieldToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  isTool: (jsonSchema: JsonSchema7, uiSchema) =>
+  isTool: (jsonSchema: JsonSchema | null, uiSchema) =>
     uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'string',
   toolSettingsMixins: [ToolsettingParts.Title],
 }
