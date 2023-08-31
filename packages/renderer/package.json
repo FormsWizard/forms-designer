@@ -37,15 +37,15 @@
     "@mui/material": "^5.14.2",
     "react": "^16.9.0 || ^17.0.0 || ^18",
     "react-dnd": "^16.0.1",
-    "react-redux": "^8.1.1"
+    "react-redux": "^8.1.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
   },
   "dependencies": {
     "@formswizard/designer-basic-renderer": "workspace",
     "@formswizard/react-hooks": "workspace:*",
     "@formswizard/state": "workspace:*",
     "@formswizard/utils": "workspace:*",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
     "ajv": "^8.12.0",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21"
