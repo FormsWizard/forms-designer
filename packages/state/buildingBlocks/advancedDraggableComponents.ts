@@ -67,29 +67,4 @@ export const advancedDraggableComponents: DraggableComponent[] = [
     }),
   },
 
-  {
-    name: 'horizontalTest',
-    //@ts-ignore
-    label: 'horizontal Layout mit einem Element',
-    jsonSchemaElement: {
-      type: 'object',
-
-      properties: {
-        title: {
-          type: 'string',
-          enum: ['Mr', 'Mrs', 'Ms', 'Dr', 'Prof'],
-        },
-      },
-    },
-    uiSchema: updateScopeOfUISchemaElement('#', '#/properties/horizontalTest', {
-      type: 'HorizontalLayout',
-      //@ts-ignore
-      elements: [
-        {
-          type: 'Control',
-          scope: '#/properties/title',
-        },
-      ],
-    }),
-  },
 ]

@@ -5,7 +5,6 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab, Box } from '@mui/material'
 import { useCallback } from 'react'
 import { basicDraggableComponents } from './basicDraggableComponents'
-import { advancedDraggableComponents } from './advancedDraggableComponents'
 import BuildingBlocks from './BuildingBlocks'
 
 export function Toolbox() {
@@ -47,17 +46,7 @@ export function Toolbox() {
       </TabPanel>
       <TabPanel value="2" sx={{ p: 0 }}>
         <BuildingBlocks></BuildingBlocks>
-{/*         
-        {advancedDraggableComponents.map((component, index) => {
-          return (
-            <DragBox
-              ToolIconName={component.ToolIconName}
-              name={component.name}
-              key={component.name}
-              componentMeta={component}
-            />
-          )
-        })} */}
+
       </TabPanel>
     </TabContext>
   )
