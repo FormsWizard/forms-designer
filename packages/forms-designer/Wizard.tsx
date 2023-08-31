@@ -42,10 +42,10 @@ export function Wizard() {
         data={data}
         renderers={previewModus ? previewRenderers : renderers}
         cells={materialCells}
-        onChange={previewModus ? null : handleFormChange}
+        onChange={handleFormChange}
         schema={jsonSchema}
         uischema={uiSchemaWithPath}
-        readonly={previewModus}
+        readonly={!previewModus}
       />
     </Box>
   )
