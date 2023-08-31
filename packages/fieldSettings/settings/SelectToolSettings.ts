@@ -18,9 +18,9 @@ const JsonSchema = {
   },
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
+const mapWizardSchemaToToolData = (wizardSchema, uiSchema) => {
   return {
-    options: wizardSchema.enum,
+    options: wizardSchema?.enum ?? [],
     format: uiSchema?.options?.format !== 'radio',
   }
 }
@@ -57,7 +57,7 @@ const SelectToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  isTool: (jsonSchema: JsonSchema7) =>
+  isTool: (jsonSchema) =>
     //@ts-ignore
     jsonSchema && (jsonSchema.type === 'select' || typeof jsonSchema.enum === 'object'),
   toolSettingsMixins: [ToolsettingParts.Title],

@@ -1,4 +1,4 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema, JsonSchema7 } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
 import { ToolSetting } from '../ToolSettingType'
 
@@ -18,10 +18,10 @@ const JsonSchema = {
   },
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
+const mapWizardSchemaToToolData = (wizardSchema: JsonSchema, uiSchema: any) => {
   return {
     // @ts-ignore
-    columns: Object.keys(wizardSchema.items.properties),
+    columns: Object.keys(wizardSchema?.items?.properties ?? []),
     showSortButtons: uiSchema?.options?.showSortButtons === true,
   }
 }

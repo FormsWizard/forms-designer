@@ -15,7 +15,7 @@ const JsonSchema = {
 
 const mapWizardSchemaToToolData = (wizardSchema: any, uiSchema: any) => {
   return {
-    options: wizardSchema.items.enum,
+    options: wizardSchema?.items?.enum ?? [],
   }
 }
 

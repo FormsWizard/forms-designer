@@ -10,13 +10,13 @@ import {
   useAppSelector,
 } from '@formswizard/state'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
-import {JsonSchema7, UISchemaElement} from "@jsonforms/core";
+import {JsonSchema, JsonSchema4, JsonSchema7, UISchemaElement} from "@jsonforms/core";
 
 export type ToolSettingsDefinition ={
   setToolDataBuffer:
       (value: (((prevState: any) => any) | any)) => void;
   selectedKey?: string | null;
-  toolSettingsJsonSchema: JsonSchema7 | null;
+  toolSettingsJsonSchema: JsonSchema | null;
   handleChange: (event) => void;
   tooldataBuffer: any;
   uiSchema: UISchemaElement,
@@ -64,7 +64,7 @@ export function useToolSettings(): ToolSettingsDefinition {
       toolSettings
         ? toolSettings.toolSettingsMixins.reduce(
             (prev, curr) => curr.mapWizardToAddonData(prev, selectedElementJsonSchema, UIElementFromSelection),
-            toolSettings.mapWizardSchemaToToolData(selectedElementJsonSchema ?? {}, UIElementFromSelection)
+            toolSettings.mapWizardSchemaToToolData(selectedElementJsonSchema, UIElementFromSelection)
           )
         : null,
     [selectedElementJsonSchema, toolSettings, UIElementFromSelection]
