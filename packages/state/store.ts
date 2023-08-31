@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { jsonFormsEditReducer } from './wizard/jsonFormsEditSlice'
 import { appBarReducer } from './appBar/appBarSlice'
+import buildingBlocksSlice from './buildingBlocks/buildingBlocksSlice'
 export const makeStore = () =>
   configureStore({
     reducer: {
       jsonFormsEdit: jsonFormsEditReducer,
       AppBar: appBarReducer,
+      buildingBlocks: buildingBlocksSlice
     },
   })
 

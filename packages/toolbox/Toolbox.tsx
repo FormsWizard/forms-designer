@@ -6,6 +6,7 @@ import { Tab, Box } from '@mui/material'
 import { useCallback } from 'react'
 import { basicDraggableComponents } from './basicDraggableComponents'
 import { advancedDraggableComponents } from './advancedDraggableComponents'
+import BuildingBlocks from './BuildingBlocks'
 
 export function Toolbox() {
   const [activeTab, setActiveTab] = React.useState('1')
@@ -45,6 +46,8 @@ export function Toolbox() {
         </Box>
       </TabPanel>
       <TabPanel value="2" sx={{ p: 0 }}>
+        <BuildingBlocks></BuildingBlocks>
+{/*         
         {advancedDraggableComponents.map((component, index) => {
           return (
             <DragBox
@@ -54,7 +57,7 @@ export function Toolbox() {
               componentMeta={component}
             />
           )
-        })}
+        })} */}
       </TabPanel>
     </TabContext>
   )

@@ -14,7 +14,6 @@ import {
   updateUISchemaElement,
   deeplyRemoveNestedProperty,
   deeplyRenameNestedProperty,
-  deeplyUpdateNestedSchema,
   collectSchemaGarbage,
 } from '@formswizard/utils'
 
@@ -294,7 +293,7 @@ export const jsonFormsEditSlice = createSlice({
       if (scope) {
         state.jsonSchema = deeplyRemoveNestedProperty(state.jsonSchema, pathSegmentsToPath(scopeToPathSegments(scope)))
       }
-      state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
+      // state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
     },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
