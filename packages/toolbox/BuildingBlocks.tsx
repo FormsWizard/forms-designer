@@ -18,13 +18,13 @@ function BuildingBlocks() {
   const [{ isActive }, drop] = useDrop(
     () => ({
       accept: 'MOVEBOX',
-      drop: (item, monitor) => {
+      drop: (item, monitor) => {  
         console.log(item)
         //@ts-ignore
         if (item.componentMeta.uiSchema.type !== 'Group') {
           return
         }        
-        dispatch(addBuildingBlock({ item, jsonSchema, ToolIcon: ViewQuilt }))
+        dispatch(addBuildingBlock({ item, jsonSchema, ToolIconName: "ViewQuilt" }))
       },
 
       collect: (monitor) => ({

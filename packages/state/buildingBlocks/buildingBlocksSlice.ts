@@ -18,12 +18,23 @@ export const buildingBlocksSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     addBuildingBlock: (state: buildingBlocksSlice, action: PayloadAction<any, any>) => {
-      const { item, jsonSchema, ToolIcon } = action.payload
+      const { item, jsonSchema, ToolIconName } = action.payload
       const scopes = getAllScopesInSchema(item.componentMeta.uiSchema)
       scopes.sort((a, b) => scopeToPathSegments(a).length - scopeToPathSegments(b).length)
       let blockSchema = { type: 'object', properties: {} }
 
-      let groupName = last(scopeToPathSegments(item.componentMeta.uiSchema.scope))
+      let groupName = last(scopeToPathSegments(item.componentMeta.uiSchema.scope)) as string
+
+      let groupNameTester = groupName
+      for (
+        let i = 1;
+        //@ts-ignore
+        state.blocks.find(b => b.name === groupNameTester) !== undefined; 
+        i++
+      ) {
+        groupNameTester = `${groupName}_${i}`
+      }
+      groupName = groupNameTester
 
       for (const scope of scopes) {
         const schema = resolveSchema(jsonSchema, scope, jsonSchema)
@@ -43,7 +54,7 @@ export const buildingBlocksSlice = createSlice({
         name: groupName,
         uiSchema: item.componentMeta.uiSchema,
         jsonSchemaElement: blockSchema,
-        ToolIcon,
+        ToolIconName,
       }
       console.log('adding building block', blockItem)
       state.blocks.push(blockItem)
