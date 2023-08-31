@@ -1,7 +1,7 @@
 {
-  "name": "@formswizard/designer-renderer",
+  "name": "@formswizard/designer-basic-renderer",
   "version": "0.0.2",
-  "description": "JsonForms renderers required by forms-designer.",
+  "description": "JsonForms renderers, complementing @jsonforms/material-renderers. They are used per default by forms-designer and should therefore be used for any instance of JsonForms which is supposed to render jsonschema+uischema created with forms-designer.",
   "keywords": ["renderer", "material", "jsonforms", "form", "forms", "wizard", "json", "schema", "jsonschema", "uischema", "frontend", "generator", "input", "renderengine"],
   "license": "MIT",
   "homepage": "https://github.com/FormsWizard",
@@ -21,11 +21,7 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
-    "@formswizard/types": "workspace:*",
-    "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",
-    "eslint-config-formsdesigner": "workspace:*",
-    "@formswizard/designer-tsconfig": "workspace:*",
     "typescript": "^4.5.2",
     "react": ">=18"
   },
@@ -35,19 +31,10 @@
     "@jsonforms/react": "^3.1.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.2",
-    "react": "^16.9.0 || ^17.0.0 || ^18",
-    "react-dnd": "^16.0.1",
-    "react-redux": "^8.1.1"
+    "react": "^16.9.0 || ^17.0.0 || ^18"
   },
   "dependencies": {
-    "@formswizard/designer-basic-renderer": "workspace",
-    "@formswizard/react-hooks": "workspace:*",
-    "@formswizard/state": "workspace:*",
-    "@formswizard/utils": "workspace:*",
     "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "ajv": "^8.12.0",
-    "classnames": "^2.3.2",
-    "lodash": "^4.17.21"
+    "@types/react-dom": "^18.2.7"
   }
 }

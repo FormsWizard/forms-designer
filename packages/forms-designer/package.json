@@ -39,7 +39,8 @@
   "dependencies": {
     "@formswizard/theme": "workspace:*",
     "@formswizard/react-hooks": "workspace:*",
-    "@formswizard/renderer": "workspace:*",
+    "@formswizard/designer-basic-renderer": "workspace:*",
+    "@formswizard/designer-renderer": "workspace:*",
     "@formswizard/state": "workspace:*",
     "@formswizard/toolbox": "workspace:*",
     "@formswizard/utils": "workspace:*",

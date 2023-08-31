@@ -2,7 +2,7 @@ import { DraggableComponent } from '@formswizard/types'
 import { JsonForms } from '@jsonforms/react'
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonSchema7, UISchemaElement } from '@jsonforms/core'
-import { basicRenderer } from '../basic'
+import { basicRenderer } from '@formswizard/designer-basic-renderer'
 
 export const DropTargetFormsPreview: React.FC<{ metadata: DraggableComponent }> = ({ metadata }) => {
   const name = metadata.name
