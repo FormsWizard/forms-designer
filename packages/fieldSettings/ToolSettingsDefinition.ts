@@ -5,6 +5,7 @@ import ListToolSettings from './settings/ListToolSettings'
 import GroupToolSettings from './settings/GroupToolSettings'
 import AlertToolSetting from './settings/AlertToolSettings'
 import TextfieldToolSettings from './settings/TextfieldToolSettings'
+import CheckToolSettings from './settings/CheckToolSettings'
 
 export const ToolSettingsDefinitions: ToolSetting[] = [
   SelectToolSettings,
@@ -13,4 +14,5 @@ export const ToolSettingsDefinitions: ToolSetting[] = [
   GroupToolSettings,
   AlertToolSetting,
   TextfieldToolSettings,
+  CheckToolSettings
 ]
