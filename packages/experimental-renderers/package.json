@@ -1,0 +1,52 @@
+{
+  "name": "@formswizard/experimental-renderers",
+  "version": "0.0.0",
+  "description": "additional JsonForms renderers like address pickers .",
+  "license": "MIT",
+  "homepage": "https://github.com/FormsWizard",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/FormsWizard/forms-designer.git"
+  },
+  "contributors": [{"name": "Johannes Lötzsch"}, {"name": "Jakob Steege"}, {"name": "winzlieb", "email": "winzlieb@c3d2.de"}],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup index.tsx --format esm,cjs --dts --external react",
+    "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react",
+    "lint": "eslint \"**/*.ts*\"",
+    "lint-fix": "eslint --fix \"**/*.ts*\"",
+    "generate:component": "turbo gen react-component"
+  },
+  "devDependencies": {
+    "@formswizard/types": "workspace:*",
+    "@types/lodash": "^4.14.197",
+    "eslint": "^7.32.0",
+    "eslint-config-formsdesigner": "workspace:*",
+    "@formswizard/designer-tsconfig": "workspace:*",
+    "typescript": "^4.5.2",
+    "react": ">=18"
+  },
+  "peerDependencies": {
+    "@jsonforms/core": "^3.1.0",
+    "@jsonforms/material-renderers": "^3.1.0",
+    "@jsonforms/react": "^3.1.0",
+    "@mui/icons-material": "^5.14.1",
+    "@mui/material": "^5.14.2",
+    "react": "^16.9.0 || ^17.0.0 || ^18",
+    "react-dnd": "^16.0.1",
+    "react-redux": "^8.1.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7"
+  },
+  "dependencies": {
+    "@formswizard/designer-basic-renderer": "workspace",
+    "@formswizard/react-hooks": "workspace:*",
+    "@formswizard/state": "workspace:*",
+    "@formswizard/utils": "workspace:*",
+    "ajv": "^8.12.0",
+    "classnames": "^2.3.2",
+    "lodash": "^4.17.21"
+  }
+}
