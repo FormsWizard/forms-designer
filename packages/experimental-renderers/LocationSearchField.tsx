@@ -3,7 +3,7 @@ import * as React from 'react'
 import {useCallback, useEffect, useState} from 'react'
 
 import {geocode, LatLng, latLngToString, NominatimResponse} from './nominatim'
-import {Autocomplete, TextField} from "@mui/material";
+import {Autocomplete, ListItem, ListItemIcon, ListItemText, TextField} from "@mui/material";
 
 export type AutocompleteSuggestion = {
   label: string;
@@ -22,19 +22,24 @@ const queryGeocode = (searchString: string, setOptions: (r: NominatimResponse[])
     countrycodes: ['de', 'at', 'ch'],
     q: searchString
   })
-    .then((results) =>
-      results.length && setOptions(results)
-    )
-    .catch((error: Error) => console.error(error))
+      .then((results) =>
+          results.length && setOptions(results)
+      )
+      .catch((error: Error) => console.error(error))
+
 }
-/*
-const renderResult = (result: SearchResultProps) => {
-  const {display_name, address, icon, place_id} = result as unknown as NominatimResponse
-  return <Label as={'a'} size={'huge'} basic key={place_id} style={{border: 'none'}} >
-    {icon && <img src={icon} />}
-      {display_name}
-  </Label>
-}*/
+
+const renderOptions = (props: React.HTMLAttributes<HTMLLIElement>, result: NominatimResponse) => {
+  const {display_name, address, icon, place_id} = result
+  return <ListItem key={place_id} style={{border: 'none'}} {...props} >
+    {icon && <ListItemIcon>
+      <img src={icon}/>
+    </ListItemIcon>}
+    <ListItemText>
+      {display_name} test
+    </ListItemText>
+  </ListItem>
+}
 
 type SearchResultData = {
   result: NominatimResponse | null
@@ -43,29 +48,29 @@ type SearchResultData = {
 export const LocationSearchField = ({onLocationFound, initialLocation, hasErrors}: LocationSearchFieldProps) => {
   const [options, setOptions] = useState<Array<NominatimResponse>>([])
   const [searchString, setSearchString] = useState<string>('')
-  const [placeholder, setPlaceholder] = useState(initialLocation ? latLngToString(initialLocation) : '')
-
+  const [selectedEntry, setSelectedEntry] = useState<NominatimResponse | undefined>();
   const handleChange = (e: any) => {
     const value = e.currentTarget.value
     setSearchString(value || '');
   }
 
-  const handleSelect = (_, data) => {
-    const value: NominatimResponse | null = data.result as NominatimResponse | null
+  const handleSelect = useCallback((_, value: NominatimResponse | null) => {
     if (value) {
       const {lat, lon} = value
       onLocationFound && onLocationFound(parseFloat(lat), parseFloat(lon), value)
-      setPlaceholder(`${lat},${lon}`)
-    setSearchString(value.display_name)
-  }
-  }
+      setSearchString(value.display_name)
+      setSelectedEntry(value)
+    } else {
+      setSelectedEntry(undefined)
+    }
+  }, [onLocationFound, setSearchString, setSelectedEntry])
 
   const throttleGeocode = useCallback(
-    throttle(_searchString => queryGeocode(_searchString, setOptions), 1000)
-    , [queryGeocode, setOptions])
+      throttle(_searchString => queryGeocode(_searchString, setOptions), 1000)
+      , [queryGeocode, setOptions])
   const debouncedGeocode = useCallback(
-    debounce(_searchString => queryGeocode(_searchString, setOptions), 1500)
-    , [queryGeocode, setOptions])
+      debounce(_searchString => queryGeocode(_searchString, setOptions), 1500)
+      , [queryGeocode, setOptions])
 
 
   useEffect(() => {
@@ -75,35 +80,17 @@ export const LocationSearchField = ({onLocationFound, initialLocation, hasErrors
       debouncedGeocode(searchString)
   }, [searchString, setOptions])
 
-  return (
-      <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={options || []}
-          sx={{ width: 300 }}
-          onInputChange={handleChange}
-          onChange={handleSelect}
-          renderInput={(params) => <TextField {...params} label="Address..." />}
-      />)
-  /*
-    <Search
-      icon={'world'}
-      size='huge'
-      fluid
-      className={'autoComplete'}
-      text={'Addresse suchen'}
-      id="search-place"
-      value={searchString}
-      input={{
-        error: hasErrors,
-        placeholder: placeholder || (initialLocation ? latLngToString(initialLocation) : '')
-      }}
-      onSearchChange={handleChange}
-      resultRenderer={renderResult}
-      onResultSelect={handleSelect}
-      results={options || []}
-    />*/
-
-
+  return (<Autocomplete
+            disablePortal
+            getOptionLabel={(option) => option.display_name}
+            options={options || []}
+            fullWidth={true}
+            value={selectedEntry}
+            onInputChange={handleChange}
+            onChange={handleSelect}
+            renderOption={renderOptions}
+            renderInput={(params) => <TextField {...params} label="Address..."/>}
+        />
+  )
 
 }
