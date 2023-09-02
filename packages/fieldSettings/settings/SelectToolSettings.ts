@@ -1,4 +1,4 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
 import { ToolSetting } from '../ToolSettingType'
 
@@ -33,7 +33,7 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     options: { format: toolData.format ? 'default' : 'radio' },
   }
 }
-const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
+const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema | null) => {
   // enum item must not be undefined
   // enum must not have duplicates
   // enum must have non-empty array
@@ -57,9 +57,8 @@ const SelectToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  isTool: (jsonSchema) =>
-    //@ts-ignore
-    jsonSchema && (jsonSchema.type === 'select' || typeof jsonSchema.enum === 'object'),
+  tester: (uiSchema, jsonSchema) =>
+      (jsonSchema && (jsonSchema.type === 'select' || typeof (jsonSchema as any).enum === 'object')) ? 1 : 0,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default SelectToolSettings

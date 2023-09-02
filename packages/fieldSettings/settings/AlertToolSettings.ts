@@ -1,4 +1,4 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
 import { ToolSetting } from '../ToolSettingType'
 
@@ -11,7 +11,7 @@ const JsonSchema = {
   },
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema7, uiSchema: any) => {
+const mapWizardSchemaToToolData = (wizardSchema: JsonSchema | null, uiSchema: any) => {
   return {
     text: uiSchema.text,
   }
@@ -25,7 +25,7 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     text: toolData.text ?? '',
   }
 }
-const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
+const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema | null) => {
   return {
     ...wizardSchema,
   }
@@ -36,7 +36,7 @@ const AlertToolSetting: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  isTool: (jsonSchema, uiSchema) => uiSchema && (uiSchema.type === 'Alert' || typeof uiSchema.text === 'string'),
+  tester: (uiSchema, jsonSchema) =>   (uiSchema.type === 'Alert' || typeof (uiSchema as any).text === 'string') ? 1 : 0,
   toolSettingsMixins: [],
 }
 export default AlertToolSetting

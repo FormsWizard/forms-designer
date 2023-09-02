@@ -18,7 +18,7 @@ const JsonSchema = {
   },
 }
 
-const mapWizardSchemaToToolData = (wizardSchema: JsonSchema, uiSchema: any) => {
+const mapWizardSchemaToToolData = (wizardSchema: JsonSchema | null, uiSchema: any) => {
   return {
     // @ts-ignore
     columns: Object.keys(wizardSchema?.items?.properties ?? []),
@@ -34,7 +34,7 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
     options: { showSortButtons: toolData.showSortButtons },
   }
 }
-const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => {
+const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema | null) => {
   const newProperties = toolData.columns.reduce(
     (prev: any, column: string) => ({
       ...prev,
@@ -48,7 +48,7 @@ const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema7) => 
   return {
     ...wizardSchema,
     items: {
-      ...wizardSchema.items,
+      ...(wizardSchema as any).items,
       properties: newProperties,
     },
   }
@@ -59,9 +59,8 @@ const ListToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  isTool: (jsonSchema: JsonSchema7) =>
-    //@ts-ignore
-    jsonSchema && jsonSchema.type === 'array' && jsonSchema?.items?.type === 'object',
+  tester: (uiSchema, jsonSchema) =>
+    jsonSchema && jsonSchema.type === 'array' && (jsonSchema?.items as JsonSchema7 | undefined)?.type === 'object' ? 1 : 0,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default ListToolSettings

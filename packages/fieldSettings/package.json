@@ -13,18 +13,18 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.197",
+    "@formswizard/designer-tsconfig": "workspace:*",
     "@formswizard/types": "workspace:*",
+    "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",
     "eslint-config-formsdesigner": "workspace:*",
-    "@formswizard/designer-tsconfig": "workspace:*",
-    "typescript": "^4.5.2",
-    "react": ">=18"
+    "react": ">=18",
+    "typescript": "^4.5.2"
   },
   "peerDependencies": {
     "@jsonforms/core": "^3.1.0",
-    "@jsonforms/react": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
+    "@jsonforms/react": "^3.1.0",
     "@mui/icons-material": "^5.14.1",
     "@mui/lab": "5.0.0-alpha.137",
     "@mui/material": "^5.14.2",
@@ -38,6 +38,7 @@
     "@formswizard/utils": "workspace:*",
     "@mui/system": "^5.14.1",
     "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7"
+    "@types/react-dom": "^18.2.7",
+    "lodash": "^4.17.21"
   }
 }
