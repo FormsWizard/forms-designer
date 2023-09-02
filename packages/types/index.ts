@@ -1,4 +1,4 @@
-import { JsonSchema, Labelable, Scopable, UISchemaElement } from '@jsonforms/core'
+import { JsonSchema, Labelable, Scopable, UISchemaElement, TesterContext } from '@jsonforms/core'
 
 export type ScopableUISchemaElement = UISchemaElement & Scopable & Labelable
 
@@ -24,3 +24,8 @@ export type JsonFormsEditState = {
   selectedElementKey?: string | null
   editMode: boolean
 }
+export type RankedToolTester = (
+    uischema: UISchemaElement,
+    schema: JsonSchema | null,
+    context: TesterContext
+) => number;
