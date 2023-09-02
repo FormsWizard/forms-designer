@@ -61,6 +61,9 @@ importers:
       dayjs:
         specifier: ^1.11.9
         version: 1.11.9
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       react:
         specifier: '>=18'
         version: 18.2.0
@@ -432,6 +435,9 @@ importers:
       '@formswizard/designer-basic-renderer':
         specifier: workspace
         version: link:../basic-renderer
+      '@formswizard/fieldsettings':
+        specifier: workspace:*
+        version: link:../fieldSettings
       '@formswizard/react-hooks':
         specifier: workspace:*
         version: link:../react-hooks
@@ -538,6 +544,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       react-dnd:
         specifier: ^16.0.1
         version: 16.0.1(@types/node@17.0.45)(@types/react@18.2.20)(react@18.2.0)
