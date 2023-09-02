@@ -25,9 +25,11 @@ const additionalRenderers = [
   },
 ]
 
-const renderers: JsonFormsRendererRegistryEntry[] = [...materialRenderers, ...additionalRenderers, ...basicRenderer]
-const previewRenderers: JsonFormsRendererRegistryEntry[] = [...materialRenderers, ...basicRenderer]
-export function Wizard() {
+
+export type WizardProps = {
+  renderers?: JsonFormsRendererRegistryEntry[]
+}
+export function Wizard({renderers = []}: WizardProps) {
   const [data, setData] = useState({})
 
   const handleFormChange = useCallback(({ data }: { data: any }) => setData(data), [setData])
@@ -35,12 +37,14 @@ export function Wizard() {
   const uiSchema = useAppSelector(selectUiSchema)
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
   const previewModus = useAppSelector(selectPreviewModus)
+  const finalRenderers: JsonFormsRendererRegistryEntry[] =  useMemo(() => [...materialRenderers, ...additionalRenderers, ...basicRenderer, ...renderers], [additionalRenderers, basicRenderer, materialRenderers, renderers])
+  const previewRenderers: JsonFormsRendererRegistryEntry[] = useMemo(() =>  [...materialRenderers, ...basicRenderer, ...renderers], [basicRenderer, materialRenderers, renderers])
   useDragScrolling()
   return (
     <Box>
       <JsonForms
         data={data}
-        renderers={previewModus ? previewRenderers : renderers}
+        renderers={previewModus ? previewRenderers : finalRenderers}
         cells={materialCells}
         onChange={handleFormChange}
         schema={jsonSchema}
