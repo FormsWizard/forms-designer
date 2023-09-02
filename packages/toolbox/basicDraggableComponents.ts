@@ -151,7 +151,14 @@ export const basicDraggableComponents: DraggableElement[] = [
       elements: [],
     },
   },
-
+  {
+    name: 'Location',
+    ToolIconName: 'LocationOn',
+    jsonSchemaElement: {
+      type: 'string',
+      format: 'wktLiteral'
+    }
+  },
   {
     name: 'gruppe',
     ToolIconName: 'Tab',
