@@ -48,12 +48,10 @@ export function useToolSettings({additionalToolSettings = []}: ToolSettingsDefin
       () => {
         if (!UIElementFromSelection) return null
         const tool = maxBy([...ToolSettingsDefinitions, ...additionalToolSettings], (d) => {
-          const num = d.tester(UIElementFromSelection, selectedElementJsonSchema, context);
-          console.log('num', num)
-          return num
+          const num = d.tester && d.tester(UIElementFromSelection, selectedElementJsonSchema, context);
+          return num || null
         })
-        console.log('tool', tool)
-        return (tool && tool.tester(UIElementFromSelection, selectedElementJsonSchema, context) > 0)  ? tool : null
+        return (tool && tool.tester && tool.tester(UIElementFromSelection, selectedElementJsonSchema, context) > 0)  ? tool : null
       },
       [selectedElementJsonSchema, UIElementFromSelection, context])
 

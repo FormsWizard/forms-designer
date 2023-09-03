@@ -5,31 +5,14 @@ import {useToolSettings} from './useFieldSettings'
 import {Box, Button, Grid, IconButton, TextField, ToggleButton, Toolbar, Typography} from '@mui/material'
 import * as Icons from '@mui/icons-material'
 import {renameField, selectElement, selectSelectedElementJsonSchema, useAppDispatch, useAppSelector} from "@formswizard/state";
-import {pathToPathSegments} from "@formswizard/utils";
+import {pathToPathSegments, splitLastPath, filterNullOrUndef} from "@formswizard/utils";
 import {ToolSetting} from "./ToolSettingType";
 
 type FieldSettingsViewProps = {
   additionalToolSettings?: ToolSetting[];
 }
 
-/**
- * from a given path foo.bar.baz returns baz and foo.bar
- * @param path
- */
-const splitLastPath: (path: string) => ([string | undefined, string | undefined]) = (path: string) => {
-  const segments = pathToPathSegments(path)
-  if (segments.length <= 0) return [undefined, undefined]
-  const rest = segments.slice(0, segments.length - 1)
-  const restPath = rest.length <= 0 ? undefined : rest.join('.')
-  return [segments[segments.length - 1], restPath]
-}
 
-export const filterUndefOrNull = <T, >(
-    ts?: (T | undefined | null)[] | null
-): T[] =>
-    ts?.filter(
-        (t: T | undefined | null): t is T => t !== undefined && t !== null
-    ) || []
 
 export function FieldSettingsView({additionalToolSettings}: FieldSettingsViewProps) {
   const dispatch = useAppDispatch()
@@ -57,7 +40,7 @@ export function FieldSettingsView({additionalToolSettings}: FieldSettingsViewPro
       if (lastPathSegment === undefined) return
       dispatch(selectElement(undefined))
       dispatch(renameField({path: selectedKey, newFieldName: newKey}))
-      const newPath = filterUndefOrNull([path, newKey]).join('.')
+      const newPath = filterNullOrUndef([path, newKey]).join('.')
       dispatch(selectElement(newPath))
 
 
