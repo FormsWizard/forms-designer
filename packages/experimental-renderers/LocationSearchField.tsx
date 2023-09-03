@@ -3,18 +3,20 @@ import * as React from 'react'
 import {useCallback, useEffect, useState} from 'react'
 
 import {geocode, LatLng, latLngToString, NominatimResponse} from './nominatim'
-import {Autocomplete, ListItem, ListItemIcon, ListItemText, TextField} from "@mui/material";
+import {Autocomplete, AutocompleteProps, ListItem, ListItemIcon, ListItemText, TextField} from "@mui/material";
 
 export type AutocompleteSuggestion = {
   label: string;
   value: string;
 };
 
-export interface LocationSearchFieldProps {
+export interface OwnProps {
   onLocationFound?: (lat: number, lng: number, result: NominatimResponse) => void
   initialLocation?: LatLng | null
   hasErrors?: boolean
 }
+
+type LocationSearchFieldProps = OwnProps & Partial<AutocompleteProps<NominatimResponse,false,false,false, any>>
 
 const queryGeocode = (searchString: string, setOptions: (r: NominatimResponse[]) => void) => {
   if (searchString.length < 2) return
@@ -36,7 +38,7 @@ const renderOptions = (props: React.HTMLAttributes<HTMLLIElement>, result: Nomin
       <img src={icon}/>
     </ListItemIcon>}
     <ListItemText>
-      {display_name} test
+      {display_name}
     </ListItemText>
   </ListItem>
 }
@@ -45,7 +47,7 @@ type SearchResultData = {
   result: NominatimResponse | null
 }
 
-export const LocationSearchField = ({onLocationFound, initialLocation, hasErrors}: LocationSearchFieldProps) => {
+export const LocationSearchField = ({onLocationFound, initialLocation, hasErrors, ...autocompleteProps}: LocationSearchFieldProps) => {
   const [options, setOptions] = useState<Array<NominatimResponse>>([])
   const [searchString, setSearchString] = useState<string>('')
   const [selectedEntry, setSelectedEntry] = useState<NominatimResponse | undefined>();
@@ -85,11 +87,12 @@ export const LocationSearchField = ({onLocationFound, initialLocation, hasErrors
             getOptionLabel={(option) => option.display_name}
             options={options || []}
             fullWidth={true}
-            value={selectedEntry}
+            value={selectedEntry || null}
             onInputChange={handleChange}
             onChange={handleSelect}
             renderOption={renderOptions}
             renderInput={(params) => <TextField {...params} label="Address..."/>}
+            {...autocompleteProps}
         />
   )
 
