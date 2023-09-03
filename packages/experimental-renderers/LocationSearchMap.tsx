@@ -1,6 +1,5 @@
 import 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import '@icon/icofont/icofont.css'
 
 import * as L from 'leaflet'
 import * as React from 'react'
