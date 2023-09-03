@@ -1,5 +1,5 @@
 import { WktLiteralTextControlTester, WktLiteralTextControlRenderer, LocationToolSettings} from "@formswizard/experimental-renderers";
-import {WizardProvider, Wizard, MainLayout} from "@formswizard/forms-designer";
+import {WizardProvider, MainLayout} from "@formswizard/forms-designer";
 
 const renderers = [
   {
