@@ -9,8 +9,6 @@ const renderers = [
 ]
 export const App = () => {
   return <WizardProvider>
-    <MainLayout additionalToolSettings={[LocationToolSettings]}>
-        <Wizard renderers={renderers} />
-    </MainLayout>
+    <MainLayout additionalToolSettings={[LocationToolSettings]} renderers={renderers}/>
   </WizardProvider>
 }

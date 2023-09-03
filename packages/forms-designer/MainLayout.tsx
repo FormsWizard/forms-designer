@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useRef} from 'react'
 import {Box, Button, Container, Drawer, Paper, Toolbar, Typography} from '@mui/material'
-import {Wizard} from './Wizard'
+import {Wizard, WizardProps} from './Wizard'
 import {Toolbox} from '@formswizard/toolbox'
 import {FieldSettingsView,useToolSettings, ToolSetting} from '@formswizard/fieldsettings'
 import {MainAppBar} from './layout/MainAppBar'
@@ -14,10 +14,10 @@ interface OwnProps {
   additionalToolSettings?: ToolSetting[]
 }
 
-type Props = OwnProps
+type Props = OwnProps & Partial<WizardProps>
 
 const drawerWidth = 240
-export const MainLayout: FunctionComponent<Props> = ({appBar, children, additionalToolSettings}) => {
+export const MainLayout: FunctionComponent<Props> = ({appBar, children, additionalToolSettings, ...wizardProps}) => {
   const wizardPaperRef = useRef<null | HTMLDivElement>(null)
   const dispatch = useAppDispatch()
   const previewModus = useAppSelector(selectPreviewModus)
@@ -55,7 +55,7 @@ export const MainLayout: FunctionComponent<Props> = ({appBar, children, addition
             <Toolbar/>
             <Paper sx={{p: 2, m: 4}} elevation={12} square ref={wizardPaperRef}>
               {children ? children : <>
-                <Wizard/>
+                <Wizard {...wizardProps}/>
               </>}
             </Paper>
           </Container>
