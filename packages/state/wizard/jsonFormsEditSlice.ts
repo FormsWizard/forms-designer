@@ -287,20 +287,19 @@ export const jsonFormsEditSlice = createSlice({
       // and the path of the uiSchema element to remove the uiSchema part
       const { uiSchema } = action.payload.componentMeta
       const { path, scope } = uiSchema as any
-      if(!path) {
-        console.log("only elements with path are removeable ")
+      if (!path) {
+        console.log('only elements with path are removeable ')
         return
       }
-      const   pathSegments = pathToPathSegments(path)
+      const pathSegments = pathToPathSegments(path)
       const parent = getParentUISchemaElements(path, state.uiSchema)
       const elIndex = parseInt(pathSegments[pathSegments.length - 1])
 
-      if(path === state.selectedPath) {
-        state.selectedPath = undefined;
+      if (path === state.selectedPath) {
+        state.selectedPath = undefined
         state.selectedElementKey = undefined
       }
 
-      
       if (parent) {
         parent.splice(elIndex, 1)
         // state.uiSchema = removeUISchemaElement(scope, state.uiSchema)

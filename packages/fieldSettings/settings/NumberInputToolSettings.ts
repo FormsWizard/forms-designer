@@ -6,12 +6,11 @@ const JsonSchema = {
   type: 'object',
   properties: {
     min: {
-      type: "integer"
+      type: 'integer',
     },
     max: {
-      type: "integer"
+      type: 'integer',
     },
-    
   },
 }
 
@@ -27,12 +26,10 @@ const mapToolDataToWizardUischema = (toolData: any, wizardUiSchema: any) => {
   }
 }
 const mapToolDataToWizardSchema = (toolData: any, wizardSchema: JsonSchema) => {
-  
   return {
     ...wizardSchema,
     minimum: toolData.min,
-    maximum: toolData.max
-
+    maximum: toolData.max,
   }
 }
 

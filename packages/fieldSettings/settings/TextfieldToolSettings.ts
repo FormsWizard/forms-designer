@@ -29,8 +29,7 @@ const TextfieldToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  tester: (uiSchema, jsonSchema) =>
-    uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'string' ? 1 : 0,
-  toolSettingsMixins: [ToolsettingParts.Title]
+  tester: (uiSchema, jsonSchema) => (uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'string' ? 1 : 0),
+  toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default TextfieldToolSettings

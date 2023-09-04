@@ -9,8 +9,8 @@ const initialState = {
 }
 
 export type buildingBlocksSlice = {
-    blocks: any[]
-}  
+  blocks: any[]
+}
 
 export const buildingBlocksSlice = createSlice({
   name: 'buildingBlocks',
@@ -29,7 +29,7 @@ export const buildingBlocksSlice = createSlice({
       for (
         let i = 1;
         //@ts-ignore
-        state.blocks.find(b => b.name === groupNameTester) !== undefined; 
+        state.blocks.find((b) => b.name === groupNameTester) !== undefined;
         i++
       ) {
         groupNameTester = `${groupName}_${i}`

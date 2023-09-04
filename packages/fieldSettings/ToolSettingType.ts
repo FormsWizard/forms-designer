@@ -1,5 +1,5 @@
-import {JsonSchema} from '@jsonforms/core'
-import {RankedToolTester} from "@formswizard/types";
+import { JsonSchema } from '@jsonforms/core'
+import { RankedToolTester } from '@formswizard/types'
 
 export type ToolSetting = {
   mapWizardSchemaToToolData: (wizardSchema: JsonSchema | null, uiSchema: any) => any

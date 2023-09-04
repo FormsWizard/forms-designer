@@ -58,7 +58,7 @@ const SelectToolSettings: ToolSetting = {
   mapToolDataToWizardUischema,
   JsonSchema,
   tester: (uiSchema, jsonSchema) =>
-      (jsonSchema && (jsonSchema.type === 'select' || typeof (jsonSchema as any).enum === 'object')) ? 1 : 0,
+    jsonSchema && (jsonSchema.type === 'select' || typeof (jsonSchema as any).enum === 'object') ? 1 : 0,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default SelectToolSettings

@@ -7,7 +7,7 @@ export const makeStore = () =>
     reducer: {
       jsonFormsEdit: jsonFormsEditReducer,
       AppBar: appBarReducer,
-      buildingBlocks: buildingBlocksSlice
+      buildingBlocks: buildingBlocksSlice,
     },
   })
 

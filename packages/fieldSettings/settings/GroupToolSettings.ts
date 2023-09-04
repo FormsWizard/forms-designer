@@ -29,8 +29,7 @@ const GroupToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  tester: (uiSchema, jsonSchema) =>
-    !!uiSchema && uiSchema.type === 'Group' ? 1 : 0,
+  tester: (uiSchema, jsonSchema) => (!!uiSchema && uiSchema.type === 'Group' ? 1 : 0),
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default GroupToolSettings

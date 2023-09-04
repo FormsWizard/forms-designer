@@ -25,11 +25,10 @@ const additionalRenderers = [
   },
 ]
 
-
 export type WizardProps = {
   renderers?: JsonFormsRendererRegistryEntry[]
 }
-export function Wizard({renderers = []}: WizardProps) {
+export function Wizard({ renderers = [] }: WizardProps) {
   const [data, setData] = useState({})
 
   const handleFormChange = useCallback(({ data }: { data: any }) => setData(data), [setData])
@@ -37,8 +36,14 @@ export function Wizard({renderers = []}: WizardProps) {
   const uiSchema = useAppSelector(selectUiSchema)
   const uiSchemaWithPath = useMemo(() => extendUiSchemaWithPath(uiSchema), [uiSchema])
   const previewModus = useAppSelector(selectPreviewModus)
-  const finalRenderers: JsonFormsRendererRegistryEntry[] =  useMemo(() => [...materialRenderers, ...additionalRenderers, ...basicRenderer, ...renderers], [renderers])
-  const previewRenderers: JsonFormsRendererRegistryEntry[] = useMemo(() =>  [...materialRenderers, ...basicRenderer, ...renderers], [renderers])
+  const finalRenderers: JsonFormsRendererRegistryEntry[] = useMemo(
+    () => [...materialRenderers, ...additionalRenderers, ...basicRenderer, ...renderers],
+    [renderers]
+  )
+  const previewRenderers: JsonFormsRendererRegistryEntry[] = useMemo(
+    () => [...materialRenderers, ...basicRenderer, ...renderers],
+    [renderers]
+  )
   useDragScrolling()
   return (
     <Box>

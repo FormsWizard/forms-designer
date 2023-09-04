@@ -52,12 +52,14 @@ const MultiSelectToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  tester: (jsonSchema) => (
+  tester: (jsonSchema) =>
     jsonSchema &&
     jsonSchema.type === 'array' &&
     //@ts-ignore
     jsonSchema?.items?.type === 'string' &&
-    (jsonSchema as any).uniqueItems === true) ? 1 : 0,
+    (jsonSchema as any).uniqueItems === true
+      ? 1
+      : 0,
   JsonSchema,
   toolSettingsMixins: [ToolsettingParts.Title],
 }

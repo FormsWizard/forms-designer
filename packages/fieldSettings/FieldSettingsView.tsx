@@ -24,30 +24,31 @@ export function FieldSettingsView({ additionalToolSettings }: FieldSettingsViewP
     useToolSettings({ additionalToolSettings })
   const [showKeyEditor, setShowKeyEditor] = useState(false)
   const [newKey, setNewKey] = useState<string>('')
+
   const key = useMemo(() => {
     const [lastPathSegment] = splitLastPath(selectedKey || '')
     return lastPathSegment
   }, [selectedKey])
 
-  const keyIsEditable = Boolean(selectedElementJsonSchema && selectedElementJsonSchema.type !== 'object')
-  useEffect(() => {
-    if (key === undefined) return
-    setNewKey(key)
-  }, [key])
+  // const keyIsEditable = Boolean(selectedElementJsonSchema && selectedElementJsonSchema.type !== 'object')
+  // useEffect(() => {
+  //   if (key === undefined) return
+  //   setNewKey(key)
+  // }, [key])
 
-  const toggleKeyEditor = useCallback(() => {
-    setShowKeyEditor(!showKeyEditor)
-  }, [showKeyEditor])
+  // const toggleKeyEditor = useCallback(() => {
+  //   setShowKeyEditor(!showKeyEditor)
+  // }, [showKeyEditor])
 
-  const handleKeyChange = useCallback(() => {
-    if (!selectedKey || selectedKey.length <= 0) return
-    const [lastPathSegment, path] = splitLastPath(selectedKey)
-    if (lastPathSegment === undefined) return
-    dispatch(selectElement(undefined))
-    dispatch(renameField({ path: selectedKey, newFieldName: newKey }))
-    const newPath = filterNullOrUndef([path, newKey]).join('.')
-    dispatch(selectElement(newPath))
-  }, [newKey, selectedKey])
+  // const handleKeyChange = useCallback(() => {
+  //   if (!selectedKey || selectedKey.length <= 0) return
+  //   const [lastPathSegment, path] = splitLastPath(selectedKey)
+  //   if (lastPathSegment === undefined) return
+  //   dispatch(selectElement(undefined))
+  //   dispatch(renameField({ path: selectedKey, newFieldName: newKey }))
+  //   const newPath = filterNullOrUndef([path, newKey]).join('.')
+  //   dispatch(selectElement(newPath))
+  // }, [newKey, selectedKey])
 
   return (
     <>

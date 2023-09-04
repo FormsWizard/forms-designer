@@ -24,8 +24,4 @@ export type JsonFormsEditState = {
   selectedElementKey?: string | null
   editMode: boolean
 }
-export type RankedToolTester = (
-    uischema: UISchemaElement,
-    schema: JsonSchema | null,
-    context: TesterContext
-) => number;
+export type RankedToolTester = (uischema: UISchemaElement, schema: JsonSchema | null, context: TesterContext) => number

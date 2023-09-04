@@ -8,7 +8,7 @@ const JsonSchema = {
     defaultIsChecked: {
       type: 'boolean',
     },
-   },
+  },
 }
 
 const mapWizardSchemaToToolData = (wizardSchema: JsonSchema | null, uiSchema: any) => {
@@ -33,8 +33,7 @@ const CheckToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  tester: (uiSchema , jsonSchema) =>
-    uiSchema && jsonSchema?.type === 'boolean' ? 1 : 0,
+  tester: (uiSchema, jsonSchema) => (uiSchema && jsonSchema?.type === 'boolean' ? 1 : 0),
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default CheckToolSettings

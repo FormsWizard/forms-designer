@@ -36,7 +36,7 @@ const AlertToolSetting: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   JsonSchema,
-  tester: (uiSchema, jsonSchema) =>   (uiSchema.type === 'Alert' || typeof (uiSchema as any).text === 'string') ? 1 : 0,
+  tester: (uiSchema, jsonSchema) => (uiSchema.type === 'Alert' || typeof (uiSchema as any).text === 'string' ? 1 : 0),
   toolSettingsMixins: [],
 }
 export default AlertToolSetting

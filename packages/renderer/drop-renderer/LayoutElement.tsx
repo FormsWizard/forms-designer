@@ -158,9 +158,9 @@ const LayoutElement = ({
               flexGrow: 1,
             },
             transition: (theme) =>
-                theme.transitions.create(['background-color', 'color'], {
-                  duration: theme.transitions.duration.short,
-                }),
+              theme.transitions.create(['background-color', 'color'], {
+                duration: theme.transitions.duration.short,
+              }),
             /*':hover': {
               backgroundColor: (theme) =>
                 theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
@@ -220,17 +220,25 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
           textAlign: 'center',
           verticalAlign: 'middle',
           margin: (theme) => theme.spacing(1, 2),
-          transition: (theme) => theme.transitions.create(["border"], {
-            duration: theme.transitions.duration.short
-          })
+          transition: (theme) =>
+            theme.transitions.create(['border'], {
+              duration: theme.transitions.duration.short,
+            }),
         }}
       >
-        <Box sx={{
-          opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em',
-          transition: (theme) => theme.transitions.create(["opacity"], {
-            duration: theme.transitions.duration.standard
-          })
-        }}>+</Box>
+        <Box
+          sx={{
+            opacity: anythingDragging ? '1.0' : '0',
+            margin: 'auto',
+            fontSize: '2em',
+            transition: (theme) =>
+              theme.transitions.create(['opacity'], {
+                duration: theme.transitions.duration.standard,
+              }),
+          }}
+        >
+          +
+        </Box>
       </Box>
     </Box>
   )
