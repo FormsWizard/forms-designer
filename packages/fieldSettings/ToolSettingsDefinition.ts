@@ -6,7 +6,7 @@ import AlertToolSetting from './settings/AlertToolSettings'
 import TextfieldToolSettings from './settings/TextfieldToolSettings'
 import CheckToolSettings from './settings/CheckToolSettings'
 import NumberInputToolSettings from './settings/NumberInputToolSettings'
-import {ToolSetting} from "@formswizard/types";
+import { ToolSetting } from '@formswizard/types'
 
 export const ToolSettingsDefinitions: ToolSetting[] = [
   SelectToolSettings,

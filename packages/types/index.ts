@@ -4,7 +4,7 @@ import {
   Scopable,
   UISchemaElement,
   TesterContext,
-  JsonFormsRendererRegistryEntry
+  JsonFormsRendererRegistryEntry,
 } from '@jsonforms/core'
 
 export type ScopableUISchemaElement = UISchemaElement & Scopable & Labelable
@@ -31,22 +31,15 @@ export type JsonFormsEditState = {
   selectedElementKey?: string | null
   editMode: boolean
 }
-export type RankedToolTester = (
-    uischema: UISchemaElement,
-    schema: JsonSchema | null,
-    context: TesterContext
-) => number;
+export type RankedToolTester = (uischema: UISchemaElement, schema: JsonSchema | null, context: TesterContext) => number
 
-
-type ToolSettingsAbstract = {
-
-}
+type ToolSettingsAbstract = {}
 
 export type ToolSettingsMixin = {
-  mapWizardToAddonData: (previousData, wizardSchema: JsonSchema | null, uiSchema: any) => any;
-  mapAddonDataToWizardSchema?: (toolData: any, wizardSchema: JsonSchema) => JsonSchema;
-  mapAddonDataToWizardUISchema: (toolData: any, uiSchema: any) => any;
-  jsonSchemaElement: JsonSchema['properties'];
+  mapWizardToAddonData: (previousData, wizardSchema: JsonSchema | null, uiSchema: any) => any
+  mapAddonDataToWizardSchema?: (toolData: any, wizardSchema: JsonSchema) => JsonSchema
+  mapAddonDataToWizardUISchema: (toolData: any, uiSchema: any) => any
+  jsonSchemaElement: JsonSchema['properties']
 }
 
 export type ToolSetting = ToolSettingsAbstract & {

@@ -3,12 +3,8 @@ import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { JsonForms } from '@jsonforms/react'
 import { useToolSettings } from './useFieldSettings'
 import { Box, Button, Grid, IconButton, TextField, ToggleButton, Toolbar, Typography } from '@mui/material'
-import * as Icons from '@mui/icons-material'
-import { renameField, useAppDispatch } from '@formswizard/state'
-import { pathToPathSegments, splitLastPath, filterNullOrUndef } from '@formswizard/utils'
-import { ToolSetting } from './ToolSettingType'
-import { useWizardSelection } from './useWizardSelection'
 import EditableFieldKeyDisplay from './EditableFieldKeyDisplay'
+import { ToolSetting } from '@formswizard/types'
 
 type FieldSettingsViewProps = {
   additionalToolSettings?: ToolSetting[]

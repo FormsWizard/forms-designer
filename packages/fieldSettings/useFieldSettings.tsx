@@ -11,10 +11,10 @@ import {
   selectJsonSchema,
   selectSelectionDisplayName,
 } from '@formswizard/state'
-import {ToolSettingsDefinitions} from './ToolSettingsDefinition'
-import {JsonSchema, UISchemaElement} from "@jsonforms/core";
-import {ToolSetting} from "@formswizard/types";
-import {filterNullOrUndef} from "@formswizard/utils/filterNullOrUndef";
+import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
+import { JsonSchema, UISchemaElement } from '@jsonforms/core'
+import { ToolSetting } from '@formswizard/types'
+import { filterNullOrUndef } from '@formswizard/utils/filterNullOrUndef'
 
 export type ToolSettingsDefinition = {
   setToolDataBuffer: (value: ((prevState: any) => any) | any) => void

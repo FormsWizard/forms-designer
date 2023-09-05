@@ -1,6 +1,6 @@
-import {DraggableElement, PluggableToolDefinition} from "@formswizard/types";
-import {WktLiteralTextControlRenderer, WktLiteralTextControlTester} from "./LocationSearchTextFieldRenderer";
-import {LocationToolSettings} from "./LocationToolSettings";
+import { DraggableElement, PluggableToolDefinition } from '@formswizard/types'
+import { WktLiteralTextControlRenderer, WktLiteralTextControlTester } from './LocationSearchTextFieldRenderer'
+import { LocationToolSettings } from './LocationToolSettings'
 
 export const locationToolElements: DraggableElement[] = [
   {
@@ -8,19 +8,19 @@ export const locationToolElements: DraggableElement[] = [
     ToolIconName: 'LocationOn',
     jsonSchemaElement: {
       type: 'string',
-      format: 'wktLiteral'
-    }
-  }]
-
+      format: 'wktLiteral',
+    },
+  },
+]
 
 export const locationTools: PluggableToolDefinition = {
   dropRendererRegistry: [],
   rendererRegistry: [
     {
       tester: WktLiteralTextControlTester,
-      renderer: WktLiteralTextControlRenderer
-    }
+      renderer: WktLiteralTextControlRenderer,
+    },
   ],
   toolSettings: [LocationToolSettings],
-  toolBoxElements: locationToolElements
+  toolBoxElements: locationToolElements,
 }

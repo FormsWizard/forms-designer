@@ -7,7 +7,7 @@ import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
 import { selectPreviewModus, togglePreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
 import useAutoDeselectOnOutsideClick from './useAutoDeselectOnOutsideClick'
-import {ToolSetting} from "@formswizard/types";
+import { ToolSetting } from '@formswizard/types'
 
 interface OwnProps {
   appBar?: React.ReactNode
