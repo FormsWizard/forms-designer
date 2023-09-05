@@ -1,7 +1,7 @@
 import {JsonSchema} from '@jsonforms/core'
-import {ToolSetting} from '@formswizard/fieldsettings';
+import {ToolSetting} from "@formswizard/types";
 
-const JsonSchema = {
+const jsonSchema = {
   type: 'object',
   properties: {
     mapNominatimFields: {
@@ -35,7 +35,7 @@ export const LocationToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  JsonSchema,
+  jsonSchema,
   tester: ( uiSchema, jsonSchema) => ((jsonSchema?.type === 'string' && jsonSchema?.format === 'wktLiteral') ? 10 : 0),
   toolSettingsMixins: [],
 }
