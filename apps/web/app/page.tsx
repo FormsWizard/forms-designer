@@ -1,7 +1,8 @@
 'use client'
-import { MainLayout, useWizard } from '@formswizard/forms-designer'
+import { useWizard } from '@formswizard/forms-designer'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
+import {WizardMainLayout} from "./WizardMainLayoutNoSSR";
 
 const SomeComponentUsingTheWizardState = () => {
   const { jsonSchema, uiSchema, getState } = useWizard()
@@ -19,9 +20,12 @@ const SomeComponentUsingTheWizardState = () => {
   )
 }
 const Page = () => {
+
+  //const WizardMainLayout = dynamic(() => import('./WizardMainLayoutNoSSR').then((mod) => mod.WizardMainLayout), { ssr: false })
+
   return (
     <>
-      <MainLayout />
+      <WizardMainLayout />
       <SomeComponentUsingTheWizardState />
     </>
   )
