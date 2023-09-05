@@ -21,7 +21,7 @@ export const MainLayout: FunctionComponent<Props> = ({ appBar, children, additio
   const wizardPaperRef = useRef<null | HTMLDivElement>(null)
   const dispatch = useAppDispatch()
   const previewModus = useAppSelector(selectPreviewModus)
-  const { selectedKey } = useToolSettings()
+  const { selectedPath } = useToolSettings()
   const handleTogglePreview = (event: any) => {
     dispatch(togglePreviewModus())
   }
@@ -66,7 +66,7 @@ export const MainLayout: FunctionComponent<Props> = ({ appBar, children, additio
         <Drawer
           variant="persistent"
           anchor="right"
-          open={Boolean(selectedKey)}
+          open={Boolean(selectedPath)}
           sx={{
             width: drawerWidth,
             flexShrink: 0,

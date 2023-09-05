@@ -244,9 +244,9 @@ export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
   initialState: exampleInitialState,
   reducers: {
-    selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
-      state.selectedElementKey = action.payload
-    },
+    // selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
+    //   state.selectedElementKey = action.payload
+    // },
     selectPath: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedPath = action.payload
     },
@@ -256,7 +256,7 @@ export const jsonFormsEditSlice = createSlice({
       if (!jsonSchema || !uiSchema) {
         return
       }
-      state.selectedElementKey = null
+      // state.selectedElementKey = null
 
       state.jsonSchema = jsonSchema
       state.uiSchema = uiSchema
@@ -297,7 +297,7 @@ export const jsonFormsEditSlice = createSlice({
 
       if (path === state.selectedPath) {
         state.selectedPath = undefined
-        state.selectedElementKey = undefined
+        // state.selectedElementKey = undefined
       }
 
       if (parent) {
@@ -458,7 +458,7 @@ export const jsonFormsEditSlice = createSlice({
 
 export const {
   insertControl,
-  selectElement,
+  // selectElement,
   selectPath,
   renameField,
   removeFieldOrLayout,
@@ -505,5 +505,13 @@ export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema |
     }
 
     return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
+  }
+)
+export const selectSelectionDisplayName: (state: RootState) => JsonSchema | null = createSelector(
+  selectSelectedElementJsonSchema,
+  selectUIElementFromSelection,
+  (selectedJsonSchema, selectedUiSchema) => {
+    // @ts-ignore
+    return selectedJsonSchema?.title || selectedUiSchema?.label || selectedUiSchema?.scope || null
   }
 )
