@@ -3,17 +3,12 @@ import 'leaflet/dist/leaflet.css'
 
 import * as L from 'leaflet'
 import * as React from 'react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { LayersControl, Marker, Popup, TileLayer, MapContainer, useMapEvents } from 'react-leaflet'
 
 import { NominatimResponse } from './nominatim'
+import {LocationSearchMapProps} from "./types";
 
-export interface LocationSearchMapProps {
-  markerPosition?: L.LatLngExpression
-  onChangeMarkerPosition?: (lat: number, lng: number, result?: NominatimResponse) => void
-  readonly?: boolean
-  label?: string
-}
 
 type LocationSearchMapContentProps = LocationSearchMapProps & {
   color: string
