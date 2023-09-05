@@ -1,8 +1,8 @@
 import { JsonSchema } from '@jsonforms/core'
-import ToolsettingParts from '../mixins/ToolSettingParts'
-import { ToolSetting } from '../ToolSettingType'
+import {ToolSetting} from "@formswizard/types";
 
-const JsonSchema = {
+
+const jsonSchema = {
   type: 'object',
   properties: {
     text: {
@@ -35,7 +35,7 @@ const AlertToolSetting: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  JsonSchema,
+  jsonSchema,
   tester: (uiSchema, jsonSchema) =>   (uiSchema.type === 'Alert' || typeof (uiSchema as any).text === 'string') ? 1 : 0,
   toolSettingsMixins: [],
 }

@@ -1,8 +1,9 @@
 import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
-import { ToolSetting } from '../ToolSettingType'
+import {ToolSetting} from "@formswizard/types";
 
-const JsonSchema = {
+
+const jsonSchema = {
   type: 'object',
   properties: {
     options: {
@@ -58,7 +59,7 @@ const MultiSelectToolSettings: ToolSetting = {
     //@ts-ignore
     jsonSchema?.items?.type === 'string' &&
     (jsonSchema as any).uniqueItems === true) ? 1 : 0,
-  JsonSchema,
+  jsonSchema,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 

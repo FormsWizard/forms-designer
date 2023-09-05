@@ -13,7 +13,8 @@ import {
 } from '@formswizard/state'
 import {ToolSettingsDefinitions} from './ToolSettingsDefinition'
 import {JsonSchema, UISchemaElement} from "@jsonforms/core";
-import {ToolSetting} from "./ToolSettingType";
+import {ToolSetting} from "@formswizard/types";
+import {filterNullOrUndef} from "@formswizard/utils/filterNullOrUndef";
 
 export type ToolSettingsDefinition = {
   setToolDataBuffer:
@@ -59,10 +60,10 @@ export function useToolSettings({additionalToolSettings = []}: ToolSettingsDefin
       () =>
           toolSettings
               ? {
-                ...toolSettings.JsonSchema,
+                ...toolSettings.jsonSchema,
                 properties: {
                   ...toolSettings.toolSettingsMixins.reduce((prev, curr) => ({...prev, ...curr.jsonSchemaElement}), {}),
-                  ...toolSettings.JsonSchema.properties,
+                  ...toolSettings.jsonSchema.properties,
                 },
               }
               : null,
@@ -90,14 +91,14 @@ export function useToolSettings({additionalToolSettings = []}: ToolSettingsDefin
         const updatedJsonSchema = toolSettings.mapToolDataToWizardSchema(data, selectedElementJsonSchema ?? {})
         const updatedUIschema = toolSettings.mapToolDataToWizardUischema(data, UIElementFromSelection)
 
-        const ToolsettingAddonsSchemaMapper = toolSettings.toolSettingsMixins
-            .map((t) => t.mapAddonDataToWizardSchema)
-            .filter(Boolean)
-        const ToolsettingAddonsUISchemaMapper = toolSettings.toolSettingsMixins
-            .map((t) => t.mapAddonDataToWizardUISchema)
-            .filter(Boolean)
+        const ToolsettingAddonsSchemaMapper = filterNullOrUndef(
+            toolSettings.toolSettingsMixins
+            .map((t) => t.mapAddonDataToWizardSchema))
+        const ToolsettingAddonsUISchemaMapper = filterNullOrUndef(
+            toolSettings.toolSettingsMixins
+            .map((t) => t.mapAddonDataToWizardUISchema))
         const updatedJsonSchemaFromAddons = ToolsettingAddonsSchemaMapper.reduce(
-            (prev, curr) => curr(data, prev),
+            (prev, curr) =>  curr(data, prev),
             updatedJsonSchema
         )
         const updatedUIschemaWithAddons = ToolsettingAddonsUISchemaMapper.reduce(
