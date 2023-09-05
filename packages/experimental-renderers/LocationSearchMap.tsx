@@ -6,20 +6,16 @@ import * as React from 'react'
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {LayersControl, Marker, Popup, TileLayer, MapContainer, useMapEvents} from 'react-leaflet'
 
-import {LocationSearchField} from './LocationSearchField'
-import {InputAdornment, IconButton, TextField, Grid} from "@mui/material";
-import * as Icons from "@mui/icons-material";
 import {NominatimResponse} from "./nominatim";
 
-
-interface Props {
+export interface LocationSearchMapProps {
   markerPosition?: L.LatLngExpression;
   onChangeMarkerPosition?: (lat: number, lng: number, result?: NominatimResponse) => void;
   readonly?: boolean;
   label?: string;
 }
 
-type LocationSearchMapContentProps = {
+type LocationSearchMapContentProps = LocationSearchMapProps & {
   color: string;
 }
 
@@ -28,7 +24,7 @@ export function LocationSearchMapContent({
                                            onChangeMarkerPosition,
                                            color,
                                            readonly
-                                         }: LocationSearchMapContentProps & Props) {
+                                         }: LocationSearchMapContentProps) {
 
   const map = useMapEvents({
     click(e) {
@@ -87,69 +83,21 @@ viewBox="0 -256 1792 1792">
   </>
 }
 
-export function LocationSearchMap(props: Props) {
-  const {
-    markerPosition,
-    onChangeMarkerPosition,
-    readonly,
-    label
-  } = props
-
-  const showMarker = true
-  const [showMap, setShowMap] = useState(false);
-  const updateLocation = useCallback(
-      (lat: number, lng: number, result?: NominatimResponse) => {
-        onChangeMarkerPosition && onChangeMarkerPosition(lat, lng, result)
-      },
-      [onChangeMarkerPosition]
-  )
-
-
-  return (<Grid container direction={'column'}>
-        <Grid item>
-          <LocationSearchField
-              readOnly={readonly}
-              onLocationFound={updateLocation}
-              renderInput={(params) => <TextField
-                  {...params}
-                  label={label || 'Address'}
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: <>
-                      {params.InputProps.endAdornment || null}
-                      <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle map visibility"
-                            onClick={() => setShowMap(!showMap)}
-                            edge="end"
-                        >
-                          {showMap ? <Icons.MapRounded/> : <Icons.MapSharp/>}
-                        </IconButton>
-                      </InputAdornment>
-                    </>
-                  }}
-              />}/>
-        </Grid>
-        {showMap && <Grid item>
-          <MapContainer
-              style={{
-                minHeight: '400px',
-                height: '100%',
-                width: '100%',
-              }}
-              center={markerPosition}
-              zoom={17}
-              maxZoom={24}
-          >
-            <LocationSearchMapContent
-                {...props}
-                onChangeMarkerPosition={updateLocation}
-                color={'#ff0000'}
-            />
-
-          </MapContainer>
-        </Grid>}
-      </Grid>
-  )
-}
+export const LocationSearchMap = (props: LocationSearchMapProps) => (
+    <MapContainer
+        style={{
+          minHeight: '400px',
+          height: '100%',
+          width: '100%',
+        }}
+        center={props.markerPosition || [0, 0]}
+        zoom={17}
+        maxZoom={24}
+    >
+      <LocationSearchMapContent
+          {...props}
+          color={'#ff0000'}
+      />
+    </MapContainer>
+);
 

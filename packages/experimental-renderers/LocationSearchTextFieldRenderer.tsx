@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   and,
   ControlProps, formatIs,
@@ -9,7 +9,7 @@ import {
 import {withJsonFormsControlProps} from '@jsonforms/react';
 import {pathToPathSegments, pathSegmentsToPath, splitLastPath, filterNullOrUndef} from "@formswizard/utils";
 import {NominatimResponse} from "./nominatim";
-import {LocationSearchMap} from "./LocationSearchMap";
+import {LocationSearchCombined} from "./LocationSearchCombined";
 
 
 /**
@@ -59,7 +59,7 @@ export const WktLiteralInputControl = (props: ControlProps) => {
     }
   }, [path, handleChange, uischema])
   return (
-      <LocationSearchMap
+      <LocationSearchCombined
           readonly={props.enabled === false}
           label={data || props.label}
           markerPosition={position}
