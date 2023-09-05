@@ -7,7 +7,6 @@ const TitlePart: ToolSettingsMixin = {
       type: 'string',
     },
   },
-  mapAddonDataToWizardSchema: null,
   mapWizardToAddonData: (previousData, wizardSchema, uiSchema) => {
     return {
       ...previousData,

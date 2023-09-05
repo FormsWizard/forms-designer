@@ -6,7 +6,7 @@ import {Box, Button, Grid, IconButton, TextField, ToggleButton, Toolbar, Typogra
 import * as Icons from '@mui/icons-material'
 import {renameField, selectElement, selectSelectedElementJsonSchema, useAppDispatch, useAppSelector} from "@formswizard/state";
 import {pathToPathSegments, splitLastPath, filterNullOrUndef} from "@formswizard/utils";
-import {ToolSetting} from "./ToolSettingType";
+import {ToolSetting} from "@formswizard/types";
 
 type FieldSettingsViewProps = {
   additionalToolSettings?: ToolSetting[];
