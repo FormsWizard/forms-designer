@@ -20,7 +20,7 @@ type FieldSettingsViewProps = {
 
 export function FieldSettingsView({ additionalToolSettings }: FieldSettingsViewProps) {
   const dispatch = useAppDispatch()
-  const { handleChange, toolSettingsJsonSchema, tooldataBuffer, selectedElementJsonSchema } = useToolSettings({
+  const { handleChange, toolSettingsJsonSchema, tooldataBuffer, selectionDisplayName } = useToolSettings({
     additionalToolSettings,
   })
   const selectedPath = useAppSelector(selectSelectedPath)
@@ -56,7 +56,7 @@ export function FieldSettingsView({ additionalToolSettings }: FieldSettingsViewP
     <>
       <Toolbar>
         <Typography variant="h6" noWrap component="div">
-          Settings for {selectedPath || ''}
+          Settings for {selectionDisplayName || ''}
           {/* {keyIsEditable && (
             <IconButton onClick={toggleKeyEditor}>{showKeyEditor ? <Icons.EditOff /> : <Icons.Edit />}</IconButton>
           )} */}

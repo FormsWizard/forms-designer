@@ -9,6 +9,7 @@ import {
   useAppDispatch,
   useAppSelector,
   selectJsonSchema,
+  selectSelectionDisplayName,
 } from '@formswizard/state'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
 import { JsonSchema, UISchemaElement } from '@jsonforms/core'
@@ -23,6 +24,7 @@ export type ToolSettingsDefinition = {
   tooldataBuffer: any
   uiSchema: UISchemaElement
   selectedPath?: string | null | undefined
+  selectionDisplayName: string | null | undefined
 }
 
 type ToolSettingsDefinitionProps = {
@@ -39,6 +41,7 @@ export function useToolSettings({
   const jsonSchema = useAppSelector(selectJsonSchema)
   const UIElementFromSelection = useAppSelector(selectUIElementFromSelection)
   const selectedElementJsonSchema = useAppSelector(selectSelectedElementJsonSchema)
+  const selectionDisplayName = useAppSelector(selectSelectionDisplayName)
   const prevSelectedPath = useRef(null)
   const context = useMemo(
     () => ({
@@ -57,7 +60,7 @@ export function useToolSettings({
       ? tool
       : null
   }, [selectedElementJsonSchema, UIElementFromSelection, context])
-
+  console.log(selectionDisplayName)
   const toolSettingsJsonSchema = useMemo(
     () =>
       toolSettings
@@ -132,7 +135,7 @@ export function useToolSettings({
     toolSettingsJsonSchema,
     tooldataBuffer,
     setToolDataBuffer,
-
+    selectionDisplayName,
     selectedPath,
     selectedElementJsonSchema,
   }

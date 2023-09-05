@@ -36,7 +36,7 @@ export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSc
 
 export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
-export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
+// export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
 export const selectSelectedPath = (state: RootState) => state.jsonFormsEdit.selectedPath
 
 //TODO: document further
@@ -507,11 +507,21 @@ export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema |
     return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
   }
 )
-export const selectSelectionDisplayName: (state: RootState) => JsonSchema | null = createSelector(
+export const selectSelectionDisplayName: (state: RootState) => string | null = createSelector(
   selectSelectedElementJsonSchema,
   selectUIElementFromSelection,
   (selectedJsonSchema, selectedUiSchema) => {
+    console.log({ selectedJsonSchema, selectedUiSchema })
+    if (selectedUiSchema && isScopableUISchemaElement(selectedUiSchema)) {
+      return prettyPrintScope(selectedUiSchema.scope)
+    }
     // @ts-ignore
-    return selectedJsonSchema?.title || selectedUiSchema?.label || selectedUiSchema?.scope || null
+    return selectedJsonSchema?.title || selectedUiSchema?.label || null
   }
 )
+
+const prettyPrintScope = (scope) =>
+  scope
+    .split('/')
+    .filter((s) => s !== '#' && s !== 'properties')
+    .join(' > ')
