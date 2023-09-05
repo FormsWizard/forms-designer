@@ -4,63 +4,25 @@ import { JsonForms } from '@jsonforms/react'
 import { useToolSettings } from './useFieldSettings'
 import { Box, Button, Grid, IconButton, TextField, ToggleButton, Toolbar, Typography } from '@mui/material'
 import * as Icons from '@mui/icons-material'
-import {
-  renameField,
-  selectSelectedElementJsonSchema,
-  selectSelectedPath,
-  useAppDispatch,
-  useAppSelector,
-} from '@formswizard/state'
+import { renameField, useAppDispatch } from '@formswizard/state'
 import { pathToPathSegments, splitLastPath, filterNullOrUndef } from '@formswizard/utils'
 import { ToolSetting } from './ToolSettingType'
+import { useWizardSelection } from './useWizardSelection'
+import EditableFieldKeyDisplay from './EditableFieldKeyDisplay'
 
 type FieldSettingsViewProps = {
   additionalToolSettings?: ToolSetting[]
 }
 
 export function FieldSettingsView({ additionalToolSettings }: FieldSettingsViewProps) {
-  const dispatch = useAppDispatch()
-  const { handleChange, toolSettingsJsonSchema, tooldataBuffer, selectionDisplayName } = useToolSettings({
+  const { handleChange, toolSettingsJsonSchema, tooldataBuffer } = useToolSettings({
     additionalToolSettings,
   })
-  const selectedPath = useAppSelector(selectSelectedPath)
-  // const [showKeyEditor, setShowKeyEditor] = useState(false)
-  // const [newKey, setNewKey] = useState<string>('')
-
-  // const key = useMemo(() => {
-  //   const [lastPathSegment] = splitLastPath(selectedKey || '')
-  //   return lastPathSegment
-  // }, [selectedKey])
-
-  // const keyIsEditable = Boolean(selectedElementJsonSchema && selectedElementJsonSchema.type !== 'object')
-  // useEffect(() => {
-  //   if (key === undefined) return
-  //   setNewKey(key)
-  // }, [key])
-
-  // const toggleKeyEditor = useCallback(() => {
-  //   setShowKeyEditor(!showKeyEditor)
-  // }, [showKeyEditor])
-
-  // const handleKeyChange = useCallback(() => {
-  //   if (!selectedKey || selectedKey.length <= 0) return
-  //   const [lastPathSegment, path] = splitLastPath(selectedKey)
-  //   if (lastPathSegment === undefined) return
-  //   dispatch(selectElement(undefined))
-  //   dispatch(renameField({ path: selectedKey, newFieldName: newKey }))
-  //   const newPath = filterNullOrUndef([path, newKey]).join('.')
-  //   dispatch(selectElement(newPath))
-  // }, [newKey, selectedKey])
 
   return (
     <>
       <Toolbar>
-        <Typography variant="h6" noWrap component="div">
-          Settings for {selectionDisplayName || ''}
-          {/* {keyIsEditable && (
-            <IconButton onClick={toggleKeyEditor}>{showKeyEditor ? <Icons.EditOff /> : <Icons.Edit />}</IconButton>
-          )} */}
-        </Typography>
+        <EditableFieldKeyDisplay></EditableFieldKeyDisplay>
       </Toolbar>
       <Grid container direction={'column'} spacing={2} sx={{ p: 2 }}>
         {/* {showKeyEditor && (
@@ -72,8 +34,8 @@ export function FieldSettingsView({ additionalToolSettings }: FieldSettingsViewP
               label="Key"
             />
             <Button onClick={handleKeyChange}>ok</Button>
-          </Grid>
-        )} */}
+          </Grid>*/}
+        {/* )} */}
         <Grid item>
           <Box>
             {!!toolSettingsJsonSchema && !!tooldataBuffer && (
