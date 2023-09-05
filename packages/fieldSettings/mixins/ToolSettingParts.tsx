@@ -1,20 +1,21 @@
-import { JsonSchema7 } from '@jsonforms/core'
+import {JsonSchema7} from '@jsonforms/core'
+import {ToolSettingsMixin} from "@formswizard/types";
 
-const TitlePart = {
+const TitlePart: ToolSettingsMixin = {
   jsonSchemaElement: {
     label: {
       type: 'string',
     },
   },
   mapAddonDataToWizardSchema: null,
-  mapWizardToAddonData: (previousData, wizardSchema: JsonSchema7, uiSchema: any) => {
+  mapWizardToAddonData: (previousData, wizardSchema, uiSchema) => {
     return {
       ...previousData,
       label: uiSchema.label,
     }
   },
 
-  mapAddonDataToWizardUISchema: (toolData, uiSchema: any) => {
+  mapAddonDataToWizardUISchema: (toolData, uiSchema) => {
     return {
       ...uiSchema,
       label: toolData.label,

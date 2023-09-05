@@ -1,8 +1,9 @@
 import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
-import { ToolSetting } from '../ToolSettingType'
+import {ToolSetting} from "@formswizard/types";
 
-const JsonSchema = {
+
+const jsonSchema = {
   type: 'object',
   properties: {
     min: {
@@ -37,9 +38,9 @@ const NumberInputToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  JsonSchema,
-  isTool: (jsonSchema: JsonSchema | null, uiSchema) =>
-    uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'integer',
+  jsonSchema,
+  tester: (jsonSchema: JsonSchema | null, uiSchema) =>
+      (uiSchema && uiSchema?.type === 'Control' && jsonSchema?.type === 'integer') ? 1 : 0,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default NumberInputToolSettings

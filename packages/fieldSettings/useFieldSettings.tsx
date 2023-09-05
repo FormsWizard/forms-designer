@@ -11,9 +11,10 @@ import {
   selectJsonSchema,
   selectSelectionDisplayName,
 } from '@formswizard/state'
-import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
-import { JsonSchema, UISchemaElement } from '@jsonforms/core'
-import { ToolSetting } from './ToolSettingType'
+import {ToolSettingsDefinitions} from './ToolSettingsDefinition'
+import {JsonSchema, UISchemaElement} from "@jsonforms/core";
+import {ToolSetting} from "@formswizard/types";
+import {filterNullOrUndef} from "@formswizard/utils/filterNullOrUndef";
 
 export type ToolSettingsDefinition = {
   setToolDataBuffer: (value: ((prevState: any) => any) | any) => void
@@ -65,10 +66,10 @@ export function useToolSettings({
     () =>
       toolSettings
         ? {
-            ...toolSettings.JsonSchema,
+            ...toolSettings.jsonSchema,
             properties: {
               ...toolSettings.toolSettingsMixins.reduce((prev, curr) => ({ ...prev, ...curr.jsonSchemaElement }), {}),
-              ...toolSettings.JsonSchema.properties,
+              ...toolSettings.jsonSchema.properties,
             },
           }
         : null,
@@ -96,20 +97,20 @@ export function useToolSettings({
       const updatedJsonSchema = toolSettings.mapToolDataToWizardSchema(data, selectedElementJsonSchema ?? {})
       const updatedUIschema = toolSettings.mapToolDataToWizardUischema(data, UIElementFromSelection)
 
-      const ToolsettingAddonsSchemaMapper = toolSettings.toolSettingsMixins
-        .map((t) => t.mapAddonDataToWizardSchema)
-        .filter(Boolean)
-      const ToolsettingAddonsUISchemaMapper = toolSettings.toolSettingsMixins
-        .map((t) => t.mapAddonDataToWizardUISchema)
-        .filter(Boolean)
-      const updatedJsonSchemaFromAddons = ToolsettingAddonsSchemaMapper.reduce(
-        (prev, curr) => curr(data, prev),
-        updatedJsonSchema
-      )
-      const updatedUIschemaWithAddons = ToolsettingAddonsUISchemaMapper.reduce(
-        (prev, curr) => curr(data, prev),
-        updatedUIschema
-      )
+      const ToolsettingAddonsSchemaMapper = filterNullOrUndef(
+            toolSettings.toolSettingsMixins
+            .map((t) => t.mapAddonDataToWizardSchema))
+      const ToolsettingAddonsUISchemaMapper = filterNullOrUndef(
+            toolSettings.toolSettingsMixins
+            .map((t) => t.mapAddonDataToWizardUISchema))
+        const updatedJsonSchemaFromAddons = ToolsettingAddonsSchemaMapper.reduce(
+            (prev, curr) =>  curr(data, prev),
+            updatedJsonSchema
+        )
+        const updatedUIschemaWithAddons = ToolsettingAddonsUISchemaMapper.reduce(
+            (prev, curr) => curr(data, prev),
+            updatedUIschema
+        )
 
       dispatch(
         updateJsonSchemaByPath({

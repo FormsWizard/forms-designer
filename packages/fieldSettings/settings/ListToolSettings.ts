@@ -1,8 +1,9 @@
 import { JsonSchema, JsonSchema7 } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
-import { ToolSetting } from '../ToolSettingType'
+import {ToolSetting} from "@formswizard/types";
 
-const JsonSchema = {
+
+const jsonSchema = {
   type: 'object',
   properties: {
     columns: {
@@ -58,7 +59,7 @@ const ListToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-  JsonSchema,
+  jsonSchema,
   tester: (uiSchema, jsonSchema) =>
     jsonSchema && jsonSchema.type === 'array' && (jsonSchema?.items as JsonSchema7 | undefined)?.type === 'object'
       ? 1
