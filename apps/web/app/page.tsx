@@ -2,7 +2,7 @@
 import { useWizard } from '@formswizard/forms-designer'
 import { Container } from '@mui/material'
 import { useEffect } from 'react'
-import { WizardMainLayout } from './WizardMainLayoutNoSSR'
+import { WizardMainLayout } from './WizardMainLayout'
 
 const SomeComponentUsingTheWizardState = () => {
   const { jsonSchema, uiSchema, getState } = useWizard()
