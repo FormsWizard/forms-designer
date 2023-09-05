@@ -36,7 +36,7 @@ export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSc
 
 export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
 
-export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
+// export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
 export const selectSelectedPath = (state: RootState) => state.jsonFormsEdit.selectedPath
 
 //TODO: document further
@@ -244,9 +244,9 @@ export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
   initialState: exampleInitialState,
   reducers: {
-    selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
-      state.selectedElementKey = action.payload
-    },
+    // selectElement: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
+    //   state.selectedElementKey = action.payload
+    // },
     selectPath: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
       state.selectedPath = action.payload
     },
@@ -256,7 +256,7 @@ export const jsonFormsEditSlice = createSlice({
       if (!jsonSchema || !uiSchema) {
         return
       }
-      state.selectedElementKey = null
+      // state.selectedElementKey = null
 
       state.jsonSchema = jsonSchema
       state.uiSchema = uiSchema
@@ -297,7 +297,7 @@ export const jsonFormsEditSlice = createSlice({
 
       if (path === state.selectedPath) {
         state.selectedPath = undefined
-        state.selectedElementKey = undefined
+        // state.selectedElementKey = undefined
       }
 
       if (parent) {
@@ -309,19 +309,38 @@ export const jsonFormsEditSlice = createSlice({
       // }
       //  state.jsonSchema = collectSchemaGarbage(state.jsonSchema, state.uiSchema)
     },
+    // renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
+    //   //TODO: handle renaming key within data produced by the form in the current session
+    //   const { path, newFieldName } = action.payload
+    //   if (newFieldName.includes('.')) {
+    //     throw new Error('Field name cannot contain a dot')
+    //   }
+    //   const pathSegments = path?.split('.') || []
+    //   state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
+    //   if (state.uiSchema?.elements) {
+    //     const strippedPath = pathSegments.length > 0 ? pathSegments.slice(0, pathSegments.length - 1) : []
+    //     const newScope = pathSegmentsToScope([...strippedPath, newFieldName])
+    //     const scope = pathSegmentsToScope(pathSegments)
+    //     state.uiSchema = updateScopeOfUISchemaElement(scope, newScope, state.uiSchema)
+    //   }
+    //   //state.uiSchema = updateScopeOfUISchemaElement()
+    // },
     renameField: (state: JsonFormsEditState, action: PayloadAction<{ path: string; newFieldName: string }>) => {
       //TODO: handle renaming key within data produced by the form in the current session
       const { path, newFieldName } = action.payload
       if (newFieldName.includes('.')) {
         throw new Error('Field name cannot contain a dot')
       }
-      const pathSegments = path?.split('.') || []
-      state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, pathSegments, newFieldName)
+      console.log(path)
+      const uiSchema = jsonpointer.get(state.uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(path)))
+      resolveSchema(state.jsonSchema, uiSchema.scope, state.jsonSchema)
+      state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, scopeToPathSegments(uiSchema.scope), newFieldName)
       if (state.uiSchema?.elements) {
-        const strippedPath = pathSegments.length > 0 ? pathSegments.slice(0, pathSegments.length - 1) : []
-        const newScope = pathSegmentsToScope([...strippedPath, newFieldName])
-        const scope = pathSegmentsToScope(pathSegments)
-        state.uiSchema = updateScopeOfUISchemaElement(scope, newScope, state.uiSchema)
+        const segments = scopeToPathSegments(uiSchema.scope)
+        segments.splice(segments.length - 1, 1, newFieldName)
+        const newScope = pathSegmentsToScope(segments)
+        // const scope = pathSegmentsToScope(strippedPath)
+        state.uiSchema = updateScopeOfUISchemaElement(uiSchema.scope, newScope, state.uiSchema)
       }
       //state.uiSchema = updateScopeOfUISchemaElement()
     },
@@ -458,7 +477,7 @@ export const jsonFormsEditSlice = createSlice({
 
 export const {
   insertControl,
-  selectElement,
+  // selectElement,
   selectPath,
   renameField,
   removeFieldOrLayout,
@@ -507,3 +526,33 @@ export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema |
     return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
   }
 )
+export const selectSelectionDisplayName: (state: RootState) => string | null = createSelector(
+  selectSelectedElementJsonSchema,
+  selectUIElementFromSelection,
+  (selectedJsonSchema, selectedUiSchema) => {
+    if (selectedUiSchema && isScopableUISchemaElement(selectedUiSchema)) {
+      return prettyPrintScope(selectedUiSchema.scope)
+    }
+    // @ts-ignore
+    return selectedJsonSchema?.title || selectedUiSchema?.label || null
+  }
+)
+export const selectSelectedKeyName: (state: RootState) => string | null = createSelector(
+  selectSelectedElementJsonSchema,
+  selectUIElementFromSelection,
+  (selectedJsonSchema, selectedUiSchema) => {
+    if (!selectedJsonSchema) {
+      return null
+    }
+    // @ts-ignore
+    console.log(selectedUiSchema?.scope)
+    // @ts-ignore
+    return selectedUiSchema?.scope?.split('/').pop() ?? null
+  }
+)
+
+const prettyPrintScope = (scope) =>
+  scope
+    .split('/')
+    .filter((s) => s !== '#' && s !== 'properties')
+    .join(' > ')

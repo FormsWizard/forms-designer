@@ -3,13 +3,13 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { maxBy } from 'lodash'
 import {
   selectSelectedElementJsonSchema,
-  selectSelectedElementKey,
   selectSelectedPath,
   selectUIElementFromSelection,
   updateJsonSchemaByPath,
   useAppDispatch,
   useAppSelector,
   selectJsonSchema,
+  selectSelectionDisplayName,
 } from '@formswizard/state'
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
 import { JsonSchema, UISchemaElement } from '@jsonforms/core'
@@ -17,13 +17,14 @@ import { ToolSetting } from './ToolSettingType'
 
 export type ToolSettingsDefinition = {
   setToolDataBuffer: (value: ((prevState: any) => any) | any) => void
-  selectedKey?: string | null
+
   toolSettingsJsonSchema: JsonSchema | null
   selectedElementJsonSchema: JsonSchema | null
   handleChange: (event) => void
   tooldataBuffer: any
   uiSchema: UISchemaElement
   selectedPath?: string | null | undefined
+  selectionDisplayName: string | null | undefined
 }
 
 type ToolSettingsDefinitionProps = {
@@ -35,12 +36,13 @@ export function useToolSettings({
 }: ToolSettingsDefinitionProps = {}): ToolSettingsDefinition {
   const dispatch = useAppDispatch()
   const [tooldataBuffer, setToolDataBuffer] = useState({})
-  const selectedKey = useAppSelector(selectSelectedElementKey)
+
   const selectedPath = useAppSelector(selectSelectedPath)
   const jsonSchema = useAppSelector(selectJsonSchema)
   const UIElementFromSelection = useAppSelector(selectUIElementFromSelection)
   const selectedElementJsonSchema = useAppSelector(selectSelectedElementJsonSchema)
-  const prevSelectedKey = useRef(null)
+  const selectionDisplayName = useAppSelector(selectSelectionDisplayName)
+  const prevSelectedPath = useRef(null)
   const context = useMemo(
     () => ({
       rootSchema: jsonSchema,
@@ -58,7 +60,7 @@ export function useToolSettings({
       ? tool
       : null
   }, [selectedElementJsonSchema, UIElementFromSelection, context])
-
+  console.log(selectionDisplayName)
   const toolSettingsJsonSchema = useMemo(
     () =>
       toolSettings
@@ -121,10 +123,10 @@ export function useToolSettings({
   )
 
   useEffect(() => {
-    if (prevSelectedKey.current === selectedPath) return
+    if (prevSelectedPath.current === selectedPath) return
     setToolDataBuffer(getToolData())
     //@ts-ignore
-    prevSelectedKey.current = selectedPath
+    prevSelectedPath.current = selectedPath
   }, [getToolData, selectedPath, tooldataBuffer])
 
   return {
@@ -133,7 +135,7 @@ export function useToolSettings({
     toolSettingsJsonSchema,
     tooldataBuffer,
     setToolDataBuffer,
-    selectedKey,
+    selectionDisplayName,
     selectedPath,
     selectedElementJsonSchema,
   }

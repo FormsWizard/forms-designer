@@ -2,7 +2,7 @@ import { JsonSchema, Scopable, UISchemaElement } from '@jsonforms/core'
 export type JsonFormsEditState = {
   jsonSchema: JsonSchema
   uiSchema?: any
-  selectedElementKey?: string | null
+  // selectedElementKey?: string | null
   selectedPath?: string
 }
 
