@@ -1,0 +1,26 @@
+{
+  "confirmModal_bodyText": {
+    "defaultMessage": "are you sure you want to continue?",
+    "description": "confirm modal header"
+  },
+  "confirmModal_cancelButton": {
+    "defaultMessage": "cancel",
+    "description": "confirm modal header"
+  },
+  "confirmModal_confirmButton": {
+    "defaultMessage": "continue",
+    "description": "confirm modal header"
+  },
+  "confirmModal_header": {
+    "defaultMessage": "header",
+    "description": "ModalHeader"
+  },
+  "confirmModal_headerText": {
+    "defaultMessage": "Attention",
+    "description": "confirm modal header"
+  },
+  "confirmModal_message": {
+    "defaultMessage": "modal message",
+    "description": "confirm modal message"
+  }
+}
