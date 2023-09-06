@@ -1,15 +1,14 @@
 import * as React from 'react'
-import {useCallback, useMemo, useState} from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { LocationSearchField } from './LocationSearchField'
 import { InputAdornment, IconButton, TextField, Grid } from '@mui/material'
 import * as Icons from '@mui/icons-material'
 import { NominatimResponse } from './nominatim'
-import { LocationSearchMapProps} from "./types"
-import dynamic from "next/dynamic";
+import { LocationSearchMapProps } from './types'
 
 export function LocationSearchCombined(props: LocationSearchMapProps) {
-  const { markerPosition, onChangeMarkerPosition, readonly, label } = props
+  const { markerPosition, onChangeMarkerPosition, readonly, label, mapElement } = props
 
   const showMarker = true
   const [showMap, setShowMap] = useState(false)
@@ -19,8 +18,10 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
     },
     [onChangeMarkerPosition]
   )
+  const mapChild = useMemo(() => mapElement && mapElement(props), [mapElement, props])
 
-  const LocationSearchMap = useMemo( () => dynamic(() => import('./LocationSearchMap').then((mod) => mod.LocationSearchMap), { ssr: false }) , [])
+  //const LocationSearchMap = useMemo( () => dynamic(() => import('./LocationSearchMap').then((mod) => mod.LocationSearchMap), { ssr: false }) , [])
+  //const LocationSearchMap = lazy( () => import('./LocationSearchMap'))
   return (
     <Grid container direction={'column'}>
       <Grid item>
@@ -48,11 +49,7 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
           )}
         />
       </Grid>
-      {showMap && (
-        <Grid item>
-            <LocationSearchMap {...props} />
-        </Grid>
-      )}
+      {showMap && mapChild && <Grid item>{mapChild}</Grid>}
     </Grid>
   )
 }

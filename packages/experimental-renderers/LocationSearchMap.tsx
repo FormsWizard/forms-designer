@@ -7,8 +7,7 @@ import { useEffect, useMemo } from 'react'
 import { LayersControl, Marker, Popup, TileLayer, MapContainer, useMapEvents } from 'react-leaflet'
 
 import { NominatimResponse } from './nominatim'
-import {LocationSearchMapProps} from "./types";
-
+import { LocationSearchMapProps } from './types'
 
 type LocationSearchMapContentProps = LocationSearchMapProps & {
   color: string
@@ -95,3 +94,5 @@ export const LocationSearchMap = (props: LocationSearchMapProps) => (
     <LocationSearchMapContent {...props} color={'#ff0000'} />
   </MapContainer>
 )
+
+export default LocationSearchMap

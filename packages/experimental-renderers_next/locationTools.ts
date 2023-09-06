@@ -1,7 +1,6 @@
 import { DraggableElement, PluggableToolDefinition } from '@formswizard/types'
+import { locationToolElements, LocationToolSettings } from '@formswizard/experimental-renderers'
 import { LocationSearchTextControlRenderer, WktLiteralTextControlTester } from './LocationSearchTextFieldRenderer'
-import { LocationToolSettings } from './LocationToolSettings'
-import { locationToolElements } from './locationToolElement'
 
 export const locationTools: PluggableToolDefinition = {
   dropRendererRegistry: [],

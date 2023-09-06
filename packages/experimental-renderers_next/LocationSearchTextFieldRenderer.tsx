@@ -1,11 +1,14 @@
 import React from 'react'
 import { and, ControlProps, formatIs, isStringControl, RankedTester, rankWith } from '@jsonforms/core'
 import { withJsonFormsControlProps } from '@jsonforms/react'
-import LocationSearchMap from './LocationSearchMap'
-import { LocationSearchMapProps } from './types'
-import { WktLiteralInputControl } from './WktLiteralInputControl'
+import dynamic from 'next/dynamic'
+import { WktLiteralInputControl, LocationSearchMapProps } from '@formswizard/experimental-renderers'
 
 export const LocationSearchTextFieldRenderer = (props: ControlProps) => {
+  const LocationSearchMap = dynamic(
+    () => import('@formswizard/experimental-renderers').then((mod) => mod.LocationSearchMap),
+    { ssr: false }
+  )
   return (
     <WktLiteralInputControl
       mapElement={(props_: LocationSearchMapProps) => <LocationSearchMap {...props_} />}

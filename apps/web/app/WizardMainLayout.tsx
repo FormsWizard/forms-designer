@@ -1,17 +1,6 @@
-import {
-  WktLiteralTextControlTester,
-  WktLiteralTextControlRenderer,
-  LocationToolSettings,
-} from '@formswizard/experimental-renderers'
+import { locationTools } from '@formswizard/experimental-renderers_next'
 import { MainLayout } from '@formswizard/forms-designer/MainLayout'
 
-const renderers = [
-  {
-    tester: WktLiteralTextControlTester,
-    renderer: WktLiteralTextControlRenderer,
-  },
-]
-
 export const WizardMainLayout = () => {
-  return <MainLayout additionalToolSettings={[LocationToolSettings]} renderers={renderers} />
+  return <MainLayout additionalToolSettings={locationTools.toolSettings} renderers={locationTools.rendererRegistry} />
 }
