@@ -295,9 +295,9 @@ importers:
       '@emotion/server':
         specifier: ^11.11.0
         version: 11.11.0
-      '@formswizard/experimental-renderers':
+      '@formswizard/experimental-renderers_next':
         specifier: workspace:*
-        version: link:../../packages/experimental-renderers
+        version: link:../../packages/experimental-renderers_next
       '@formswizard/forms-designer':
         specifier: workspace:*
         version: link:../../packages/forms-designer
@@ -368,6 +368,9 @@ importers:
       eslint-config-formsdesigner:
         specifier: workspace:*
         version: link:../../packages/eslint-config-custom
+      serve:
+        specifier: ^14.2.1
+        version: 14.2.1
       typescript:
         specifier: ^4.5.3
         version: 4.9.5
@@ -435,9 +438,6 @@ importers:
 
   packages/experimental-renderers:
     dependencies:
-      '@formswizard/designer-basic-renderer':
-        specifier: workspace
-        version: link:../basic-renderer
       '@formswizard/fieldsettings':
         specifier: workspace:*
         version: link:../fieldSettings
@@ -450,9 +450,6 @@ importers:
       '@formswizard/utils':
         specifier: workspace:*
         version: link:../utils
-      '@icon/icofont':
-        specifier: 1.0.1-alpha.1
-        version: 1.0.1-alpha.1
       '@jsonforms/core':
         specifier: ^3.1.0
         version: 3.1.0
@@ -488,6 +485,82 @@ importers:
         version: 4.17.21
       next:
         specifier: ^13.4.19
+        version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
+      react-dnd:
+        specifier: ^16.0.1
+        version: 16.0.1(@types/node@17.0.45)(@types/react@18.2.20)(react@18.2.0)
+      react-leaflet:
+        specifier: ^4.2.1
+        version: 4.2.1(leaflet@1.9.4)(react-dom@18.2.0)(react@18.2.0)
+      react-redux:
+        specifier: ^8.1.1
+        version: 8.1.1(@types/react-dom@18.2.3)(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+    devDependencies:
+      '@formswizard/designer-tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@formswizard/types':
+        specifier: workspace:*
+        version: link:../types
+      '@types/leaflet':
+        specifier: ^1.9.4
+        version: 1.9.4
+      '@types/lodash':
+        specifier: ^4.14.197
+        version: 4.14.197
+      eslint:
+        specifier: ^7.32.0
+        version: 7.32.0
+      eslint-config-formsdesigner:
+        specifier: workspace:*
+        version: link:../eslint-config-custom
+      react:
+        specifier: '>=18'
+        version: 18.2.0
+      typescript:
+        specifier: ^4.5.2
+        version: 4.9.5
+
+  packages/experimental-renderers_next:
+    dependencies:
+      '@formswizard/experimental-renderers':
+        specifier: workspace:*
+        version: link:../experimental-renderers
+      '@jsonforms/core':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@jsonforms/material-renderers':
+        specifier: ^3.1.0
+        version: 3.1.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@jsonforms/core@3.1.0)(@jsonforms/react@3.1.0)(@mui/icons-material@5.14.1)(@mui/material@5.14.2)(@mui/x-date-pickers@6.10.0)
+      '@jsonforms/react':
+        specifier: ^3.1.0
+        version: 3.1.0(@jsonforms/core@3.1.0)(react@18.2.0)
+      '@mui/icons-material':
+        specifier: ^5.14.1
+        version: 5.14.1(@mui/material@5.14.2)(@types/react@18.2.20)(react@18.2.0)
+      '@mui/material':
+        specifier: ^5.14.2
+        version: 5.14.2(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.20)(react-dom@18.2.0)(react@18.2.0)
+      '@types/react':
+        specifier: ^18.2.20
+        version: 18.2.20
+      '@types/react-dom':
+        specifier: ^18.2.7
+        version: 18.2.7
+      ajv:
+        specifier: ^8.12.0
+        version: 8.12.0
+      classnames:
+        specifier: ^2.3.2
+        version: 2.3.2
+      leaflet:
+        specifier: ^1.9.4
+        version: 1.9.4
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      next:
+        specifier: ^13
         version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
       react-dnd:
         specifier: ^16.0.1
@@ -3098,10 +3171,6 @@ packages:
 
   /@humanwhocodes/object-schema@1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
-
-  /@icon/icofont@1.0.1-alpha.1:
-    resolution: {integrity: sha512-LF4Fm1Wn+LeKZ5HB+MQAX+DKkdW4Qkf0oIrXD9HgBSuggFTSkwZo+dq8Y+K8pe5WjgWXbalHZegkYRn2ATVlzg==}
-    dev: false
 
   /@isaacs/cliui@8.0.2:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
