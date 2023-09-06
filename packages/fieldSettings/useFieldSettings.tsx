@@ -98,19 +98,19 @@ export function useToolSettings({
       const updatedUIschema = toolSettings.mapToolDataToWizardUischema(data, UIElementFromSelection)
 
       const ToolsettingAddonsSchemaMapper = filterNullOrUndef(
-            toolSettings.toolSettingsMixins
-            .map((t) => t.mapAddonDataToWizardSchema))
+        toolSettings.toolSettingsMixins.map((t) => t.mapAddonDataToWizardSchema)
+      )
       const ToolsettingAddonsUISchemaMapper = filterNullOrUndef(
-            toolSettings.toolSettingsMixins
-            .map((t) => t.mapAddonDataToWizardUISchema))
-        const updatedJsonSchemaFromAddons = ToolsettingAddonsSchemaMapper.reduce(
-            (prev, curr) =>  curr(data, prev),
-            updatedJsonSchema
-        )
-        const updatedUIschemaWithAddons = ToolsettingAddonsUISchemaMapper.reduce(
-            (prev, curr) => curr(data, prev),
-            updatedUIschema
-        )
+        toolSettings.toolSettingsMixins.map((t) => t.mapAddonDataToWizardUISchema)
+      )
+      const updatedJsonSchemaFromAddons = ToolsettingAddonsSchemaMapper.reduce(
+        (prev, curr) => curr(data, prev),
+        updatedJsonSchema
+      )
+      const updatedUIschemaWithAddons = ToolsettingAddonsUISchemaMapper.reduce(
+        (prev, curr) => curr(data, prev),
+        updatedUIschema
+      )
 
       dispatch(
         updateJsonSchemaByPath({
