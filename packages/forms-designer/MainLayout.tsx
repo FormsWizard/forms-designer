@@ -66,7 +66,7 @@ export const MainLayout: FunctionComponent<Props> = ({ appBar, children, additio
         <Drawer
           variant="persistent"
           anchor="right"
-          open={Boolean(selectedPath)}
+          open={Boolean(Boolean(selectedPath) && !previewModus)}
           sx={{
             width: drawerWidth,
             flexShrink: 0,
