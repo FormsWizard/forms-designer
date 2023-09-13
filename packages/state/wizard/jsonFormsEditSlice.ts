@@ -471,6 +471,7 @@ export const jsonFormsEditSlice = createSlice({
       }
       const [movedElement] = sourceElements.splice(sourceIndex, 1)
       targetElements.splice(targetIndex, 0, movedElement)
+      state.selectedPath = undefined
     },
   },
 })
