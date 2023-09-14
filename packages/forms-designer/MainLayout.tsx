@@ -2,11 +2,12 @@ import React, { FunctionComponent, useRef } from 'react'
 import { Box, Button, Container, Drawer, Paper, Toolbar, Typography } from '@mui/material'
 import { Wizard, WizardProps } from './Wizard'
 import { Toolbox } from '@formswizard/toolbox'
-import { FieldSettingsView, useToolSettings, ToolSetting } from '@formswizard/fieldsettings'
+import { FieldSettingsView, useToolSettings } from '@formswizard/fieldsettings'
 import { MainAppBar } from './layout/MainAppBar'
 import { TrashFAB } from './components'
 import { selectPreviewModus, togglePreviewModus, useAppDispatch, useAppSelector } from '@formswizard/state'
 import useAutoDeselectOnOutsideClick from './useAutoDeselectOnOutsideClick'
+import { ToolSetting } from '@formswizard/types'
 
 interface OwnProps {
   appBar?: React.ReactNode
