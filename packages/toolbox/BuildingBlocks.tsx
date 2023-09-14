@@ -1,29 +1,27 @@
 import { useDrop } from 'react-dnd'
-import {Card} from '@mui/material'
-import {  ViewQuilt } from '@mui/icons-material'
+import { Card } from '@mui/material'
+import { ViewQuilt } from '@mui/icons-material'
 import { Box, Stack } from '@mui/system'
-import { useAppDispatch, useAppSelector , addBuildingBlock } from '@formswizard/state'
+import { useAppDispatch, useAppSelector, addBuildingBlock } from '@formswizard/state'
 import { DragBox } from './DragBox'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
-
-
 
 function BuildingBlocks() {
   const buildingBlocks = useAppSelector((state) => state.buildingBlocks.blocks)
   const jsonSchema = useAppSelector((state) => state.jsonFormsEdit.jsonSchema)
   const dispatch = useAppDispatch()
   const { useDrop } = useDNDHooksContext()
-   
+
   const [{ isActive }, drop] = useDrop(
     () => ({
       accept: 'MOVEBOX',
-      drop: (item, monitor) => {  
+      drop: (item, monitor) => {
         console.log(item)
         //@ts-ignore
         if (item.componentMeta.uiSchema.type !== 'Group') {
           return
-        }        
-        dispatch(addBuildingBlock({ item, jsonSchema, ToolIconName: "ViewQuilt" }))
+        }
+        dispatch(addBuildingBlock({ item, jsonSchema, ToolIconName: 'ViewQuilt' }))
       },
 
       collect: (monitor) => ({

@@ -1,0 +1,24 @@
+.template-grid-item {
+  display: block;
+  height: 140px;
+  transition: width 200ms, height 200ms !important;
+}
+.template-grid-item:hover {
+  height: 200px;
+}
+
+.fade-in {
+  animation: fadeIn 300ms;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

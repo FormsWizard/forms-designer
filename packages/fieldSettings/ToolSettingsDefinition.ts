@@ -16,5 +16,5 @@ export const ToolSettingsDefinitions: ToolSetting[] = [
   AlertToolSetting,
   TextfieldToolSettings,
   CheckToolSettings,
-  NumberInputToolSettings
+  NumberInputToolSettings,
 ]

@@ -61,7 +61,9 @@ const ListToolSettings: ToolSetting = {
   mapToolDataToWizardUischema,
   jsonSchema,
   tester: (uiSchema, jsonSchema) =>
-    jsonSchema && jsonSchema.type === 'array' && (jsonSchema?.items as JsonSchema7 | undefined)?.type === 'object' ? 1 : 0,
+    jsonSchema && jsonSchema.type === 'array' && (jsonSchema?.items as JsonSchema7 | undefined)?.type === 'object'
+      ? 1
+      : 0,
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default ListToolSettings

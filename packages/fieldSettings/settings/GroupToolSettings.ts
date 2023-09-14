@@ -1,7 +1,6 @@
 import { JsonSchema } from '@jsonforms/core'
 import ToolsettingParts from '../mixins/ToolSettingParts'
-import {ToolSetting} from "@formswizard/types";
-
+import { ToolSetting } from '@formswizard/types'
 
 const jsonSchema = {
   type: 'object',
@@ -30,8 +29,7 @@ const GroupToolSettings: ToolSetting = {
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
   jsonSchema,
-  tester: (uiSchema, jsonSchema) =>
-    !!uiSchema && uiSchema.type === 'Group' ? 1 : 0,
+  tester: (uiSchema, jsonSchema) => (!!uiSchema && uiSchema.type === 'Group' ? 1 : 0),
   toolSettingsMixins: [ToolsettingParts.Title],
 }
 export default GroupToolSettings

@@ -11,7 +11,7 @@ import {
 import { JsonFormsDispatch, useJsonForms } from '@jsonforms/react'
 import { Box, Grid } from '@mui/material'
 import React, { useCallback, useMemo } from 'react'
-import { useAppDispatch, useAppSelector, selectElement, selectSelectedElementKey, selectPath } from '@formswizard/state'
+import { useAppDispatch, useAppSelector, selectSelectedPath, selectPath } from '@formswizard/state'
 import classnames from 'classnames'
 import { useDNDHooksContext, useDragTarget, useDropTarget } from '@formswizard/react-hooks'
 
@@ -36,7 +36,7 @@ import { useDNDHooksContext, useDragTarget, useDropTarget } from '@formswizard/r
 //     </>
 //   )
 // }
-
+type UISchemaElementWithPath = UISchemaElement & { path: string; structurePath?: string }
 type LayoutElementProps = {
   index: number
   direction: 'row' | 'column'
@@ -50,56 +50,36 @@ type LayoutElementProps = {
   parent: UISchemaElement[]
 }
 
-const LayoutElement = ({
-  index,
-  direction,
-
-  schema,
-  path,
-  enabled,
-  element: child,
-  cells,
-  parent,
-  renderers,
-}: LayoutElementProps) => {
+const LayoutElement = ({ index, schema, path, enabled, element: child, cells, renderers }: LayoutElementProps) => {
   const ctx = useJsonForms()
   const state = { jsonforms: ctx }
   const rootSchema = getSchema(state)
-  //const rootData = getData(state)
   const dispatch = useAppDispatch()
-
-  const selectedKey = useAppSelector(selectSelectedElementKey)
+  const selectedPath = useAppSelector(selectSelectedPath)
   const controlName = useMemo<string | undefined>(
     () => (child.type === 'Control' ? composeWithUi(child as ControlElement, path) : undefined),
     [child, path]
   )
-
   const resolvedSchema = useMemo<JsonSchema | undefined>(
     () => Resolve.schema(schema || rootSchema, (child as ControlElement).scope, rootSchema),
 
     [schema, rootSchema, child]
   )
-
   const key = useMemo<string>(
     () => (controlName ? controlName : `${child.type}-${index}`),
     [controlName, index, child.type]
   )
-  const isGroup = useMemo<boolean>(() => child.type === 'Group', [child])
   const { handleAllDrop, handleDropAtStart, draggedMeta } = useDropTarget({ child })
   const { useDrop, useDragLayer } = useDNDHooksContext()
   const anythingDragging = useDragLayer((monitor) => monitor.isDragging())
   const [{ isDragging }, dragRef] = useDragTarget({ child, name: controlName, resolvedSchema })
-  // const anythingDragging = true
   const [{ isOver: isOver1, isOverCurrent: isOverCurrent1 }, dropRef] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver2, isOverCurrent: isOverCurrent2 }, dropRef2] = useDrop(handleAllDrop, [handleAllDrop])
   const [{ isOver: isOver3, isOverCurrent: isOverCurrent3 }, dropRef3] = useDrop(handleDropAtStart, [handleAllDrop])
-  const isOver = isOver1 || isOver2
   const isOverCurrent = isOverCurrent1 || isOverCurrent2
   const handleSelect = useCallback(
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       event.stopPropagation()
-      // @ts-ignore
-      dispatch(selectElement(key))
       // @ts-ignore
       dispatch(selectPath(child.path))
     },
@@ -122,20 +102,7 @@ const LayoutElement = ({
           dropRef={dropRef3}
           anythingDragging={isDragging || anythingDragging}
         ></LayoutDropArea>
-        // <Paper
-        //   sx={{
-        //     border: 'none',
-        //     opacity: isOver3 ? '1.0' : '0.2',
-        //     minWidth: '2em',
-        //     minHeight: '1.5em',
-        //     // bgcolor: (theme) => (isOver ?  theme. : 'none'),
-        //     padding: 4,
-        //     backgroundColor: isOver3 ? 'yellow' : 'red',
-        //   }}
-        //   ref={dropRef3}
-        // ></Paper>
       )}
-
       <Grid key={key} item ref={dropRef} xs onClick={handleSelect}>
         <Box
           // elevation={selectedKey === key ? 4 : 0}
@@ -143,7 +110,8 @@ const LayoutElement = ({
             flexGrow: 1,
             display: 'flex',
             backgroundColor: (theme) =>
-              selectedKey === key
+              // @ts-ignore
+              selectedPath === child.path
                 ? theme.palette.mode === 'dark'
                   ? theme.palette.grey[800]
                   : theme.palette.grey[200]
@@ -158,9 +126,9 @@ const LayoutElement = ({
               flexGrow: 1,
             },
             transition: (theme) =>
-                theme.transitions.create(['background-color', 'color'], {
-                  duration: theme.transitions.duration.short,
-                }),
+              theme.transitions.create(['background-color', 'color'], {
+                duration: theme.transitions.duration.short,
+              }),
             /*':hover': {
               backgroundColor: (theme) =>
                 theme.palette.mode === 'light' ? theme.palette.grey.A100 : theme.palette.grey[700],
@@ -220,17 +188,25 @@ function LayoutDropArea({ isOverCurrent, dropRef, anythingDragging }: LayoutDrop
           textAlign: 'center',
           verticalAlign: 'middle',
           margin: (theme) => theme.spacing(1, 2),
-          transition: (theme) => theme.transitions.create(["border"], {
-            duration: theme.transitions.duration.short
-          })
+          transition: (theme) =>
+            theme.transitions.create(['border'], {
+              duration: theme.transitions.duration.short,
+            }),
         }}
       >
-        <Box sx={{
-          opacity: anythingDragging ? '1.0' : '0', margin: 'auto', fontSize: '2em',
-          transition: (theme) => theme.transitions.create(["opacity"], {
-            duration: theme.transitions.duration.standard
-          })
-        }}>+</Box>
+        <Box
+          sx={{
+            opacity: anythingDragging ? '1.0' : '0',
+            margin: 'auto',
+            fontSize: '2em',
+            transition: (theme) =>
+              theme.transitions.create(['opacity'], {
+                duration: theme.transitions.duration.standard,
+              }),
+          }}
+        >
+          +
+        </Box>
       </Box>
     </Box>
   )

@@ -31,7 +31,7 @@ export const TrashFAB: () => JSX.Element = () => {
     drop: ({ componentMeta }, monitor) => {
       const itemType = monitor.getItemType()
       if (itemType === 'MOVEBOX') {
-        if(!componentMeta) return
+        if (!componentMeta) return
         handleRemove(componentMeta)
       }
     },

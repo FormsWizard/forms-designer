@@ -46,7 +46,6 @@ export function Toolbox() {
       </TabPanel>
       <TabPanel value="2" sx={{ p: 0 }}>
         <BuildingBlocks></BuildingBlocks>
-
       </TabPanel>
     </TabContext>
   )

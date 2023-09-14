@@ -126,12 +126,11 @@ export const pathSegmentsToPath = (pathSegments: string[]) => {
   return pathSegments.join('.')
 }
 
-
 /**
  * from a given path foo.bar.baz returns baz and foo.bar
  * @param path
  */
-export const splitLastPath: (path: string) => ([string | undefined, string | undefined]) = (path: string) => {
+export const splitLastPath: (path: string) => [string | undefined, string | undefined] = (path: string) => {
   const segments = pathToPathSegments(path)
   if (segments.length <= 0) return [undefined, undefined]
   const rest = segments.slice(0, segments.length - 1)

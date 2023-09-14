@@ -32,7 +32,7 @@ export const basicDraggableComponents: DraggableElement[] = [
   },
   {
     name: 'Number',
-    ToolIconName: 'Numbers', 
+    ToolIconName: 'Numbers',
     jsonSchemaElement: {
       type: 'integer',
     },
@@ -156,8 +156,8 @@ export const basicDraggableComponents: DraggableElement[] = [
     ToolIconName: 'LocationOn',
     jsonSchemaElement: {
       type: 'string',
-      format: 'wktLiteral'
-    }
+      format: 'wktLiteral',
+    },
   },
   {
     name: 'gruppe',
