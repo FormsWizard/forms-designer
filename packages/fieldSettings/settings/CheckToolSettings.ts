@@ -32,7 +32,6 @@ const CheckToolSettings: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-
   jsonSchema,
   tester: (uiSchema, jsonSchema) => (uiSchema && jsonSchema?.type === 'boolean' ? 1 : 0),
   toolSettingsMixins: [ToolsettingParts.Title],

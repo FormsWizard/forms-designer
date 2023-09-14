@@ -1,5 +1,11 @@
 export * from './LocationSearchField'
 export * from './LocationSearchTextFieldRenderer'
+export * from './LocationSearchMap'
 export * from './LocationToolSettings'
 export * from './locationTools'
 
+export * from './WktLiteralInputControl'
+export * from './LocationToolSettings'
+export * from './locationTools'
+export * from './wktToLantLng'
+export * from './types'

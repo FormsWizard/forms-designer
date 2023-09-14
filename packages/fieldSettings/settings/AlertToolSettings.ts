@@ -34,7 +34,6 @@ const AlertToolSetting: ToolSetting = {
   mapWizardSchemaToToolData,
   mapToolDataToWizardSchema,
   mapToolDataToWizardUischema,
-
   jsonSchema,
   tester: (uiSchema, jsonSchema) => (uiSchema.type === 'Alert' || typeof (uiSchema as any).text === 'string' ? 1 : 0),
 

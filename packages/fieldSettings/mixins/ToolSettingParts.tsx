@@ -1,5 +1,5 @@
-import {JsonSchema7} from '@jsonforms/core'
-import {ToolSettingsMixin} from "@formswizard/types";
+import { JsonSchema7 } from '@jsonforms/core'
+import { ToolSettingsMixin } from '@formswizard/types'
 
 const TitlePart: ToolSettingsMixin = {
   jsonSchemaElement: {

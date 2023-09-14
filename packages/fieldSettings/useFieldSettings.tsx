@@ -15,7 +15,7 @@ import {
 import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
 import { JsonSchema, UISchemaElement } from '@jsonforms/core'
 import { ToolSetting } from '@formswizard/types'
-import { filterNullOrUndef } from '@formswizard/utils/filterNullOrUndef'
+import { filterNullOrUndef } from '@formswizard/utils'
 
 export type ToolSettingsDefinition = {
   setToolDataBuffer: (value: ((prevState: any) => any) | any) => void

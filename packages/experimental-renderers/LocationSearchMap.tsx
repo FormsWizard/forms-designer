@@ -2,18 +2,11 @@ import 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
 import * as L from 'leaflet'
-
 import { useEffect, useMemo } from 'react'
 import { LayersControl, Marker, Popup, TileLayer, MapContainer, useMapEvents } from 'react-leaflet'
 
 import { NominatimResponse } from './nominatim'
-
-export interface LocationSearchMapProps {
-  markerPosition?: L.LatLngExpression
-  onChangeMarkerPosition?: (lat: number, lng: number, result?: NominatimResponse) => void
-  readonly?: boolean
-  label?: string
-}
+import { LocationSearchMapProps } from './types'
 
 type LocationSearchMapContentProps = LocationSearchMapProps & {
   color: string
