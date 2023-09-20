@@ -33,6 +33,7 @@
   "devDependencies": {
     "@formswizard/designer-tsconfig": "workspace:*",
     "@formswizard/types": "workspace:*",
+    "@mui/base": "5.0.0-beta.16",
     "@types/leaflet": "^1.9.4",
     "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",

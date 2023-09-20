@@ -7,10 +7,10 @@ import { useCallback, useState } from 'react'
 
 import { LocationSearchField } from './LocationSearchField'
 import { InputAdornment, IconButton, TextField, Grid } from '@mui/material'
+import { NoSsr } from '@mui/base'
 import * as Icons from '@mui/icons-material'
 import { NominatimResponse } from './nominatim'
 import { LocationSearchMap } from './LocationSearchMap'
-import { NoSSR } from 'next/dist/shared/lib/lazy-dynamic/dynamic-no-ssr'
 import { LocationSearchMapProps } from './types'
 
 export function LocationSearchCombined(props: LocationSearchMapProps) {
@@ -55,9 +55,9 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
       </Grid>
       {showMap && (
         <Grid item>
-          <NoSSR>
+          <NoSsr>
             <LocationSearchMap {...props} />
-          </NoSSR>
+          </NoSsr>
         </Grid>
       )}
     </Grid>
