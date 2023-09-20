@@ -1,10 +1,10 @@
-import { WktLiteralTextControlTester, WktLiteralTextControlRenderer, LocationToolSettings} from "@formswizard/experimental-renderers";
+import { WktLiteralTextControlTester, LocationSearchTextControlRenderer, LocationToolSettings} from "@formswizard/experimental-renderers";
 import {MainLayout} from "@formswizard/forms-designer/MainLayout";
 
 const renderers = [
   {
     tester: WktLiteralTextControlTester,
-    renderer: WktLiteralTextControlRenderer
+    renderer: LocationSearchTextControlRenderer
   }
 ]
 
