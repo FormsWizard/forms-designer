@@ -33,7 +33,6 @@
   "devDependencies": {
     "@formswizard/designer-tsconfig": "workspace:*",
     "@formswizard/types": "workspace:*",
-    "@mui/base": "5.0.0-beta.16",
     "@types/leaflet": "^1.9.4",
     "@types/lodash": "^4.14.197",
     "eslint": "^7.32.0",
@@ -42,6 +41,7 @@
     "typescript": "^4.5.2"
   },
   "peerDependencies": {
+    "@mui/base": "5.0.0-beta.8",
     "@jsonforms/core": "^3.1.0",
     "@jsonforms/material-renderers": "^3.1.0",
     "@jsonforms/react": "^3.1.0",
