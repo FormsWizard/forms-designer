@@ -1,12 +1,12 @@
 import type { OwnPropsOfRenderer, UISchemaElement } from '@jsonforms/core'
 
 import { Box, Grid } from '@mui/material'
-import React from 'react'
 import { DropTargetFormsPreview } from './DropTargetFormsPreview'
 import { useDNDHooksContext, useDropTarget } from '@formswizard/react-hooks'
 
 type EmptyLayoutElementProps = {
   child: UISchemaElement
+  current: UISchemaElement
   path: string
   elements: UISchemaElement[]
   layoutRendererProps: OwnPropsOfRenderer
@@ -48,10 +48,8 @@ const StyledPlaceholderElementBox = ({ draggedMeta, handleAllDrop }: StyledPlace
   )
 }
 
-function LayoutPlaceholder({ child, path, elements, layoutRendererProps, direction = 'row' }: EmptyLayoutElementProps) {
-  //TODO make sure we have child.path
-  const { handleDropAtStart, draggedMeta } = useDropTarget({ child, isPlaceholder: true })
-  const { schema, enabled, renderers, cells } = layoutRendererProps
+function LayoutPlaceholder({ child, current }: EmptyLayoutElementProps) {
+  const { handleDropAtStart, draggedMeta } = useDropTarget({ child, isPlaceholder: true, current })
 
   return (
     <Box>

@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
-import { JsonForms } from '@jsonforms/react'
-import { useToolSettings } from './useFieldSettings'
-import { Box, Button, Grid, IconButton, TextField, ToggleButton, Toolbar, Typography } from '@mui/material'
-import * as Icons from '@mui/icons-material'
+import { useCallback, useEffect, useState } from 'react'
+import { Button, Grid, IconButton, TextField, Typography } from '@mui/material'
+import EditOff from '@mui/icons-material/EditOff'
+import Edit from '@mui/icons-material/Edit'
 import { renameField, useAppDispatch } from '@formswizard/state'
-import { pathToPathSegments, splitLastPath, filterNullOrUndef } from '@formswizard/utils'
-import { ToolSetting } from './ToolSettingType'
 import { useWizardSelection } from './useWizardSelection'
 
 function EditableFieldKeyDisplay() {
@@ -34,17 +30,16 @@ function EditableFieldKeyDisplay() {
   return (
     <>
       <Typography variant="h6" component="div">
-        Settings for
         {!showKeyEditor && (
           <>
             <span> {selectionDisplayName}</span>
             {keyIsEditable && (
-              <IconButton onClick={toggleKeyEditor}>{showKeyEditor ? <Icons.EditOff /> : <Icons.Edit />}</IconButton>
+              <IconButton onClick={toggleKeyEditor}>{showKeyEditor ? <EditOff /> : <Edit />}</IconButton>
             )}
           </>
         )}
         {showKeyEditor && (
-          <Grid item>
+          <Grid>
             <TextField
               placeholder={'Key name'}
               value={newKey}

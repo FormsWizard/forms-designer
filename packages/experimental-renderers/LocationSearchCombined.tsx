@@ -6,15 +6,15 @@ import * as React from 'react'
 import { useCallback, useState } from 'react'
 
 import { LocationSearchField } from './LocationSearchField'
-import { InputAdornment, IconButton, TextField, Grid } from '@mui/material'
-import { NoSsr } from '@mui/base'
-import * as Icons from '@mui/icons-material'
+import { InputAdornment, IconButton, TextField, Grid, NoSsr } from '@mui/material'
+import MapRounded from '@mui/icons-material/MapRounded'
+import MapSharp from '@mui/icons-material/MapSharp'
 import { NominatimResponse } from './nominatim'
 import { LocationSearchMap } from './LocationSearchMap'
 import { LocationSearchMapProps } from './types'
 
 export function LocationSearchCombined(props: LocationSearchMapProps) {
-  const { markerPosition, onChangeMarkerPosition, readonly, label } = props
+  const { markerPosition, onChangeMarkerPosition, readonly, label, addressdetails } = props
 
   const showMarker = true
   const [showMap, setShowMap] = useState(false)
@@ -28,10 +28,11 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
   //const LocationSearchMap = useMemo( () => dynamic(() => import('./LocationSearchMap').then((mod) => mod.LocationSearchMap), { ssr: false }) , [])
   return (
     <Grid container direction={'column'}>
-      <Grid item>
+      <Grid>
         <LocationSearchField
           readOnly={readonly}
           onLocationFound={updateLocation}
+          addressdetails={addressdetails}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -43,7 +44,7 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
                     {params.InputProps.endAdornment || null}
                     <InputAdornment position="end">
                       <IconButton aria-label="toggle map visibility" onClick={() => setShowMap(!showMap)} edge="end">
-                        {showMap ? <Icons.MapRounded /> : <Icons.MapSharp />}
+                        {showMap ? <MapRounded /> : <MapSharp />}
                       </IconButton>
                     </InputAdornment>
                   </>
@@ -54,7 +55,7 @@ export function LocationSearchCombined(props: LocationSearchMapProps) {
         />
       </Grid>
       {showMap && (
-        <Grid item>
+        <Grid>
           <NoSsr>
             <LocationSearchMap {...props} />
           </NoSsr>

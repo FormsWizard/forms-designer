@@ -1,4 +1,3 @@
-import { JsonSchema7 } from '@jsonforms/core'
 import { ToolSettingsMixin } from '@formswizard/types'
 
 const TitlePart: ToolSettingsMixin = {
@@ -14,13 +13,43 @@ const TitlePart: ToolSettingsMixin = {
     }
   },
 
-  mapAddonDataToWizardUISchema: (toolData, uiSchema) => {
+  mapAddonDataToWizardUISchema: (toolData, uiSchema, rootSchema) => {
     return {
       ...uiSchema,
       label: toolData.label,
     }
   },
 }
+
+const PrimaryFieldPart: ToolSettingsMixin = {
+  jsonSchemaElement: {
+    isPrimaryFieldFor: {
+      type: 'string',
+      enum: ['none', 'title', 'description', 'image'],
+    },
+  },
+  mapWizardToAddonData: (previousData, wizardSchema) => {
+    return {
+      ...previousData,
+      isPrimaryFieldFor: wizardSchema?.['x-primaryField'] ? wizardSchema['x-primaryField'] === 'title' ? 'label' : wizardSchema['x-primaryField'] : 'none',
+    }
+  },
+  mapAddonDataToWizardUISchema: (toolData, uiSchema) => uiSchema,
+  mapAddonDataToWizardSchema: (toolData, wizardSchema, rootSchema) => {
+    const { isPrimaryFieldFor } = toolData || {};
+    if (isPrimaryFieldFor && isPrimaryFieldFor !== 'none') {
+      return {
+        ...wizardSchema,
+        'x-primaryField': isPrimaryFieldFor === 'label' ? 'title' : isPrimaryFieldFor,
+      };
+    } else {
+      // @ts-ignore
+      const { ['x-primaryField']: _removed, ...rest } = wizardSchema || {};
+      return rest;
+    }
+  },
+}
+
 // const TextPart = {
 //   jsonSchema: {
 //     type: 'object',
@@ -46,8 +75,8 @@ const TitlePart: ToolSettingsMixin = {
 //   },
 // }
 
-const ToolsettingParts = {
+export const ToolsettingParts = {
   Title: TitlePart,
+  PrimaryField: PrimaryFieldPart,
 }
 
-export default ToolsettingParts

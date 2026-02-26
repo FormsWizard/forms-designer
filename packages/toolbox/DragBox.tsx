@@ -1,10 +1,11 @@
 import React, { createElement } from 'react'
-import { Card, CardActionArea, CardContent, Typography, Icon } from '@mui/material'
+import { Card, CardActionArea, CardContent, Typography, Icon, Box } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
 import { DraggableMeta } from '@formswizard/types'
 /*eslint import/namespace: ['error', { allowComputed: true }]*/
-import * as MuiIcons from '@mui/icons-material'
+import TocOutlined from '@mui/icons-material/TocOutlined'
+import { useIcon } from '@formswizard/tool-context'
 
 type DragBoxProps = {
   name: string
@@ -19,7 +20,8 @@ export const DragBox = ({
   ToolIconName = 'TocOutlined',
 }: DragBoxProps) => {
   const { useDrag } = useDNDHooksContext()
-  const [, dragRef] = useDrag(
+  const ToolIcon = useIcon(ToolIconName) || null
+  const [{ opacity }, dragRef, preivewRef] = useDrag(
     () => ({
       type: 'DRAGBOX',
       item: { componentMeta },
@@ -36,8 +38,8 @@ export const DragBox = ({
   )
 
   return (
-    <>
-      <Card ref={dragRef}>
+    <Box ref={preivewRef}>
+      <Card ref={dragRef} >
         <CardActionArea>
           <CardContent>
             <Stack
@@ -45,15 +47,14 @@ export const DragBox = ({
               alignItems="center"
               gap={2}
               sx={{
+                opacity: opacity,
                 '& .MuiSvgIcon-root': {
                   // fontSize: '2rem',
                   color: 'secondary.dark',
                 },
               }}
             >
-              {/* crashes on next build or other restrictive dts-build because of TS7053 */}
-              {MuiIcons[ToolIconName] && createElement((MuiIcons as any)[ToolIconName])}
-
+              {ToolIcon && <ToolIcon />}
               <Typography gutterBottom variant="subtitle1">
                 {name || ''}
               </Typography>
@@ -61,6 +62,6 @@ export const DragBox = ({
           </CardContent>
         </CardActionArea>
       </Card>
-    </>
+    </Box>
   )
 }

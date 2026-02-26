@@ -1,6 +1,8 @@
-import { JsonSchema, JsonSchema7, resolveSchema, UISchemaElement } from '@jsonforms/core'
-import { cloneDeep } from 'lodash'
+import { UISchemaElement } from '@jsonforms/core'
+import { isJsonSchema, JsonSchema } from '@formswizard/types'
+import cloneDeep from 'lodash-es/cloneDeep'
 import { getAllScopesInSchema } from './uiSchemaHelpers'
+import { resolveSchema } from './resolver'
 
 export function collectSchemaGarbage(jsonschema: JsonSchema, uiSchema: UISchemaElement) {
   const scopes = getAllScopesInSchema(uiSchema)
@@ -12,7 +14,11 @@ export function collectSchemaGarbage(jsonschema: JsonSchema, uiSchema: UISchemaE
   })
 
   for (let scope of scopes) {
-    let resolved = resolveSchema(marked, scope, marked) as (JsonSchema7 & { toBeDeleted?: boolean }) | undefined
+    if(!isJsonSchema(marked)) {
+      continue
+    }
+    //TODO: check whether we should resolve with $refs or not
+    let resolved = resolveSchema(marked, scope, marked) as (JsonSchema & { toBeDeleted?: boolean }) | undefined
     if (resolved?.toBeDeleted) delete resolved.toBeDeleted
   }
   traverseDelete(marked)

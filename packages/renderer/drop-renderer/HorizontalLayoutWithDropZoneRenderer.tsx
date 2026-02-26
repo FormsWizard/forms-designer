@@ -8,7 +8,7 @@ import {
   uiTypeIs,
 } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
-import React from 'react'
+import type { ComponentClass, FunctionComponent } from 'react'
 
 import { LayoutWithDropZoneRenderer, MaterialLayoutRendererProps } from './LayoutWithDropZoneRenderer'
 
@@ -29,8 +29,8 @@ export const HorizontalLayoutWithDropZoneRenderer = (props: LayoutProps) => {
 }
 
 const HorizontalLayoutWithDropZoneRendererWithProps:
-  | React.ComponentClass<LayoutProps & OwnPropsOfLayout>
-  | React.FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(
+  | ComponentClass<LayoutProps & OwnPropsOfLayout>
+  | FunctionComponent<LayoutProps & OwnPropsOfLayout> = withJsonFormsLayoutProps(
   HorizontalLayoutWithDropZoneRenderer
 )
 export default HorizontalLayoutWithDropZoneRendererWithProps

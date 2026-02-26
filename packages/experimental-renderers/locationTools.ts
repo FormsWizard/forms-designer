@@ -5,7 +5,7 @@ import { LocationToolSettings } from './LocationToolSettings'
 export const locationToolElements: DraggableElement[] = [
   {
     name: 'Location',
-    ToolIconName: 'LocationOn',
+    ToolIconName: 'Location',
     jsonSchemaElement: {
       type: 'string',
       format: 'wktLiteral',
@@ -23,5 +23,5 @@ export const locationTools: PluggableToolDefinition = {
     },
   ],
   toolSettings: [LocationToolSettings],
-  toolBoxElements: locationToolElements,
+  toolBoxElements: locationToolElements
 }

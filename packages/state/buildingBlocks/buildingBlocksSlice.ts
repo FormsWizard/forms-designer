@@ -1,15 +1,20 @@
 import { resolveSchema } from '@jsonforms/core'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { cloneDeep, last } from 'lodash'
-import { advancedDraggableComponents } from './advancedDraggableComponents'
+import { createSlice, PayloadAction, Reducer } from '@reduxjs/toolkit'
+import cloneDeep from 'lodash-es/cloneDeep'
+import last from 'lodash-es/last'
 import { getAllScopesInSchema, scopeToPathSegments } from '@formswizard/utils'
+import { DraggableElement } from '@formswizard/types'
 
-const initialState = {
-  blocks: [...advancedDraggableComponents],
+export interface CounterState {
+  blocks: DraggableElement[]
+}
+
+const initialState: CounterState = {
+  blocks: [],
 }
 
 export type buildingBlocksSlice = {
-  blocks: any[]
+  blocks: DraggableElement[]
 }
 
 export const buildingBlocksSlice = createSlice({
@@ -56,7 +61,6 @@ export const buildingBlocksSlice = createSlice({
         jsonSchemaElement: blockSchema,
         ToolIconName,
       }
-      console.log('adding building block', blockItem)
       state.blocks.push(blockItem)
     },
     removeBuildingBlock: (state: buildingBlocksSlice, action: PayloadAction<number>) => {
@@ -67,4 +71,4 @@ export const buildingBlocksSlice = createSlice({
 
 export const { addBuildingBlock, removeBuildingBlock } = buildingBlocksSlice.actions
 
-export default buildingBlocksSlice.reducer
+export const buildingBlocksReducer: Reducer<buildingBlocksSlice> = buildingBlocksSlice.reducer

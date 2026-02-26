@@ -2,43 +2,76 @@
   "name": "@formswizard/designer-basic-renderer",
   "version": "0.0.2",
   "description": "JsonForms renderers, complementing @jsonforms/material-renderers. They are used per default by forms-designer and should therefore be used for any instance of JsonForms which is supposed to render jsonschema+uischema created with forms-designer.",
-  "keywords": ["renderer", "material", "jsonforms", "form", "forms", "wizard", "json", "schema", "jsonschema", "uischema", "frontend", "generator", "input", "renderengine"],
+  "keywords": [
+    "renderer",
+    "material",
+    "jsonforms",
+    "form",
+    "forms",
+    "wizard",
+    "json",
+    "schema",
+    "jsonschema",
+    "uischema",
+    "frontend",
+    "generator",
+    "input",
+    "renderengine"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/FormsWizard",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/FormsWizard/forms-designer.git"
+    "type": "git",
+    "url": "https://github.com/FormsWizard/forms-designer.git"
   },
-  "contributors": [{"name": "Johannes Lötzsch"}, {"name": "Jakob Steege"}, {"name": "winzlieb", "email": "winzlieb@c3d2.de"}],
+  "contributors": [
+    { "name": "Johannes Lötzsch" },
+    { "name": "Jakob Steege" },
+    { "name": "winzlieb", "email": "winzlieb@c3d2.de" }
+  ],
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsup index.tsx --format esm,cjs --dts --external react",
     "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react",
     "lint": "eslint \"**/*.ts*\"",
     "lint-fix": "eslint --fix \"**/*.ts*\"",
-    "generate:component": "turbo gen react-component"
+    "generate:component": "turbo gen react-component",
+    "push": "npm publish --access public"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "eslint": "^7.32.0",
     "typescript": "^4.5.2",
     "react": ">=18",
     "eslint-config-formsdesigner": "workspace:*",
     "@formswizard/designer-tsconfig": "workspace:*",
-    "@types/lodash": "^4.14.197",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7"
+    "@types/lodash-es": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@formswizard/tsup-config": "workspace:*"
   },
   "peerDependencies": {
-    "@jsonforms/core": "^3.1.0",
-    "@jsonforms/material-renderers": "^3.1.0",
-    "@jsonforms/react": "^3.1.0",
-    "@mui/icons-material": "^5.14.1",
-    "@mui/material": "^5.14.2",
+    "@jsonforms/core": "catalog:",
+    "@jsonforms/material-renderers": "catalog:",
+    "@jsonforms/react": "catalog:",
+    "@mui/icons-material": "catalog:",
+    "@mui/material": "catalog:",
     "react": "^16.9.0 || ^17.0.0 || ^18"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash-es": "catalog:"
   }
 }

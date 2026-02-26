@@ -10,6 +10,7 @@ export type LatLngTuple = [number, number]
 export type LatLngExpression = LatLngLiteral | LatLngTuple
 export interface LocationSearchMapProps {
   markerPosition?: LatLngExpression
+  addressdetails?: boolean
   onChangeMarkerPosition?: (lat: number, lng: number, result?: NominatimResponse) => void
   readonly?: boolean
   label?: string

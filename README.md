@@ -9,22 +9,9 @@ FormsDesigner is a WYSIWYG editor developed in TypeScript for creating diverse f
 
 ## Open a Demo
 
-The following  Live Demos can be opened from the following links:
+A live [Storybook](https://formswizard.github.io/forms-designer/storybook/) demo is available online.
 
-- [Create React App](https://formswizard.github.io/forms-designer/cra/)
-- [Next.js](https://formswizard.github.io/forms-designer/next/)
-- [Storybook](https://formswizard.github.io/forms-designer/storybook/)
-
-
-To view a demo on your local machine, execute the following command:
-
-```sh
-pnpm export
-(cd apps/cra/out/; python -m http.server) & 
-xdg-open http://localhost:8000
-```
-
-alternatively you can launch a dev build see [Develop](#develop) for more details.
+To view a demo on your local machine, launch a dev build — see [Develop](#develop) for more details.
 
 ##  Details
 
@@ -38,26 +25,27 @@ The FormsDesigner is a part of the broader FormsWizard project, which delivers a
 This Turborepo includes various packages and apps:
 
 ### Apps
-- `./apps/cra`: An example using Create-React-App.
-- `./apps/docs`: Holds the documentation.
 - `./apps/storybook`: A Storybook for visualizing components.
 - `./apps/vite`: An example using ViteJS.
-- `./apps/web`: A web application built with Next.js.
 
 ### Packages
+- `./packages/advanced-tools`: A collection of tools, like location and map pickers.
 - `./packages/basic-renderer`: Contains basic renderers for the project.
-- `./packages/core`: Essential core functionalities for FormsDesigner.
+- `./packages/basic-tools`: A collection of form components and renderers like TextFields, Number and Date Inputs.
 - `./packages/eslint-config-custom`: Provides custom ESLint configurations.
-- `./packages/experimental-renderers` & `./packages/experimental-renderers_next`: Experimental renderers for different environments, like location picker (leaflet).
-- `./packages/fieldSettings`: Field Settings logic and settings typically seen within the right drawer
+- `./packages/experimental-renderers`: Experimental renderers (e.g. location picker with leaflet).
+- `./packages/fieldSettings`: Field Settings logic and settings typically seen within the right drawer.
 - `./packages/forms-designer`: The main FormsDesigner package.
+- `./packages/i18n`: Internationalization support.
 - `./packages/jest-presets`: Contains Jest presets for turbo repos.
 - `./packages/react-hooks`: Includes React hooks used in the project.
 - `./packages/renderer`: Houses special drag-and-drop renderers needed for the editor view.
 - `./packages/state`: Manages state within the project.
 - `./packages/theme`: Contains theming details and configurations.
-- `./packages/toolbox`: A toolbox seen within the left drawer, where one can pick tools and blocks
+- `./packages/tool-context`: Shared context for tool components.
+- `./packages/toolbox`: A toolbox seen within the left drawer, where one can pick tools and blocks.
 - `./packages/tsconfig`: Holds TypeScript configuration details.
+- `./packages/tsup-config`: Shared tsup bundler configuration.
 - `./packages/types`: Type definitions used across the project.
 - `./packages/utils`: General utilities for various tasks.
 
@@ -68,7 +56,7 @@ Each package/app is fully developed in TypeScript and provides type definitions.
 To build all apps and packages, execute:
 
 ```sh
-pnpm build
+bun run build
 ```
 
 ## Develop
@@ -76,24 +64,24 @@ pnpm build
 To develop all apps and packages, execute:
 
 ```sh
-pnpm dev
+bun run dev
 ```
 
-If you only want to run a task for part of the projects use turbo's filtering:
+If you only want to run a task for part of the projects, use turbo's filtering:
 
 ```sh
-pnpm dev --filter @formswizard/forms-designer-renderer
+bun run dev --filter @formswizard/forms-designer-renderer
 ```
 or exclude certain apps:
 ```sh
-pnpm dev --filter '!@formswizard/web' --filter '!@formswizard/storybook'
+bun run dev --filter '!@formswizard/storybook'
 ```
 ## Test
 
 To run all tests, execute:
 
 ```sh
-pnpm test
+bun run test
 ```
 
 
@@ -102,7 +90,7 @@ pnpm test
 To update all dependencies, execute:
 
 ```sh
-pnpm update -r --latest
+bun update --latest
 ```
 
 ### Utilities

@@ -1,0 +1,63 @@
+name: Deploy Vite App to Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Cache for Turbo
+        uses: rharkor/caching-for-turbo@v1.5
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build Vite App
+        run: bun run build:vite
+        env:
+          NODE_OPTIONS: --max_old_space_size=8193
+          # Sub-path for GitHub Pages: https://<org>.github.io/<repo>/
+          VITE_BASE_PATH: ${{ github.event.repository.name }}
+          # Backend URL — set as a GitHub Actions variable in Settings → Variables
+          VITE_AGENT_SERVER_URL: ${{ vars.VITE_AGENT_SERVER_URL }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./apps/vite/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

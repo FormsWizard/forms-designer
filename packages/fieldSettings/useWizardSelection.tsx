@@ -6,9 +6,8 @@ import {
   selectSelectionDisplayName,
   selectSelectedKeyName,
 } from '@formswizard/state'
-import { ToolSettingsDefinitions } from './ToolSettingsDefinition'
-import { JsonSchema, UISchemaElement } from '@jsonforms/core'
-import { ToolSetting } from './ToolSettingType'
+import { UISchemaElement } from '@jsonforms/core'
+import { JsonSchema } from '@formswizard/types'
 
 export type WizardSelection = {
   selectedPath: string | null | undefined

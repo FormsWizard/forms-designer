@@ -1,13 +1,16 @@
-import { useDrop } from 'react-dnd'
 import { Card } from '@mui/material'
-import { ViewQuilt } from '@mui/icons-material'
 import { Box, Stack } from '@mui/system'
 import { useAppDispatch, useAppSelector, addBuildingBlock } from '@formswizard/state'
 import { DragBox } from './DragBox'
 import { useDNDHooksContext } from '@formswizard/react-hooks'
+import { useDraggableElementsByComponentType, useRegisteredCollections } from '@formswizard/tool-context'
+import { useJsonFormsI18n } from '@formswizard/i18n'
 
 function BuildingBlocks() {
   const buildingBlocks = useAppSelector((state) => state.buildingBlocks.blocks)
+  const draggableComponents = useDraggableElementsByComponentType('block')
+  const registeredCollections = useRegisteredCollections()
+  const { translate } = useJsonFormsI18n(registeredCollections)
   const jsonSchema = useAppSelector((state) => state.jsonFormsEdit.jsonSchema)
   const dispatch = useAppDispatch()
   const { useDrop } = useDNDHooksContext()
@@ -16,7 +19,6 @@ function BuildingBlocks() {
     () => ({
       accept: 'MOVEBOX',
       drop: (item, monitor) => {
-        console.log(item)
         //@ts-ignore
         if (item.componentMeta.uiSchema.type !== 'Group') {
           return
@@ -32,11 +34,12 @@ function BuildingBlocks() {
   )
   return (
     <>
-      {buildingBlocks.map((component, index) => {
+      {[...buildingBlocks, ...draggableComponents].map((component) => {
+        const displayName = translate?.(`tools.${component.name}`, component.name) ?? component.name
         return (
           <DragBox
             ToolIconName={component.ToolIconName}
-            name={component.name}
+            name={displayName}
             key={component.name}
             componentMeta={component}
           ></DragBox>

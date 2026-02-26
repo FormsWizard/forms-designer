@@ -10,8 +10,21 @@
     "upgrade": "npx storybook@latest upgrade"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@formswizard/i18n": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@ebay/nice-modal-react": "^1.2.13",
+    "@emotion/cache": "catalog:",
+    "@emotion/react": "catalog:",
+    "@jsonforms/material-renderers": "catalog:",
+    "@jsonforms/react": "catalog:",
+    "@mui/material": "catalog:",
+    "@mui/x-date-pickers": "catalog:",
+    "@reduxjs/toolkit": "^2.6.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.2.0",
@@ -22,8 +35,8 @@
     "@storybook/react": "^7.2.0",
     "@storybook/react-vite": "^7.2.0",
     "@storybook/testing-library": "^0.2.0",
-    "@types/react": "^18.2.18",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "@vitejs/plugin-react": "^4.0.4",

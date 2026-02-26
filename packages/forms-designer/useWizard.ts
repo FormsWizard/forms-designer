@@ -1,5 +1,6 @@
 import { RootState, useAppSelector } from '@formswizard/state'
-import { JsonSchema, UISchemaElement } from '@jsonforms/core'
+import { UISchemaElement } from '@jsonforms/core'
+import { JsonSchema } from '@formswizard/types'
 import { useStore } from 'react-redux'
 
 export const useWizard = (): { getState: () => RootState; jsonSchema: JsonSchema; uiSchema: UISchemaElement } => {

@@ -1,20 +1,38 @@
 {
   "name": "@formswizard/types",
   "version": "0.0.0",
-  "types": "./index.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
   "license": "MIT",
   "scripts": {
-    "type-check": "tsc",
-
+    "dev": "tsup index.ts --format esm,cjs --watch --dts",
     "build": "tsup index.ts --format esm,cjs --dts",
-    "lint-fix": "eslint --fix \"**/*.ts*\""
-
+    "lint-fix": "eslint --fix \"**/*.ts*\"",
+    "push": "npm publish --access public"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
-    "@jsonforms/core": "^3.1.0",
+    "@jsonforms/core": "catalog:",
+    "@mui/material": "catalog:",
+    "react": "catalog:",
+    "json-schema": "^0.4.0",
+    "ajv": "catalog:",
     "eslint": "^7.32.0",
     "eslint-config-formsdesigner": "workspace:*",
     "@formswizard/designer-tsconfig": "workspace:*",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.2",
+    "@formswizard/tsup-config": "workspace:*"
   }
 }

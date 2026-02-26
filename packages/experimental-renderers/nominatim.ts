@@ -118,6 +118,7 @@ export interface NominatimResponse {
   icon?: string
   boundingbox: string[]
   class: string
+  name: string
   display_name: string
   importance: number
   lat: string

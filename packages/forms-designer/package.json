@@ -1,49 +1,72 @@
 {
   "name": "@formswizard/forms-designer",
   "version": "0.0.0",
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
     "lint-fix": "eslint --fix \"**/*.ts*\"",
     "generate:component": "turbo gen react-component",
     "clean": "rm -rf dist",
-    "build": "tsup index.tsx --format esm,cjs --dts --external react",
-    "dev": "tsup index.tsx --format esm,cjs --watch --dts --external react"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "push": "npm publish --access public"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
+    "@formswizard/designer-tsconfig": "workspace:*",
+    "@formswizard/tsup-config": "workspace:*",
     "@formswizard/types": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-config-formsdesigner": "workspace:*",
-    "@formswizard/designer-tsconfig": "workspace:*",
-    "typescript": "^4.5.2",
-    "react": ">=18"
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "react-dnd-preview": "^9.0.0",
+    "typescript": "^4.5.2"
   },
   "peerDependencies": {
-    "@jsonforms/core": "^3.1.0",
-    "@jsonforms/material-renderers": "^3.1.0",
-    "@jsonforms/react": "^3.1.0",
-    "@mui/icons-material": "^5.14.1",
-    "@mui/material": "^5.14.2",
-    "@mui/x-date-pickers": "^6.10.0",
+    "@jsonforms/core": "catalog:",
+    "@jsonforms/material-renderers": "catalog:",
+    "@jsonforms/react": "catalog:",
+    "@mui/icons-material": "catalog:",
+    "@mui/material": "catalog:",
+    "@mui/x-date-pickers": "catalog:",
     "react": "^16.9.0 || ^17.0.0 || ^18",
     "react-dnd": "^16.0.1",
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.1",
+    "@emotion/cache": "catalog:",
+    "@emotion/react": "catalog:",
+    "react-dnd-preview": "^9.0.0",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-touch-backend": "^16.0.1",
-    "react-redux": "^8.1.1"
+    "react-redux": "^9.2.0",
+    "@reduxjs/toolkit": "^2.6.1"
   },
   "dependencies": {
-    "@formswizard/theme": "workspace:*",
-    "@formswizard/react-hooks": "workspace:*",
+    "@formswizard/i18n": "workspace:*",
+    "@formswizard/advanced-tools": "workspace:*",
+    "@formswizard/basic-tools": "workspace:*",
     "@formswizard/designer-basic-renderer": "workspace:*",
     "@formswizard/designer-renderer": "workspace:*",
+    "@formswizard/fieldsettings": "workspace:*",
+    "@formswizard/react-hooks": "workspace:*",
     "@formswizard/state": "workspace:*",
+    "@formswizard/theme": "workspace:*",
+    "@formswizard/tool-context": "workspace:*",
     "@formswizard/toolbox": "workspace:*",
     "@formswizard/utils": "workspace:*",
-    "@formswizard/fieldsettings": "workspace:*"
+    "ajv-formats": "^3.0.1"
   }
 }

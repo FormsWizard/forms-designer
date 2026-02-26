@@ -9,3 +9,5 @@ export * from './LocationToolSettings'
 export * from './locationTools'
 export * from './wktToLantLng'
 export * from './types'
+
+export * from './NominatimDetailsDialog'

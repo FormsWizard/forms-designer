@@ -39,3 +39,8 @@ dist
 
 # nix
 result*
+
+_site
+.vscode
+
+update-tsup-deps.js

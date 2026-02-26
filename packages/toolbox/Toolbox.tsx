@@ -4,11 +4,15 @@ import { DragBox } from './DragBox'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab, Box } from '@mui/material'
 import { useCallback } from 'react'
-import { basicDraggableComponents } from './basicDraggableComponents'
 import BuildingBlocks from './BuildingBlocks'
+import { useDraggableElementsByComponentType, useRegisteredCollections } from '@formswizard/tool-context'
+import { useJsonFormsI18n } from '@formswizard/i18n'
 
 export function Toolbox() {
   const [activeTab, setActiveTab] = React.useState('1')
+  const draggableComponents = useDraggableElementsByComponentType('tool')
+  const registeredCollections = useRegisteredCollections()
+  const { translate } = useJsonFormsI18n(registeredCollections)
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       setActiveTab(newValue)
@@ -32,10 +36,11 @@ export function Toolbox() {
             },
           }}
         >
-          {basicDraggableComponents.map((component, index) => {
+          {draggableComponents.map((component) => {
+            const displayName = translate?.(`tools.${component.name}`, component.name) ?? component.name
             return (
               <DragBox
-                name={component.name}
+                name={displayName}
                 ToolIconName={component.ToolIconName}
                 key={component.name}
                 componentMeta={component}

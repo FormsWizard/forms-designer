@@ -1,5 +1,5 @@
-import { JsonSchema } from '@jsonforms/core'
 import { pathSegmentsToPath, pathToPathSegments } from './uiSchemaHelpers'
+import { JsonSchema, isJsonSchema } from '@formswizard/types'
 
 /**
  * insert or update a property into a nested schema by following the given path
@@ -38,14 +38,17 @@ export const deeplySetNestedProperty: (
       },
     } as JsonSchema
   }
-  if (!nestedSchema && !ensurePath) throw new Error(`Could not find nested schema for ${first}`)
-  return {
-    ...schema,
-    properties: {
-      ...schema.properties,
-      [first]: deeplySetNestedProperty(nestedSchema, rest, newKey, newProperty, ensurePath),
-    },
-  } as JsonSchema
+  if (isJsonSchema(nestedSchema) && ensurePath) {
+    return {
+      ...schema,
+      properties: {
+        ...schema.properties,
+        [first]: deeplySetNestedProperty(nestedSchema, rest, newKey, newProperty, ensurePath),
+      },
+    } as JsonSchema
+  } else {
+    throw new Error(`Could not find nested schema for ${first}`)
+  }
 }
 export const deeplyUpdateNestedSchema: (schema: JsonSchema, path: string[], newProperty: JsonSchema) => JsonSchema = (
   schema,
@@ -60,7 +63,7 @@ export const deeplyUpdateNestedSchema: (schema: JsonSchema, path: string[], newP
   }
   const [first, ...rest] = path
   const nestedSchema = schema.properties?.[first]
-  if (!nestedSchema) throw new Error(`Could not find nested schema for ${first}`)
+  if (!isJsonSchema(nestedSchema)) throw new Error(`Could not find nested schema for ${first}`)
   if (!schema.properties) throw new Error(`Schema has no properties`)
   return {
     ...schema,
@@ -89,7 +92,7 @@ export const deeplyRemoveNestedProperty: (schema: JsonSchema, path: string) => J
   }
   const [first, ...rest] = pathSegments
   const nestedSchema = schema.properties[first]
-  if (!nestedSchema) throw new Error(`Could not find nested schema for ${first}`)
+  if (!isJsonSchema(nestedSchema)) throw new Error(`Could not find nested schema for ${first}`)
   return {
     ...schema,
     properties: {
@@ -124,7 +127,7 @@ export const deeplyRenameNestedProperty: (schema: JsonSchema, path: string[], ne
   }
   const [first, ...rest] = path
   const nestedSchema = schema.properties[first]
-  if (!nestedSchema) throw new Error(`Could not find nested schema for ${first}`)
+  if (!isJsonSchema(nestedSchema)) throw new Error(`Could not find nested schema for ${first}`)
   return {
     ...schema,
     properties: {
@@ -133,3 +136,38 @@ export const deeplyRenameNestedProperty: (schema: JsonSchema, path: string[], ne
     },
   } as JsonSchema
 }
+
+
+/**
+ * recursively go through the jsonschema and replace all `$ref` from oldPath to newPath
+ * will use a simple deep object tree traversal
+ */
+export const deeplyUpdateReference = <T>(jsonschemaPart: T, oldPath: string, newPath: string): T => {
+  if (Array.isArray(jsonschemaPart)) {
+    return jsonschemaPart.map(item => deeplyUpdateReference<any>(item, oldPath, newPath)) as T
+  }
+  if (typeof jsonschemaPart === 'object') {
+    if ((jsonschemaPart as any).$ref === oldPath) {
+      (jsonschemaPart as any).$ref = newPath
+    }
+    return Object.fromEntries(Object.entries(jsonschemaPart as Record<string, any>).map(([key, value]) => [key, deeplyUpdateReference(value, oldPath, newPath)])) as T
+  }
+  return jsonschemaPart
+}
+
+
+/**
+ * Returns the key used for definitions in the given JSON schema.
+ * If no definitions key is found, the default key "definitions" is returned.
+ * @param schema
+ */
+export const getDefintitionKey: (schema: JsonSchema) => "definitions" | "$defs" = (schema: JsonSchema) =>
+  "$defs" in schema ? "$defs" : "definitions";
+
+/**
+ * Returns the definitions object from the given JSON schema or an empty object if it does not exist.
+ * @param schema the json schema
+ * @returns the definitions object
+ */
+export const getDefinitions: (schema: JsonSchema) => Record<string, JsonSchema> = (schema: JsonSchema) =>
+  ("$defs" in schema ? schema.$defs : schema.definitions) || {};

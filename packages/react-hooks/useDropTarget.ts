@@ -2,28 +2,31 @@ import { useCallback, useState } from 'react'
 import { UISchemaElement } from '@jsonforms/core'
 import { useAppDispatch, insertControl, moveControl } from '@formswizard/state'
 import { DraggableComponent, DraggableUISchemaElement } from '@formswizard/types'
+import { isUISchemaElementWithPath } from '@formswizard/types'
 
 export type UseDropTargetProps = {
   child: UISchemaElement
+  current: UISchemaElement
   isPlaceholder?: Boolean
 }
-export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetProps) => {
+export const useDropTarget = ({ child, isPlaceholder = false, current }: UseDropTargetProps) => {
   const dispatch = useAppDispatch()
   const [draggedMeta, setDraggedMeta] = useState<DraggableComponent | undefined>()
   const handleDrop = useCallback(
     (componentMeta: DraggableComponent, placeBefore = false) => {
-      // @ts-ignore
-      dispatch(
-        insertControl({
-          draggableMeta: componentMeta,
-          // @ts-ignore
-          child,
-          isPlaceholder,
-          placeBefore,
-        })
-      )
+      if (isUISchemaElementWithPath(child) && isUISchemaElementWithPath(current)) {
+        dispatch(
+          insertControl({
+            draggableMeta: componentMeta,
+            child,
+            current,
+            isPlaceholder,
+            placeBefore,
+          })
+        )
+      }
     },
-    [dispatch, child, isPlaceholder]
+    [dispatch, child, isPlaceholder, current]
   )
   const handleMove = useCallback(
     (componentMeta: DraggableComponent | DraggableUISchemaElement, placeBefore = false) => {
@@ -103,7 +106,9 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
             name: componentMeta?.name ? componentMeta.name.split('.').pop() : 'layout',
             uiSchema: rest,
           }
-          setDraggedMeta(draggableMeta)
+          if (!draggableMeta.jsonSchemaElement['$ref']) {
+            setDraggedMeta(draggableMeta)
+          }
           return
         }
         setDraggedMeta(componentMeta)
@@ -137,10 +142,14 @@ export const useDropTarget = ({ child, isPlaceholder = false }: UseDropTargetPro
             name: componentMeta?.name ? componentMeta.name.split('.').pop() : 'layout',
             uiSchema: rest,
           }
-          setDraggedMeta(draggableMeta)
+          if (!draggableMeta.jsonSchemaElement['$ref']) {
+            setDraggedMeta(draggableMeta)
+          }
           return
         }
-        setDraggedMeta(componentMeta)
+        if (!componentMeta.jsonSchemaElement['$ref']) {
+          setDraggedMeta(componentMeta)
+        }
       },
       collect: (monitor: any) => ({
         isOver: monitor.isOver(),

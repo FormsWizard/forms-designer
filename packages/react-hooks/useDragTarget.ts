@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
-import { DraggableComponent, DraggableUISchemaElement } from '@formswizard/types'
-import { JsonSchema } from '@jsonforms/core'
+import { DraggableComponent, DraggableUISchemaElement, JsonSchema } from '@formswizard/types'
 import { useDNDHooksContext } from './DNDHooksContext'
 
 type UseDragTargetProps = {

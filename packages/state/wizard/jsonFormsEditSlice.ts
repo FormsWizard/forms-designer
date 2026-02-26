@@ -1,5 +1,5 @@
-import { createSelector, createSlice, current, PayloadAction } from '@reduxjs/toolkit'
-import { JsonSchema, resolveSchema, Scopable, UISchemaElement } from '@jsonforms/core'
+import { createSelector, createSlice, PayloadAction, Reducer } from '@reduxjs/toolkit'
+import { generateDefaultUISchema, Scopable, UISchemaElement, Paths, isLayout } from '@jsonforms/core'
 import { RootState } from '../store'
 import {
   deeplySetNestedProperty,
@@ -8,24 +8,28 @@ import {
   pathSegmentsToScope,
   pathToPathSegments,
   recursivelyMapSchema,
-  removeUISchemaElement,
   scopeToPathSegments,
   updateScopeOfUISchemaElement,
   updateUISchemaElement,
   deeplyRemoveNestedProperty,
   deeplyRenameNestedProperty,
-  collectSchemaGarbage,
+  deeplyUpdateReference,
+  resolveScopeWithoutRef,
+  resolveSchema,
+  getAllScopesInSchema
 } from '@formswizard/utils'
 
 import {
   DraggableComponent,
   DraggableUISchemaElement,
   ScopableUISchemaElement,
-  DraggableElement,
+  JsonSchema,
+  UISchemaElementWithPath,
 } from '@formswizard/types'
 import { exampleInitialState, JsonFormsEditState } from './exampleState'
 import jsonpointer from 'jsonpointer'
-import { findLastIndex, last } from 'lodash'
+import findLastIndex from 'lodash-es/findLastIndex'
+import last from 'lodash-es/last'
 // export type DraggableElement = DraggableComponent | DraggableUISchemaElement
 
 export const isDraggableComponent = (element: any): element is DraggableComponent =>
@@ -35,6 +39,8 @@ export const isDraggableUISchemaElement = (element: any): element is DraggableUI
 export const selectJsonSchema = (state: RootState) => state.jsonFormsEdit.jsonSchema
 
 export const selectUiSchema = (state: RootState) => state.jsonFormsEdit.uiSchema
+
+export const selectUiSchemas = (state: RootState) => state.jsonFormsEdit.uiSchemas
 
 // export const selectSelectedElementKey = (state: RootState) => state.jsonFormsEdit.selectedElementKey
 export const selectSelectedPath = (state: RootState) => state.jsonFormsEdit.selectedPath
@@ -46,8 +52,8 @@ export const selectUIElementByScope: (uiSchema: UISchemaElement, scope: string) 
 ) => {
   //TODO: make this code cleaner by using a functional recursive findestate.jsonSchema.propertiesr
   let uiElement: UISchemaElement | undefined = undefined
-  recursivelyMapSchema(uiSchema, (uischema: ScopableUISchemaElement) => {
-    if (uischema.scope === scope) {
+  recursivelyMapSchema(uiSchema, (uischema: UISchemaElement) => {
+    if (isScopableUISchemaElement(uischema) && uischema.scope === scope) {
       uiElement = uischema
       return uischema as UISchemaElement
     }
@@ -59,27 +65,6 @@ export const selectUIElementByPath = (uiSchema: UISchemaElement, path: string) =
   const scope = pathSegmentsToScope(pathSegments)
   return selectUIElementByScope(uiSchema, scope)
 }
-
-// export const selectUIElementFromSelection = createSelector(
-//   selectSelectedPath,
-//   selectUiSchema,
-//   (selectedPath, uiSchema) => {
-//     if (!selectedPath) return undefined
-//     // if type is layout name is actually an index
-//     if (selectedPath.includes('-')) {
-//       const [UiElementType, UiElementName] = selectedPath.split('-')
-//       return undefined
-//     }
-//     return jsonpointer.get(uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(selectedPath)))
-//   }
-// )
-
-// const selectUIElementByPath = createSelector([selectSelectedElementKey], (selectedElementKey) => {
-//   if (!selectedElementKey || selectedElementKey.startsWith('layout')) {
-//     return undefined
-//   }
-//   return selectUIElementByPath(state, selectedElementKey)
-// })
 
 export const getParentUISchemaElements: (
   uiSchemaPath: string,
@@ -158,87 +143,80 @@ const getIndexAndParentPathOfUISchemaElement: (uiSchemaPath: string) => {
   }
 }
 
-const getUiSchemaOfDraggable: (
-  draggableComponent: DraggableComponent | DraggableUISchemaElement,
-  newKey: string
-) => UISchemaElement | undefined = (draggableComponent, newKey) => {
-  const { name, uiSchema } = draggableComponent
 
-  if (draggableComponent.uiSchema && uiSchema) {
-    return updateScopeOfUISchemaElement(
-      `#/properties/${name}`, //this does only apply to newly created elements
-      pathSegmentsToScope([newKey]),
-      uiSchema
-    )
-  } else {
-    return {
-      ...(uiSchema || {}),
-      type: 'Control',
-      scope: pathSegmentsToScope([newKey]),
-    }
-  }
-}
 
-const getUiSchemaWithFlatScope: (
-  draggableComponent: DraggableComponent | DraggableUISchemaElement,
-  deepestGroupPath: string[],
-  newKey: string
-) => UISchemaElement | undefined = (draggableComponent, deepestGroupPath, newKey) => {
-  const { name, uiSchema } = draggableComponent
 
-  return {
-    type: 'Control',
-    ...(uiSchema || {}),
-    scope: pathSegmentsToScope([...deepestGroupPath, newKey]),
-  }
-}
+const concatScope = (groupScope: string, newKey: string) => `${groupScope}/properties/${newKey}`
 
 const getUiSchemaWithScope: (
-  draggableComponent: DraggableComponent | DraggableUISchemaElement,
-  deepestGroupPath: string[],
-  newKey: string
-) => UISchemaElement = (draggableComponent, deepestGroupPath, newKey) => {
-  const { name, uiSchema } = draggableComponent
-  const rootScope = pathSegmentsToScope([...deepestGroupPath, newKey])
-  const originalScope = pathSegmentsToScope([...deepestGroupPath, draggableComponent.name])
-  const scopedUiSchema = uiSchema && updateScopeOfUISchemaElement(originalScope, rootScope, uiSchema)
-
+  uiSchema: UISchemaElement | undefined,
+  oldScope: string,
+  newScope: string
+) => ScopableUISchemaElement = (uiSchema, oldScope, newScope) => {
+  const scopedUiSchema = uiSchema && updateScopeOfUISchemaElement(oldScope, newScope, uiSchema)
   return {
     type: 'Control',
     ...(scopedUiSchema || {}),
-    scope: rootScope,
+    scope: newScope,
   }
 }
 
-const getDeepestGroupPath = (structurePath: string, uiSchema: any): string[] => {
-  const structurePathSegments = pathToPathSegments(structurePath)
-  const siblingRemoved = structurePathSegments.slice(0, structurePathSegments.length - 2)
-  // const pathPairs = siblingRemoved.reduce((prev, curr, index, array) => {
-  //   if (!isNaN(parseInt(curr))) return prev
-  //   return [...prev, [curr, parseInt(array[index + 1])]]
-  // }, [])
-  const deepestGroupIndex = findLastIndex(siblingRemoved, (pair) => pair === 'Group')
-  const deepestGroup = siblingRemoved.slice(0, deepestGroupIndex + 2)
-
-  let schemaPath = [] as string[]
-  deepestGroup.reduce((prev, curr) => {
-    let index = parseInt(curr)
-    if (isNaN(index)) return prev
-    let element = prev[index]
-    if (element.type === 'Group' && element.scope) {
-      const tail = last(scopeToPathSegments(element.scope))
-      if (tail) {
-        schemaPath.push(tail)
-      }
-    }
-    if (element.elements) {
-      return element.elements
-    }
-    return element
-  }, uiSchema.elements)
-
-  return schemaPath
+const traverseUISchema = (uiSchema: UISchemaElement, callback: (uiSchema: UISchemaElement) => void) => {
+  callback(uiSchema)
+  if (isLayout(uiSchema) && uiSchema.elements) {
+    uiSchema.elements.forEach(element => traverseUISchema(element, callback))
+  }
 }
+
+const collectScopes: (uiSchema: UISchemaElement) => string[] = (uiSchema) => {
+  const scopes: string[] = []
+  traverseUISchema(uiSchema, (uiSchema: UISchemaElement) => {
+    if (isScopableUISchemaElement(uiSchema) && uiSchema.scope) {
+      scopes.push(uiSchema.scope)
+    }
+  })
+  return scopes
+}
+
+/**
+ * this function returns the scope of the nearest Group element
+ * if any, otherwise it returns null. It traverses up the structure path and collects all scopes,
+ * then returns the last one found.
+ * @param structurePath the path to the current element
+ * @param uiSchema the uiSchema to search in
+ */
+const getCurrentGroupScope = (structurePath: string | undefined, uiSchema: any): string | null => {
+  if (!structurePath) return null
+  const structurePathSegments = pathToPathSegments(structurePath)
+
+  // Traverse up the structure path to find all Group element scopes
+  let currentElements = uiSchema.elements
+  let lastFoundScope: string | null = null
+
+  for (let i = 0; i < structurePathSegments.length - 1; i += 2) {
+    const elementIndex = parseInt(structurePathSegments[i + 1])
+
+    if (isNaN(elementIndex) || !currentElements || !currentElements[elementIndex]) {
+      continue
+    }
+
+    const element = currentElements[elementIndex]
+
+    // Check if this is a Group element with a scope in options
+    if (element.type === 'Group' && element.options && element.options.scope) {
+      lastFoundScope = element.options.scope
+    }
+
+    // Move to the next level
+    if (element.elements) {
+      currentElements = element.elements
+    }
+  }
+
+  return lastFoundScope
+}
+
+
 
 export const jsonFormsEditSlice = createSlice({
   name: 'jsonFormEdit',
@@ -248,6 +226,10 @@ export const jsonFormsEditSlice = createSlice({
     //   state.selectedElementKey = action.payload
     // },
     selectPath: (state: JsonFormsEditState, action: PayloadAction<string | undefined>) => {
+      if (state.selectedPath === action.payload) {
+        state.selectedPath = undefined
+        return
+      }
       state.selectedPath = action.payload
     },
     loadTemplate: (state: JsonFormsEditState, action: any) => {
@@ -276,7 +258,14 @@ export const jsonFormsEditSlice = createSlice({
       jsonpointer.set(state.uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(path)), updatedUIschema)
       // only update json schema if ui schema has a scope
       if (uiSchema?.scope) {
-        const schema = resolveSchema(state.jsonSchema, uiSchema.scope, state.jsonSchema)
+        const rootSchema = {
+          ...state.jsonSchema,
+          [state.definitionsKey]: {
+            Root: state.jsonSchema,
+            ...state.definitions,
+          },
+        } as JsonSchema
+        const schema = resolveScopeWithoutRef(rootSchema, uiSchema.scope)
         if (schema) {
           Object.assign(schema, updatedSchema)
         }
@@ -286,9 +275,9 @@ export const jsonFormsEditSlice = createSlice({
       // instead of using an abritrary path, we use the scope of the uiSchema element to remove the json schema part
       // and the path of the uiSchema element to remove the uiSchema part
       const { uiSchema } = action.payload.componentMeta
-      const { path, scope } = uiSchema as any
+      const { path } = uiSchema as any
       if (!path) {
-        console.log('only elements with path are removeable ')
+        console.warn('only elements with path are removeable ')
         return
       }
       const pathSegments = pathToPathSegments(path)
@@ -331,9 +320,7 @@ export const jsonFormsEditSlice = createSlice({
       if (newFieldName.includes('.')) {
         throw new Error('Field name cannot contain a dot')
       }
-      console.log(path)
       const uiSchema = jsonpointer.get(state.uiSchema, pathSegmentsToJSONPointer(pathToPathSegments(path)))
-      resolveSchema(state.jsonSchema, uiSchema.scope, state.jsonSchema)
       state.jsonSchema = deeplyRenameNestedProperty(state.jsonSchema, scopeToPathSegments(uiSchema.scope), newFieldName)
       if (state.uiSchema?.elements) {
         const segments = scopeToPathSegments(uiSchema.scope)
@@ -344,12 +331,51 @@ export const jsonFormsEditSlice = createSlice({
       }
       //state.uiSchema = updateScopeOfUISchemaElement()
     },
+    renameSchemaDefinition: (state: JsonFormsEditState, action: PayloadAction<{ oldName: string; newName: string }>) => {
+      const { oldName, newName } = action.payload
+      if (!state.definitions[oldName]) {
+        throw new Error(`Definition ${oldName} not found`)
+      }
+      if (state.definitions[newName]) {
+        throw new Error(`Definition ${newName} already exists`)
+      }
+      state.definitions[newName] = state.definitions[oldName]
+      delete state.definitions[oldName]
+      state.jsonSchema = deeplyUpdateReference(state.jsonSchema, `#/${state.definitionsKey}/${oldName}`, `#/${state.definitionsKey}/${newName}`)
+      if (state.selectedDefinition === oldName) {
+        state.selectedDefinition = newName
+      }
+    },
+    addSchemaDefinition: (state: JsonFormsEditState, action: PayloadAction<{ name: string; definition: JsonSchema, uiSchema?: UISchemaElement }>) => {
+      const { name, definition, uiSchema } = action.payload
+      if (state.definitions[name]) {
+        throw new Error(`Definition ${name} already exists`)
+      }
+      state.definitions[name] = definition
+      state.uiSchemas[name] = uiSchema || generateDefaultUISchema(definition as any)
+    },
     updateUISchemaByScope: (
       state: JsonFormsEditState,
       action: PayloadAction<{ scope: string; uiSchema: UISchemaElement }>
     ) => {
       const { scope, uiSchema } = action.payload
       state.uiSchema = updateUISchemaElement(scope, uiSchema, state.uiSchema)
+    },
+
+    switchDefinition: (state: JsonFormsEditState, action: PayloadAction<{ definition: string }>) => {
+      const { definition } = action.payload
+      const currentDefinitionKey = state.selectedDefinition
+      if (currentDefinitionKey === definition) {
+        return
+      }
+
+      state.uiSchemas[currentDefinitionKey] = state.uiSchema
+      state.definitions[currentDefinitionKey] = state.jsonSchema
+      state.selectedPath = undefined
+
+      state.selectedDefinition = definition
+      state.uiSchema = state.uiSchemas[definition] || { type: 'VerticalLayout', elements: [] }
+      state.jsonSchema = state.definitions[definition] || { type: 'object', properties: {} }
     },
     /**
      *
@@ -369,13 +395,14 @@ export const jsonFormsEditSlice = createSlice({
     insertControl: (
       state: JsonFormsEditState,
       action: PayloadAction<{
-        child: UISchemaElement & { path: string; structurePath: string }
+        child: UISchemaElementWithPath
+        current?: UISchemaElementWithPath
         isPlaceholder?: Boolean
         draggableMeta: DraggableComponent | DraggableUISchemaElement
         placeBefore?: Boolean
       }>
     ) => {
-      const { child, draggableMeta, placeBefore = false, isPlaceholder = false } = action.payload
+      const { child, current, draggableMeta, placeBefore = false, isPlaceholder = false } = action.payload
       if (child.path === undefined) throw 'path is undefined'
       const path = child.path === '' ? 'elements.0' : isPlaceholder ? child.path + '.elements.0' : child.path,
         pathSegments = pathToPathSegments(path),
@@ -388,32 +415,52 @@ export const jsonFormsEditSlice = createSlice({
       }
 
       let uiSchema = draggableMeta.uiSchema || { type: 'Control' }
-
       if (isDraggableComponent(draggableMeta)) {
-        // TODO scope is not set correctly
-        const deepestGroupPath = getDeepestGroupPath(child.structurePath, state.uiSchema)
-        const schemaInGroup = getJsonSchemaByPath(state.jsonSchema, deepestGroupPath.join('.'))
 
-        let newKey = draggableMeta.name
-        // this looks a bit whacky, but since we allways create the group on the first level, and fields on the group level, we check both
+        const { name, jsonSchemaElement } = draggableMeta
+        const currentGroupScope = getCurrentGroupScope(current?.structurePath, state.uiSchema)
+
+        const groupScope = currentGroupScope || '#'
+        const groupPath = scopeToPathSegments(groupScope)
+        let newKey = name
+        const oldScope = concatScope('#', newKey)
+        let newScope = concatScope(groupScope, newKey)
+        const scopes = getAllScopesInSchema(state.uiSchema)
+        //After collecting all scopes, that are already present in the uiSchema, we probably want to find a unique new name
         for (
           let i = 1;
-          //@ts-ignore
-          schemaInGroup.properties[newKey] !== undefined || state.jsonSchema.properties[newKey] !== undefined;
+          scopes.includes(newScope);
           i++
         ) {
           newKey = `${draggableMeta.name}_${i}`
+          newScope = concatScope(groupScope, newKey)
         }
-        uiSchema = getUiSchemaWithScope(draggableMeta, deepestGroupPath, newKey)
+        uiSchema = getUiSchemaWithScope(uiSchema, oldScope, newScope)
 
-        if (draggableMeta.jsonSchemaElement && Object.keys(draggableMeta.jsonSchemaElement).length > 0)
-          state.jsonSchema = deeplySetNestedProperty(
-            state.jsonSchema,
-            deepestGroupPath,
-            newKey,
-            draggableMeta.jsonSchemaElement,
-            true
-          )
+        if (jsonSchemaElement?.['$ref']) {
+          const ref = jsonSchemaElement['$ref']
+          const resolvedSchema = resolveSchema(state.jsonSchema, "", state.jsonSchema)
+          //get last part of ref
+          const refDefinitionKey = ref.split('/').pop() as string
+          if (!resolvedSchema) {
+            //create a new definition
+            state.definitions[refDefinitionKey] = {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+        state.jsonSchema = deeplySetNestedProperty(
+          state.jsonSchema,
+          groupPath,
+          newKey,
+          jsonSchemaElement,
+          true
+        )
       }
       if (oldUISchemaElements && uiSchema) {
         oldUISchemaElements.splice(targetIndex, 0, uiSchema)
@@ -473,6 +520,14 @@ export const jsonFormsEditSlice = createSlice({
       targetElements.splice(targetIndex, 0, movedElement)
       state.selectedPath = undefined
     },
+    resetWizard: () => structuredClone(exampleInitialState),
+    setAgentSchema: (state: JsonFormsEditState, action: PayloadAction<{ jsonSchema: JsonSchema; uiSchema: any }>) => {
+      const { jsonSchema, uiSchema } = action.payload
+      if (!jsonSchema || !uiSchema) return
+      state.jsonSchema = jsonSchema
+      state.uiSchema = uiSchema
+      state.selectedPath = undefined
+    },
   },
 })
 
@@ -483,25 +538,19 @@ export const {
   renameField,
   removeFieldOrLayout,
   removeField,
-
+  switchDefinition,
   updateUISchemaByScope,
   updateJsonSchemaByPath,
   loadTemplate,
   moveControl,
+  renameSchemaDefinition,
+  addSchemaDefinition,
+  resetWizard,
+  setAgentSchema,
 } = jsonFormsEditSlice.actions
 
-export const jsonFormsEditReducer = jsonFormsEditSlice.reducer
+export const jsonFormsEditReducer: Reducer<JsonFormsEditState> = jsonFormsEditSlice.reducer
 
-function getJsonSchemaByPath(jsonSchema: JsonSchema, path: any) {
-  const pathArray = path.split('.')
-  const selectedElement = pathArray.reduce((prev: any, key: any) => {
-    if (prev?.type === 'object' && prev.properties && prev.properties[key]) {
-      return prev.properties[key]
-    }
-    return prev
-  }, jsonSchema)
-  return selectedElement
-}
 
 export const selectUIElementFromSelection: (state: RootState) => UISchemaElement | ScopableUISchemaElement | null =
   createSelector(selectSelectedPath, selectUiSchema, (selectedPath, uiSchema) => {
@@ -516,7 +565,7 @@ export const selectUIElementFromSelection: (state: RootState) => UISchemaElement
       | ScopableUISchemaElement
   })
 
-export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema | null = createSelector(
+export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema | null | undefined = createSelector(
   selectJsonSchema,
   selectUIElementFromSelection,
   (jsonSchema, selectedUiSchema) => {
@@ -524,9 +573,19 @@ export const selectSelectedElementJsonSchema: (state: RootState) => JsonSchema |
       return null
     }
 
-    return resolveSchema(jsonSchema, selectedUiSchema.scope, jsonSchema)
+    return resolveScopeWithoutRef(jsonSchema, selectedUiSchema.scope)
   }
 )
+
+export const selectJsonSchemaDefinitions: (state: RootState) => Record<string, JsonSchema> | null =
+  (state: RootState) => {
+    return state.jsonFormsEdit.definitions
+  }
+
+export const selectCurrentDefinition: (state: RootState) => string = (state: RootState) => {
+  return state.jsonFormsEdit.selectedDefinition
+}
+
 export const selectSelectionDisplayName: (state: RootState) => string | null = createSelector(
   selectSelectedElementJsonSchema,
   selectUIElementFromSelection,
@@ -545,10 +604,27 @@ export const selectSelectedKeyName: (state: RootState) => string | null = create
     if (!selectedJsonSchema) {
       return null
     }
-    // @ts-ignore
-    console.log(selectedUiSchema?.scope)
-    // @ts-ignore
-    return selectedUiSchema?.scope?.split('/').pop() ?? null
+    if (isScopableUISchemaElement(selectedUiSchema)) {
+      return selectedUiSchema?.scope?.split('/').pop() ?? null
+    }
+    return null
+  }
+)
+
+export const selectRootJsonSchema: (state: RootState) => JsonSchema = createSelector(
+  [
+    selectJsonSchema,
+    selectJsonSchemaDefinitions,
+    (state: RootState) => state.jsonFormsEdit.definitionsKey,
+  ],
+  (jsonSchema, definitions, definitionsKey) => {
+    return {
+      ...jsonSchema,
+      [definitionsKey]: {
+        Root: jsonSchema,
+        ...definitions,
+      },
+    } as JsonSchema
   }
 )
 

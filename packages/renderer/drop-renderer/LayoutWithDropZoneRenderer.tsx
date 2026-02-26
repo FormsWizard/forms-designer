@@ -91,7 +91,7 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
   return (
     <Box sx={{ display: visible !== false ? 'block' : 'none' }}>
       <Grid container direction={direction === 'row' ? 'column' : 'row'} alignItems={'stretch'}>
-        <Grid item flex={0}>
+        <Grid sx={{ flex: 0 }}>
           <div
             style={{
               height: direction === 'row' ? `${size}px` : '100%',
@@ -101,22 +101,20 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
             {direction === 'row' ? <HorizontalArrow size={size} /> : <VerticalArrow size={size} />}
           </div>
         </Grid>
-        <Grid item flex={1}>
+        <Grid sx={{ flex: 1 }}>
           <Grid
             container
             direction={direction}
             spacing={0}
             sx={{
               alignItems: 'stretch',
-              '&:hover': {
-                outline: (theme) => `1px dashed ${theme.palette.primary.main}`,
-              },
             }}
           >
             {elements.length === 0 ? (
               <LayoutPlaceholder
                 direction={direction}
                 child={uischema}
+                current={uischema}
                 path={path || ''}
                 elements={elements}
                 layoutRendererProps={props}
@@ -136,7 +134,7 @@ const MaterialLayoutRendererComponent = (props: MaterialLayoutRendererProps) => 
                   // @ts-ignore
                   enabled={enabled}
                   element={element}
-                  parent={elements}
+                  current={uischema}
                   cells={cells}
                   renderers={renderers}
                 />

@@ -8,7 +8,6 @@ import {
   VerticalLayout,
 } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
-import React from 'react'
 
 import { LayoutWithDropZoneRenderer, MaterialLayoutRendererProps } from './LayoutWithDropZoneRenderer'
 
